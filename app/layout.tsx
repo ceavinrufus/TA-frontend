@@ -6,6 +6,7 @@ import "./globals.css";
 import { getConfig } from "@/wagmi.config";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default async function RootLayout({
           <Providers initialState={initialState}>
             <Navbar />
             {children}
+            <Toaster />
           </Providers>
         </main>
       </body>
