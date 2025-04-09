@@ -60,10 +60,7 @@ const CreateListingNavigation: React.FC<CreateListingNavigationProps> = ({
     try {
       if (
         currentPath === CurrentPath.location &&
-        (!listing.region_id ||
-          !listing.address ||
-          !listing.latitude ||
-          !listing.longitude)
+        (!listing.address || !listing.latitude || !listing.longitude)
       ) {
         toast({
           variant: "destructive",
