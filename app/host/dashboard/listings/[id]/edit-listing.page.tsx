@@ -14,8 +14,10 @@ import EditBookingSetting from "../components/EditBookingSetting";
 import SaveEditButton from "../components/SaveEditButton";
 import BackToListingButton from "../components/BackToListingButton";
 import EditListingNavigation from "../components/EditListingNavigation";
-import { useEditListing } from "@/app/host/providers/EditListingProvider";
-import { Listing } from "@/types/listing";
+import {
+  EditListing,
+  useEditListing,
+} from "@/app/host/providers/EditListingProvider";
 import { convertTimeFormat } from "../utils/convertTime";
 import EditPhotos from "../components/EditPhotos";
 import EditAvailabilitySetting from "../components/EditAvailabilitySetting";
@@ -64,6 +66,7 @@ export default function EditListingPage({ id }: { id: string }) {
       Component = EditAvailabilitySetting;
       break;
     default:
+      // eslint-disable-next-line react/display-name
       Component = () => <></>;
   }
 
@@ -73,7 +76,7 @@ export default function EditListingPage({ id }: { id: string }) {
         const currentUserId = host?.id;
 
         const response = await getListingById(id);
-        const currentListing = response as Listing;
+        const currentListing = response as EditListing;
 
         console.log("currentListing", currentListing);
         console.log("currentUserId", currentUserId);
@@ -83,18 +86,26 @@ export default function EditListingPage({ id }: { id: string }) {
           return;
         }
 
+        const earliestCheckInTime = currentListing.earliest_check_in_time
+          ? convertTimeFormat(currentListing.earliest_check_in_time)
+          : undefined;
+        const latestCheckInTime = currentListing.latest_check_in_time
+          ? convertTimeFormat(currentListing.latest_check_in_time)
+          : undefined;
+        const checkOutTime = currentListing.check_out_time
+          ? convertTimeFormat(currentListing.check_out_time)
+          : undefined;
+        const sameDayBookingCutoffTime =
+          currentListing.same_day_booking_cutoff_time
+            ? convertTimeFormat(currentListing.same_day_booking_cutoff_time)
+            : undefined;
+
         setListing({
           ...currentListing,
-          earliest_check_in_time: convertTimeFormat(
-            currentListing.earliest_check_in_time
-          ),
-          latest_check_in_time: convertTimeFormat(
-            currentListing.latest_check_in_time
-          ),
-          check_out_time: convertTimeFormat(currentListing.check_out_time),
-          same_day_booking_cutoff_time: convertTimeFormat(
-            currentListing.same_day_booking_cutoff_time
-          ),
+          earliest_check_in_time: earliestCheckInTime ?? undefined,
+          latest_check_in_time: latestCheckInTime ?? undefined,
+          check_out_time: checkOutTime ?? undefined,
+          same_day_booking_cutoff_time: sameDayBookingCutoffTime ?? undefined,
         });
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {

@@ -6,9 +6,9 @@ import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
 import SecurityDepositModal from "./SecurityDepositModal";
 import { useAccount } from "wagmi";
-import { formatAddress } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
 
 /**
  * HostSummaryCard Component
@@ -140,7 +140,7 @@ const HostSummaryCard = () => {
   return (
     <div className="host-summary-section">
       <h1 className="host-dashboard-welcome-title">
-        Welcome back, {formatAddress(address)}
+        Welcome back, {formatCryptoAddressForDisplay(address)}
       </h1>
       <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#E3E8F2]">
         <div className="flex flex-col gap-4">

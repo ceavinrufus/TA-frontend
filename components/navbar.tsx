@@ -11,8 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatAddress } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
 
 export function Navbar() {
   const {
@@ -66,7 +66,8 @@ export function Navbar() {
                 isAuthenticated ? "bg-green-100" : "bg-white"
               } h-fit px-7 py-2 rounded-2xl font-semibold flex items-center gap-1`}
             >
-              {formatAddress(address)} {isAuthenticated && "✓"} <ChevronDown />
+              {formatCryptoAddressForDisplay(address)} {isAuthenticated && "✓"}{" "}
+              <ChevronDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex-col w-full flex justify-center rounded-2xl">
               {!isAuthenticated ? (

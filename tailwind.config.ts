@@ -50,6 +50,8 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        "green-success": "#EAEFE6",
+        "red-error": "#F7E9E5",
       },
       backgroundImage: {
         noise: "url('/noise.svg')",
