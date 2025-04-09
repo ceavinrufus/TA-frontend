@@ -5,6 +5,7 @@ import { type ReactNode, useState } from "react";
 import { type State, WagmiProvider } from "wagmi";
 
 import { getConfig } from "../wagmi.config";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 type Props = {
   children: ReactNode;
@@ -17,7 +18,9 @@ export function Providers({ children, initialState }: Props) {
 
   return (
     <WagmiProvider config={config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>{children}</TooltipProvider>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
