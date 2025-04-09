@@ -2,7 +2,7 @@ import { ListingStatus } from "@/app/host/providers/CreateListingProvider";
 
 type Listing = {
   id?: string;
-  user_id: string;
+  host_id: string;
   name?: string | null;
   address?: string | null;
   region_id?: number | null;
@@ -102,7 +102,7 @@ type SearchListing = {
   buffer_period?: string;
   restricted_check_in?: number[];
   restricted_check_out?: number[];
-  user_id: string;
+  host_id: string;
   user: Host;
   prices: Price[];
   availabilities: Availability[];

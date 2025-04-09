@@ -14,7 +14,6 @@ enum ProgressPoint {
   propertyDescription = "PROPERTY-DESCRIPTION",
   price = "PRICE",
   agreement = "AGREEMENT",
-  receiveAddress = "RECEIVE-ADDRESS",
   verification = "VERIFICATION",
 }
 
@@ -28,7 +27,6 @@ export enum CurrentPath {
   propertyDescription = "/host/create-listing/property-description",
   price = "/host/create-listing/price",
   agreement = "/host/create-listing/agreement",
-  receiveAddress = "/host/create-listing/receive-address",
   verification = "/host/create-listing/verification",
 }
 
@@ -51,7 +49,6 @@ export enum CurrentPath {
  *   - Property Description: 70%
  *   - Price: 80%
  *   - Agreement: 90%
- *   - Receive Address: 100%
  * - Returns null when on verification page or invalid path
  * - Uses NextUI Progress component with custom styling
  *
@@ -100,9 +97,6 @@ const CreateListingProgressBar = () => {
         case CurrentPath.verification:
           setProgressPoint(ProgressPoint.verification);
           break;
-        case CurrentPath.receiveAddress:
-          setProgressPoint(ProgressPoint.receiveAddress);
-          break;
         default:
           setProgressPoint(null);
       }
@@ -125,7 +119,6 @@ const CreateListingProgressBar = () => {
     if (point === ProgressPoint.propertyDescription) return 70;
     if (point === ProgressPoint.price) return 80;
     if (point === ProgressPoint.agreement) return 90;
-    if (point === ProgressPoint.receiveAddress) return 100;
     return 0;
   };
 

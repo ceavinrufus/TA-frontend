@@ -17,7 +17,7 @@ export type ListingStatus =
   | "LISTING_DELETED";
 
 export interface CreateListing {
-  user_id: string;
+  host_id: string;
   name?: string;
   address?: string;
   region_id?: number;
@@ -92,7 +92,7 @@ export const CreateListingProvider = ({
     savedListing
       ? JSON.parse(savedListing)
       : {
-          user_id: "",
+          host_id: "",
           guest_number: 1,
           bedrooms: 0,
           beds: 0,
@@ -108,7 +108,7 @@ export const CreateListingProvider = ({
         "new-listing-data",
         JSON.stringify({
           ...listing,
-          user_id: host.id,
+          host_id: host.id,
         })
       );
     }
@@ -127,7 +127,7 @@ export const CreateListingProvider = ({
 
   const resetListing = () => {
     const resetListing = {
-      user_id: "",
+      host_id: "",
       guest_number: 1,
       bedrooms: 0,
       beds: 0,

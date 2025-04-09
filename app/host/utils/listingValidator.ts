@@ -23,12 +23,7 @@ export const isListingValidated = (listing: Listing) => {
   let isValidated = true;
   let toastMessage = "";
 
-  if (
-    !listing.region_id ||
-    !listing.address ||
-    !listing.latitude ||
-    !listing.longitude
-  ) {
+  if (!listing.address || !listing.latitude || !listing.longitude) {
     toastMessage = "Please complete location details";
     isValidated = false;
   }

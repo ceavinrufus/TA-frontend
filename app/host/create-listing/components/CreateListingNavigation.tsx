@@ -124,15 +124,7 @@ const CreateListingNavigation: React.FC<CreateListingNavigationProps> = ({
           title: "Please set a price",
         });
         return;
-      } else if (
-        currentPath === CurrentPath.agreement &&
-        (!listing.security_agreement || listing.security_agreement?.length < 4)
-      ) {
-        toast({
-          variant: "destructive",
-          title: "Please check all security agreements",
-        });
-      } else if (currentPath === CurrentPath.receiveAddress) {
+      } else if (currentPath === CurrentPath.agreement) {
         setIsSubmitting(true); // Set loading state
         const { ...listingData } = listing;
 
