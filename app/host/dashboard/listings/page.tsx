@@ -1,0 +1,19 @@
+import React from "react";
+import BackToDashboardButton from "../components/BackToDashboardButton";
+import ListingsCards from "../components/ListingsCards";
+
+const ListingsPage = () => {
+  return (
+    <div className="md:min-w-[1200px] flex flex-col gap-6">
+      <div className="">
+        <BackToDashboardButton />
+      </div>
+      <div className="flex flex-col gap-12 pt-12">
+        <h1 className="host-page-h2-primary-blue">Your Listings</h1>
+        <ListingsCards />
+      </div>
+    </div>
+  );
+};
+
+export default ListingsPage;
