@@ -302,16 +302,22 @@ const ResponsiveIcon = ({
 }: Props) => (
   <>
     <div className={cn(`hidden md:block`, className)}>
-      {React.cloneElement(iconMap[icon] as React.ReactElement, {
-        color,
-        size: sizeDesktop,
-      })}
+      {React.cloneElement(
+        iconMap[icon] as React.ReactElement<{ color?: string; size?: number }>,
+        {
+          color,
+          size: sizeDesktop,
+        }
+      )}
     </div>
     <div className={cn(`inline-block md:hidden`, className)}>
-      {React.cloneElement(iconMap[icon] as React.ReactElement, {
-        color,
-        size: sizeMobile,
-      })}
+      {React.cloneElement(
+        iconMap[icon] as React.ReactElement<{ color?: string; size?: number }>,
+        {
+          color,
+          size: sizeMobile,
+        }
+      )}
     </div>
   </>
 );
