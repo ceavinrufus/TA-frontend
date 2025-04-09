@@ -53,8 +53,8 @@ export const isListingValidated = (listing: Listing) => {
   //   isValidated = false;
   // }
 
-  if (!listing.pictures || listing.pictures?.length < 5) {
-    toastMessage = "Please add at least five photos";
+  if (!listing.pictures || listing.pictures?.length < 2) {
+    toastMessage = "Please add at least two photos";
     isValidated = false;
   }
 

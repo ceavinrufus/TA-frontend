@@ -102,11 +102,11 @@ const CreateListingNavigation: React.FC<CreateListingNavigationProps> = ({
         //   return;
       } else if (
         currentPath === CurrentPath.photos &&
-        (!listing.pictures || listing.pictures?.length < 5)
+        (!listing.pictures || listing.pictures?.length < 2)
       ) {
         toast({
           variant: "destructive",
-          title: "Please add at least five photos",
+          title: "Please add at least two photos",
         });
         return;
       } else if (

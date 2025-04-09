@@ -60,6 +60,10 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
+        "neumorphic-card-up":
+          "-6px -6px 12px 0px rgba(255, 255, 255, 0.80), 6px 6px 12px 0px rgba(26, 26, 26, 0.20)",
+        "neumorphic-card-down":
+          "-6px -6px 12px 0px rgba(255, 255, 255, 0.80) inset, 6px 6px 12px 0px rgba(26, 26, 26, 0.20) inset",
         "button-up":
           "-4px -4px 8px 0px rgba(255, 255, 255, 0.80), 4px 4px 8px 0px rgba(73, 76, 72, 0.40)",
         "button-down":
