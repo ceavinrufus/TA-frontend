@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
 import "./globals.css";
@@ -8,14 +8,10 @@ import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +31,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-black bg-opacity-90 text-foreground antialiased`}
+        className={`${poppins.variable} ${poppins.className} bg-black bg-opacity-90 text-foreground antialiased`}
       >
         <div className="fixed inset-0 w-full h-full bg-repeat bg-noise opacity-25 bg-[length:350px] z-[-20] before:content-[''] before:absolute before:w-[2500px] before:h-[2500px] before:rounded-full before:blur-[100px] before:-left-[1000px] before:-top-[2000px] before:bg-white before:opacity-50 before:z-[-100]"></div>
         <main className="flex flex-col max-w-screen-lg mx-auto pb-20">

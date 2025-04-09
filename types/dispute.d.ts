@@ -1,0 +1,20 @@
+type Dispute = {
+  id: string;
+  reservation_id: string;
+  reservation: SelfListingReservation;
+  raised_by_id: string;
+  raised_at: Date;
+  resolved_at: Date;
+  status: string;
+  reasons: string[];
+  guest_claim: string;
+  host_response: string;
+  mediator_notes: string;
+  resolution_reason: string;
+  mediator_id: string;
+  evidences: string[];
+  raise_dispute_transaction_hash: string;
+  resolve_dispute_transaction_hash: string;
+  created_at: Date;
+  updated_at: Date;
+};
