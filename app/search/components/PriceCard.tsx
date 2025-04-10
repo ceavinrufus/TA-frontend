@@ -146,7 +146,7 @@ const PriceCard = ({
         check_out_date: to.toISOString(),
         guest_number: searchListingParams.guests,
         night_staying: nightStaying,
-        total_price: Number(total.toFixed(2)),
+        total_price: Number(total.toFixed(8)),
       };
 
       const response = await generateBookingHash(reservationData);

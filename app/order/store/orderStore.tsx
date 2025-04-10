@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { Listing } from "@/types/listing";
-import { getPreReservationByHash } from "@/lib/api/reservation";
+import {
+  getPreReservationByHash,
+  getReservationById,
+} from "@/lib/api/reservation";
 import { getListingById } from "@/lib/api/listing";
 
 interface OrderStore {
@@ -8,7 +11,8 @@ interface OrderStore {
   listingDetails: Listing | null;
   isLoading: boolean;
   error: string | null;
-  fetchOrderDetails: (hash: string) => Promise<void>;
+  fetchOrderDetailsByHash: (hash: string) => Promise<void>;
+  fetchOrderDetailsById: (id: string) => Promise<void>;
   reset: () => void;
 }
 
@@ -18,12 +22,33 @@ export const useOrderStore = create<OrderStore>((set) => ({
   isLoading: false,
   error: null,
 
-  fetchOrderDetails: async (hash: string) => {
+  fetchOrderDetailsByHash: async (hash: string) => {
     try {
       set({ isLoading: true, error: null });
 
       const reservationDetails = await getPreReservationByHash(hash);
-      console.log(reservationDetails);
+      const listingDetails = await getListingById(
+        reservationDetails.listing_id!
+      );
+
+      set({
+        reservationDetails,
+        listingDetails,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({
+        error: (error as Error).message,
+        isLoading: false,
+      });
+    }
+  },
+
+  fetchOrderDetailsById: async (id: string) => {
+    try {
+      set({ isLoading: true, error: null });
+
+      const reservationDetails = await getReservationById(id);
       const listingDetails = await getListingById(
         reservationDetails.listing_id!
       );

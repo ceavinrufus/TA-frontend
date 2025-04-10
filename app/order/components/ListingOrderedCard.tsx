@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useOrderStore } from "../store/orderStore"; // adjust the import path
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import {
   DateTimeDisplayMode,
   formatDateStringForDisplay,
@@ -12,19 +11,7 @@ import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { Separator } from "@/components/ui/separator";
 
 const ListingOrderedCard = () => {
-  const { listingDetails, reservationDetails, isLoading, fetchOrderDetails } =
-    useOrderStore();
-
-  const searchParams = useSearchParams();
-  const hash = searchParams.get("hash"); // Get the hash from the URL
-
-  useEffect(() => {
-    if (!hash) {
-      console.error("Hash not found in URL");
-      return;
-    }
-    fetchOrderDetails(hash); // Fetch order details using the hash
-  }, [hash]);
+  const { listingDetails, reservationDetails, isLoading } = useOrderStore();
 
   const reservationCancellableUntil = (
     check_in_date: Date | string,

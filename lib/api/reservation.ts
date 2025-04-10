@@ -33,7 +33,9 @@ export async function updateReservation(
  * @param reservationId - The ID of the reservation to retrieve.
  * @returns The retrieved reservation data.
  */
-export async function getReservationById(reservationId: string) {
+export async function getReservationById(
+  reservationId: string
+): Promise<Reservation> {
   return await apiClient.get(`/reservations/${reservationId}`);
 }
 

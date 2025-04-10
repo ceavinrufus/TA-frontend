@@ -47,7 +47,7 @@ type Listing = {
   buffer_period?: string;
   restricted_check_in?: number[];
   restricted_check_out?: number[];
-  user?: Host;
+  host?: User;
   reservations?: SelfListingReservation[];
   prices?: Price[];
   availabilities?: Availability[];
@@ -103,7 +103,7 @@ type SearchListing = {
   restricted_check_in?: number[];
   restricted_check_out?: number[];
   host_id: string;
-  user: Host;
+  user: User;
   prices: Price[];
   availabilities: Availability[];
   created_at: Date | string;
