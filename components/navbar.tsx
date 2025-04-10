@@ -31,7 +31,10 @@ export function Navbar() {
 
   return (
     <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
-      <Link href={"/"}>StayChain</Link>
+      <Link href={"/"} className="text-xl">
+        <span className="font-bold">Stay</span>
+        Chain
+      </Link>
 
       {isConnected ? (
         <div className="flex-col md:flex-row flex gap-2">

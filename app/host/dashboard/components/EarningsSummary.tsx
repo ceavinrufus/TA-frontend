@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import { useRouter } from "next/navigation";
 import { getHostEarnings } from "@/lib/api/reservation";
 

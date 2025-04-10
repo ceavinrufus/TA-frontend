@@ -6,7 +6,7 @@ import UploadPhotosModal from "@/app/host/components/UploadPhotosModal";
 import PhotoPreview from "@/app/host/components/PhotoPreview";
 import IconTrash from "@/components/icons/IconTrash";
 import { Badge } from "@/components/ui/badge";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import {
   getFileBaseNameFromUploadContext,
   UploadContext,

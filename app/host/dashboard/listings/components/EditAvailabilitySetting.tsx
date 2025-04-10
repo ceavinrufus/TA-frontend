@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomDropdown from "./CustomDropdown";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
-import ClickableCard from "@/app/host/components/ClickableCard";
+import ClickableCard from "@/components/ClickableCard";
 
 /**
  * Component for editing availability settings of a listing

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import ListingsCard from "./ListingCard";
 import { useRouter } from "next/navigation";

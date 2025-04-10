@@ -4,7 +4,7 @@ import React from "react";
 import ResponsiveIcon, {
   IconType,
 } from "@/components/icons/ResponsiveIconBuilder";
-import ClickableCard from "@/app/host/components/ClickableCard";
+import ClickableCard from "@/components/ClickableCard";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import { Button } from "@/components/ui/button";
 import { inRoom, nearbyThePlace } from "@/data/amenities";

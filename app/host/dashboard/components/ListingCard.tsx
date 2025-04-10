@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

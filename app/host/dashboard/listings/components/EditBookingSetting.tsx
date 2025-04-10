@@ -1,4 +1,4 @@
-import ClickableCard from "@/app/host/components/ClickableCard";
+import ClickableCard from "@/components/ClickableCard";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import React, { useState } from "react";
 import { generateTimeIntervals } from "@/lib/utils";
@@ -103,7 +103,7 @@ const EditBookingSetting = () => {
                   cancellation_policy: "",
                 });
                 setRadio1Value("No");
-                setRadio2Value("")
+                setRadio2Value("");
               }}
             >
               <div className="p-2 space-y-2">
@@ -126,7 +126,7 @@ const EditBookingSetting = () => {
                   cancellation_policy: "Flexible",
                 });
                 setRadio1Value("Yes");
-                setRadio2Value("Flexible")
+                setRadio2Value("Flexible");
               }}
             >
               <div className="p-2 space-y-2">

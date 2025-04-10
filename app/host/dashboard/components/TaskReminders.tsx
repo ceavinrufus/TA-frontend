@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import Link from "next/link";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { useRouter } from "next/navigation";

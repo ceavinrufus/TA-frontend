@@ -3,7 +3,7 @@
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import { useRouter } from "next/navigation";
 import { getTodaysGuestsByHost } from "@/lib/api/reservation";
 import { Button } from "@/components/ui/button";

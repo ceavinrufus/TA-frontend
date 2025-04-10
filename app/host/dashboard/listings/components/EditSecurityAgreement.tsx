@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ClickableCard from "@/app/host/components/ClickableCard";
+import ClickableCard from "@/components/ClickableCard";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import { Checkbox } from "@/components/ui/checkbox";
 

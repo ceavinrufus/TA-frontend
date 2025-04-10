@@ -15,7 +15,7 @@ import {
   readFileAsArrayBuffer,
 } from "@/lib/file-manip/file-manip-utils";
 import path from "path";
-import ClickableCard from "@/app/host/components/ClickableCard";
+import ClickableCard from "@/components/ClickableCard";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import { uploadFileToAmazonS3Bucket } from "@/api/s3.actions";
 import { Button } from "@/components/ui/button";

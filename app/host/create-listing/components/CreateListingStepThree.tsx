@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ClickableCard from "../../components/ClickableCard";
+import ClickableCard from "../../../../components/ClickableCard";
 import ResponsiveIcon, {
   IconType,
 } from "@/components/icons/ResponsiveIconBuilder";
