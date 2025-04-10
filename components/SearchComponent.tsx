@@ -113,8 +113,10 @@ const SearchComponent = () => {
         `/search?name=${encodeURIComponent(
           searchListingsParams.destination
         )}&guests=${searchListingsParams.guests}&checkIn=${
-          searchListingsParams.date.from?.toISOString() || ""
-        }&checkOut=${searchListingsParams.date.to?.toISOString() || ""}`
+          searchListingsParams.date.from?.toISOString().split("T")[0] || ""
+        }&checkOut=${
+          searchListingsParams.date.to?.toISOString().split("T")[0] || ""
+        }`
       );
     } catch (error) {
       console.error("Error searching listings:", error);

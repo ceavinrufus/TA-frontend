@@ -11,6 +11,7 @@ import ResponsiveIcon, {
 import { Separator } from "@/components/ui/separator";
 import { placeTypes } from "@/data/placeTypes";
 import { propertyTypes } from "@/data/propertyTypes";
+import PriceCard from "./PriceCard";
 
 const ListingDetails = ({ slug }: { slug: string }) => {
   const [listing, setListing] = useState<SearchListing>();
@@ -164,7 +165,17 @@ const ListingDetails = ({ slug }: { slug: string }) => {
         </div>
 
         {/* Right Column - Location */}
-        <div className="col-span-1"></div>
+        <div className="col-span-1">
+          <PriceCard
+            hotelId={slug}
+            maxGuests={listing.guest_number}
+            hotelPrice={{
+              dailyPrice: listing.daily_price,
+              totalPrice: listing.total_price,
+            }}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </div>
   );

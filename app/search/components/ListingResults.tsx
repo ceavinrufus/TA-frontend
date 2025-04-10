@@ -11,15 +11,15 @@ const ListingResults = () => {
   const [listings, setListings] = useState<SearchListing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const name = searchParams.get("name");
+  const guests = searchParams.get("guests");
+  const checkIn = searchParams.get("checkIn");
+  const checkOut = searchParams.get("checkOut");
+
   useEffect(() => {
     const fetchListings = async () => {
       setIsLoading(true);
       try {
-        const name = searchParams.get("name");
-        const guests = searchParams.get("guests");
-        const checkIn = searchParams.get("checkIn");
-        const checkOut = searchParams.get("checkOut");
-
         const searchListingsParams = {
           pagination: {
             page: 1,
