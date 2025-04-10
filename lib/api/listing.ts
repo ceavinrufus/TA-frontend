@@ -32,7 +32,7 @@ export async function updateListing(
  * @param listingId - The ID of the listing to retrieve.
  * @returns The retrieved listing data.
  */
-export async function getListingById(listingId: string) {
+export async function getListingById(listingId: string): Promise<Listing> {
   return await apiClient.get(`/listings/${listingId}`);
 }
 

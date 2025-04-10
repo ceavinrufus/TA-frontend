@@ -100,6 +100,8 @@ export async function createReservation(reservationData: Partial<Reservation>) {
  * @param reservationId - The hash of the pre-reservation to retrieve.
  * @returns The retrieved pre-reservation data.
  */
-export async function getPreReservationByHash(reservationId: string) {
+export async function getPreReservationByHash(
+  reservationId: string
+): Promise<Partial<Reservation>> {
   return await apiClient.get(`/reservations/pre-booking/${reservationId}`);
 }

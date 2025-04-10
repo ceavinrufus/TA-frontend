@@ -155,9 +155,7 @@ const PriceCard = ({
         book_hash: response.book_hash,
       });
 
-      router.push(
-        `/order/guest-details?hash=${response.book_hash}&hostListing=true`
-      );
+      router.push(`/order/details?hash=${response.book_hash}`);
     } catch (error) {
       console.error("Error during search and reservation:", error);
       toast({
