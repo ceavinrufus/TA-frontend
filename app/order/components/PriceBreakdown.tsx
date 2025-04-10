@@ -11,7 +11,7 @@ const PriceBreakdown = () => {
   }
 
   const formatPrice = (price: number) => {
-    return `${price} ETH`;
+    return `${Number(price.toFixed(8))} ETH`;
   };
 
   const priceTimesNight =

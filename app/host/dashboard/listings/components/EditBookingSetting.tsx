@@ -60,8 +60,8 @@ const CardWithSwitch: React.FC<CardWithSwitchProps> = ({
  */
 const EditBookingSetting = () => {
   const { listing, updateListing } = useEditListing();
-  const [radio1Value, setRadio1Value] = useState();
-  const [radio2Value, setRadio2Value] = useState();
+  const [radio1Value, setRadio1Value] = useState<string>();
+  const [radio2Value, setRadio2Value] = useState<string>();
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">

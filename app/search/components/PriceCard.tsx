@@ -24,7 +24,7 @@ import GuestCountModifier from "@/components/GuestCountModifier";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { useToast } from "@/hooks/use-toast";
 
-import { DETRIP_SERVICE_FEE_RATE, SELF_LISTING_TAX_RATE } from "@/constants";
+import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
 
 const PriceCard = ({
   hotelId,
@@ -137,7 +137,7 @@ const PriceCard = ({
 
       const total =
         (updatedPrices?.totalPrice || listing.total_price) *
-        (1 + SELF_LISTING_TAX_RATE + DETRIP_SERVICE_FEE_RATE);
+        (1 + TAX_RATE + SERVICE_FEE_RATE);
 
       const reservationData = {
         listing_id: listing.id,
@@ -214,8 +214,9 @@ const PriceCard = ({
     <div className="flex flex-col md:shadow-neumorphic-card-up h-fit justify-start items-center rounded-[24px] bg-off-white gap-6 md:py-12 md:px-6 w-full md:w-[424px]">
       {/* Heading */}
       {!isLoading && displayDailyPrice ? (
-        <p className="hotel-details-section-heading">
-          ${displayDailyPrice}/night
+        <p className="text-2xl font-semibold">
+          {displayDailyPrice} ETH{" "}
+          <span className="text-gray-500 text-base">/night</span>
         </p>
       ) : (
         <Skeleton className="h-8 w-32 rounded" />
@@ -289,7 +290,7 @@ const PriceCard = ({
       </Button>
 
       {/* Total Price (Desktop) */}
-      <div className="md:flex-col w-full gap-2 flex">
+      <div className="md:flex-col w-full gap-1 flex">
         <div className="flex justify-between items-center w-full booking-price-update-component-charge-total-body">
           <p>Total Price</p>
           {isLoading || isPriceLoading ? (
@@ -297,14 +298,12 @@ const PriceCard = ({
           ) : (
             <p>
               {displayTotalPrice
-                ? `$${(displayTotalPrice * (1 + SELF_LISTING_TAX_RATE)).toFixed(
-                    2
-                  )}`
+                ? `${(displayTotalPrice * (1 + TAX_RATE)).toFixed(2)} ETH`
                 : ""}
             </p>
           )}
         </div>
-        <p className="booking-price-include-taxes">(Incl. Taxes)</p>
+        <p className="text-xs">(Incl. Taxes)</p>
       </div>
     </div>
   );

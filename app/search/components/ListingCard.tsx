@@ -34,7 +34,8 @@ const ListingCard = ({ listing }: { listing: SearchListing }) => {
       <h2 className="text-lg font-semibold">{listing.name}</h2>
       <p className="text-gray-600">{listing.address}</p>
       <p className="text-gray-800 mt-2">
-        ${listing.daily_price?.[0] || "Price not available"} / night
+        {listing.daily_price?.[0] || "Price not available"} ETH{" "}
+        <span className="text-gray-500 text-xs">/night</span>
       </p>
       <div className="mt-2 text-sm text-gray-600">
         {listing.guest_number} guests · {listing.bedrooms} bedrooms ·{" "}

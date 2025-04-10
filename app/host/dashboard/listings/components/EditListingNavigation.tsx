@@ -89,7 +89,7 @@ const EditListingNavigation = () => {
       icon: "icon-card" as IconType,
       name: "Price",
       description: listing.default_price
-        ? `$${listing.default_price} daily base price`
+        ? `${listing.default_price} ETH daily base price`
         : "",
       step: "price",
     },

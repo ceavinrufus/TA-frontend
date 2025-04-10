@@ -35,7 +35,7 @@ import { Separator } from "@/components/ui/separator";
  */
 const EditPrice = () => {
   const { listing, updateListing } = useEditListing();
-  const currency = "$";
+  const currency = "ETH";
   const [inputValue, setInputValue] = useState(
     listing.default_price?.toString() || ""
   );
@@ -100,10 +100,10 @@ const EditPrice = () => {
         <div className="flex flex-col items-center gap-6">
           <h2 className="host-page-h2-primary-blue">Daily base price</h2>
           <NoBorderInput
-            value={inputValue ? currency + inputValue : ""}
+            value={inputValue ? inputValue + " " + currency : ""}
             onChange={handlePriceChange}
             onBlur={handleBlur}
-            placeholder={`${currency}420`}
+            placeholder={`0.2 ${currency}`}
           />
         </div>
         <div className="flex flex-col gap-[14px]">
@@ -111,24 +111,21 @@ const EditPrice = () => {
           <div className="flex justify-between host-card-text">
             <p>Base price</p>
             <p>
-              {currency}
-              {basePrice.toFixed(2)}
+              {basePrice.toFixed(2)} {currency}
             </p>
           </div>
           {/* Service fee */}
           <div className="flex justify-between host-card-text">
             <p>Service fee (5%)</p>
             <p>
-              {currency}
-              {serviceFee.toFixed(2)}
+              {serviceFee.toFixed(2)} {currency}
             </p>
           </div>
           {/* Tax fee */}
           <div className="flex justify-between host-card-text">
             <p>Tax fee (10%)</p>
             <p>
-              {currency}
-              {taxFee.toFixed(2)}
+              {taxFee.toFixed(2)} {currency}
             </p>
           </div>
           <Separator orientation="horizontal" />
@@ -136,8 +133,7 @@ const EditPrice = () => {
           <div className="flex justify-between host-card-text !font-bold">
             <p>You earn</p>
             <p>
-              {currency}
-              {hostEarnings.toFixed(2)}
+              {hostEarnings.toFixed(2)} {currency}
             </p>
           </div>
         </div>
