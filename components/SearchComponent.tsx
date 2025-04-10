@@ -155,7 +155,7 @@ const SearchComponent = () => {
           </PopoverContent>
         </Popover>
       </div>
-      <div className="h-12 bg-white flex items-center justify-between px-4 gap-4 rounded-lg shadow-button-up">
+      <div className="h-12 bg-white flex items-center justify-between px-4 gap-4 rounded-lg shadow-button-up border border-input">
         <ResponsiveIcon icon="icon-person" sizeDesktop={20} />
         <GuestCountModifier
           className="h-full shadow-none w-fit p-0"
@@ -167,7 +167,16 @@ const SearchComponent = () => {
           maxCount={6}
         />
       </div>
-      <Button className="h-12 px-8" onClick={handleSearch}>
+      <Button
+        disabled={
+          !searchListingsParams.destination ||
+          !searchListingsParams.date.from ||
+          !searchListingsParams.date.to ||
+          !searchListingsParams.guests
+        }
+        className="h-12 px-8"
+        onClick={handleSearch}
+      >
         Search
       </Button>
     </div>

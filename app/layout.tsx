@@ -5,7 +5,7 @@ import { cookieToInitialState } from "wagmi";
 import "./globals.css";
 import { getConfig } from "@/wagmi.config";
 import { Providers } from "./providers";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({

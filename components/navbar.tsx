@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "./ui/button";
-import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { useSwitchChain, useAccount } from "wagmi";
 import { useWalletAuth } from "@/hooks/useWalletAuth";
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
+import Link from "next/link";
 
 export function Navbar() {
   const {
@@ -31,12 +31,7 @@ export function Navbar() {
 
   return (
     <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
-      <Image
-        src="/metamask-logo.svg"
-        alt="Metamask Logo"
-        width={180}
-        height={180}
-      />
+      <Link href={"/"}>StayChain</Link>
 
       {isConnected ? (
         <div className="flex-col md:flex-row flex gap-2">
