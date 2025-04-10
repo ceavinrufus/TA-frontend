@@ -5,7 +5,7 @@ import {
   EditListing,
   useEditListing,
 } from "@/app/host/providers/EditListingProvider";
-import GuestCountModifier from "@/app/host/components/GuestCountModifier";
+import GuestCountModifier from "@/components/GuestCountModifier";
 import CustomDropdown from "./CustomDropdown";
 import { propertyTypes } from "@/data/propertyTypes";
 import { placeTypes } from "@/data/placeTypes";

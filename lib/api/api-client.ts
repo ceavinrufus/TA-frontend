@@ -63,7 +63,14 @@ export const createApiClient = () => {
         throw new Error(errorData.message || `API Error: ${response.status}`);
       }
 
-      return await response.json();
+      if (response.status === 204) return {} as T; // No Content
+
+      const text = await response.text();
+      try {
+        return text ? JSON.parse(text) : ({} as T);
+      } catch (e) {
+        throw new Error("Invalid JSON response");
+      }
     } catch (error) {
       console.error("API request failed:", error);
       toast({

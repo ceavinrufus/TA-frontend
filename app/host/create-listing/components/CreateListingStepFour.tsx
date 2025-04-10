@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import GuestCountModifier from "../../components/GuestCountModifier";
+import GuestCountModifier from "../../../../components/GuestCountModifier";
 import {
   CreateListing,
   useCreateListing,

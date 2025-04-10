@@ -1,44 +1,19 @@
-"use client";
-
-import Image from "next/image";
-import { useAccount } from "wagmi";
+import SearchComponent from "./SearchComponent";
 
 export const Hero = () => {
-  const { isConnected } = useAccount();
-
-  if (isConnected) {
-    return (
-      <section className="relative mx-auto mt-28">
-        <h1 className="text-7xl text-zinc-100 font-bold">Welcome</h1>
-        <p className="text-white opacity-70 text-center text-lg">
-          to the <strong>MetaMask SDK</strong> quick start app!
-          <br /> Add your functionality.
-        </p>
-        <Image
-          src="/arrow.svg"
-          alt="Arrow pointing to the connect wallet button"
-          className="absolute scale-y-[-1] hidden md:block md:bottom-[-65px] md:right-[-95px]"
-          width={130}
-          height={130}
-        />
-      </section>
-    );
-  }
-
   return (
-    <section className="relative mx-auto mt-28">
-      <h1 className="text-7xl text-zinc-100 font-bold">Welcome</h1>
-      <p className="text-white opacity-70 text-center text-lg">
-        to the <strong>MetaMask SDK</strong> quick start app!
-        <br /> Connect your wallet to get started.
-      </p>
-      <Image
-        src="/arrow.svg"
-        alt="Arrow pointing to the connect wallet button"
-        className="absolute hidden md:block md:bottom-5 md:-right-48"
-        width={150}
-        height={150}
-      />
-    </section>
+    <>
+      <div className="absolute left-0 host-hero-background-image w-full h-[75vh]"></div>
+      <section className="flex flex-col justify-end w-full h-[75vh] relative mx-auto py-28 text-left gap-10">
+        <div className="">
+          <h1 className="text-7xl font-bold">Welcome to StayChain</h1>
+          <p className="opacity-70 text-left text-xl mt-4">
+            Your trusted blockchain-powered hotel booking platform.
+            <br /> Start exploring amazing hotels and book with crypto!
+          </p>
+        </div>
+        <SearchComponent />
+      </section>
+    </>
   );
 };

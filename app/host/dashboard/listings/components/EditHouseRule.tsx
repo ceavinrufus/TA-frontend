@@ -1,5 +1,5 @@
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
-import GuestCountModifier from "@/app/host/components/GuestCountModifier";
+import GuestCountModifier from "@/components/GuestCountModifier";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import { cn, generateTimeIntervals } from "@/lib/utils";
 import React from "react";
