@@ -14,6 +14,7 @@ import {
 } from "@/lib/time/time-utils"; // adjust path as needed
 import { searchListings } from "@/lib/api/listing";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const SearchComponent = () => {
   const [searchListingsParams, setSearchListingsParams] = React.useState({
@@ -26,6 +27,7 @@ const SearchComponent = () => {
   });
 
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleGuestChange = (delta: number) => {
     setSearchListingsParams((prev) => {
@@ -69,6 +71,24 @@ const SearchComponent = () => {
   };
 
   const handleSearch = async () => {
+    // Validate input before making the API call
+    if (!searchListingsParams.destination) {
+      toast({
+        title: "Missing params",
+        description: "Please enter a destination.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!searchListingsParams.date.from || !searchListingsParams.date.to) {
+      toast({
+        title: "Missing params",
+        description: "Please select check-in and check-out dates.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const searchData = {
       pagination: {
         page: 1,
@@ -127,6 +147,7 @@ const SearchComponent = () => {
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="range"
+              disabled={(date) => date < new Date()}
               selected={searchListingsParams.date}
               onSelect={handleDateChange}
               numberOfMonths={2}
