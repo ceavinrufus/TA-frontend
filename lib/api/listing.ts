@@ -61,6 +61,7 @@ export async function getListingBySlug(slug: string) {
       params: {
         slug,
       },
+      use_cache: false,
     })) as { data: SearchListing[] };
 
     return response.data[0];

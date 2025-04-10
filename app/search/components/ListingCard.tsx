@@ -1,12 +1,17 @@
 import ClickableCard from "@/components/ClickableCard";
 import { SearchListing } from "@/types/listing";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ListingCard = ({ listing }: { listing: SearchListing }) => {
+  const router = useRouter();
+
   return (
     <ClickableCard
-      onClick={() => {}}
+      onClick={() => {
+        router.push(`/search/${listing.slug}`);
+      }}
       className="border items-start rounded-lg p-4 shadow hover:shadow-neumorphic-card-up transition-shadow duration-200 ease-in-out"
     >
       {listing.pictures && listing.pictures[0] && (

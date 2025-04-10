@@ -56,7 +56,11 @@ const EditAmenities = () => {
             Here you can manage amenities your place provided!
           </p>
         </div>
-        <Button className="w-[48px] h-[48px]" onClick={() => {}}>
+        <Button
+          variant={"outline"}
+          className="w-[48px] h-[48px]"
+          onClick={() => {}}
+        >
           <ResponsiveIcon icon="icon-add" sizeDesktop={28.8} />
         </Button>
       </div>
