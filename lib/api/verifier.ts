@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "./api-client";
 
 export const requestProof = async (
-  sessionId: number,
+  sessionId: string,
   reason: string,
-  body: {
+  body?: {
     allowedIssuers: string[];
     context: string;
     credentialSubject: string;
@@ -20,7 +21,7 @@ export const requestProof = async (
 };
 
 export const getVerificationResult = async (
-  sessionId: number
+  sessionId: string
 ): Promise<any> => {
   return await apiClient.get(
     `/identity/verifier/verification-result/${sessionId}`

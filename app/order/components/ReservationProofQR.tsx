@@ -35,7 +35,7 @@ const ReservationProofQR = () => {
       try {
         const body = {
           credentialSubject: JSON.stringify({
-            id: "did:iden3:privado:main:2SZJJKGC1CytxUV3127C6AESAphGjvUf5HVv972d6K",
+            id: reservationDetails.guest_did,
             reservationId,
           }),
           type: "Reservation",
@@ -55,7 +55,11 @@ const ReservationProofQR = () => {
             : process.env.NEXT_PUBLIC_BASE_URL;
 
         const universalLink = `https://wallet.privado.id#request_uri=${encodeURIComponent(
-          baseUrl + "/identity/" + credentialId
+          baseUrl +
+            "/identity/" +
+            credentialId +
+            "?to=" +
+            reservationDetails.guest_did
         )}`;
 
         QRCode.toDataURL(universalLink, { width: 300 }, (err, url) => {

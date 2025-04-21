@@ -92,6 +92,14 @@ const OrderDetailsButtons: React.FC = () => {
   };
 
   const handleProceedClick = () => {
+    if (!isConnected) {
+      toast({
+        title: "Please connect your wallet",
+        description: "You need to connect your wallet to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
     setShowQRModal(true);
   };
 

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import Image from "next/image";
-import { requestProof, getVerificationResult } from "@/lib/api/verifier";
+import { getVerificationResult } from "@/lib/api/verifier";
+import { basicPrivadoAuth } from "@/lib/api/auth";
+import { getGuestInfo } from "@/lib/api/guest";
+import { useToast } from "@/hooks/use-toast";
 
 const PrivadoAuthQR = ({
   onScanSuccess,
@@ -9,28 +12,33 @@ const PrivadoAuthQR = ({
   onScanSuccess: (did: string) => void;
 }) => {
   const [qrCode, setQrCode] = useState<string>("");
-  const [sessionId, setSessionId] = useState<number>();
+  const [sessionId, setSessionId] = useState<string>();
   const [hasIssued, setHasIssued] = useState<boolean>(false);
   const [isPolling, setIsPolling] = useState<boolean>(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const generateQR = async () => {
       if (hasIssued) return;
 
       try {
-        // Request proof
+        const user = await getGuestInfo();
+
+        if (!user) {
+          toast({
+            title: "Please connect your wallet",
+            description: "You need to connect your wallet to proceed.",
+            variant: "destructive",
+          });
+          return;
+        }
+
         const randomNumber = Math.floor(Math.random() * 1000000);
-        setSessionId(randomNumber);
+        setSessionId(`${user.id}${randomNumber}`);
 
         const {
           data: { request },
-        } = await requestProof(randomNumber, "verification", {
-          allowedIssuers: ["*"],
-          context:
-            "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
-          credentialSubject: JSON.stringify({ birthday: { $lt: 20040101 } }),
-          type: "KYCAgeCredential",
-        });
+        } = await basicPrivadoAuth(`${user.id}${randomNumber}`);
 
         // Base64 encode the verification request
         const base64EncodedRequest = btoa(JSON.stringify(request));
