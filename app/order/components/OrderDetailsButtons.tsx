@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createReservation } from "@/lib/api/reservation";
@@ -10,23 +10,30 @@ import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statu
 import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
+import PrivadoAuthQR from "./PrivadoAuthQR"; // assume this is your QR component
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"; // or any modal/dialog system you use
+import IconClose from "@/components/icons/IconClose";
 
 const OrderDetailsButtons: React.FC = () => {
   const { reservationDetails, listingDetails } = useOrderStore();
   const { isConnected } = useAccount();
-
+  const { toast } = useToast();
   const router = useRouter();
+
+  const [showQRModal, setShowQRModal] = useState(false);
 
   const handleBack = () => {
     router.back();
   };
 
-  const { toast } = useToast();
+  const handleCheckout = async (userDID: string) => {
+    if (!reservationDetails || !listingDetails) return;
 
-  const handleCheckout = async () => {
-    if (!reservationDetails || !listingDetails) {
-      return;
-    }
     const checkIn = reservationDetails.check_in_date
       ? new Date(reservationDetails.check_in_date)
       : null;
@@ -64,8 +71,7 @@ const OrderDetailsButtons: React.FC = () => {
     const payload = {
       listing_id: listingDetails.id,
       guest_id: user.id,
-      base_price:
-        listingDetails.default_price! * reservationDetails.night_staying!,
+      base_price: priceTimesNight,
       check_in_date: checkIn.toString(),
       check_out_date: checkOut.toString(),
       guest_number: reservationDetails.guest_number,
@@ -77,6 +83,7 @@ const OrderDetailsButtons: React.FC = () => {
       guest_wallet_address: user.wallet_address,
       status: ReservationStatus.ORDER_WAITING_PAYMENT,
       book_hash: reservationDetails.book_hash,
+      guest_did: userDID,
     };
 
     const reservation = (await createReservation(payload)) as Reservation;
@@ -84,23 +91,55 @@ const OrderDetailsButtons: React.FC = () => {
     router.push(`/order/checkout?reservationId=${reservation.id}`);
   };
 
+  const handleProceedClick = () => {
+    setShowQRModal(true);
+  };
+
+  const handleQRSuccess = (did: string) => {
+    setShowQRModal(false);
+    handleCheckout(did);
+  };
+
   return (
-    <div className="flex gap-4">
-      <Button
-        variant={"ghost"}
-        onClick={handleBack}
-        className="px-4 py-2 rounded-md"
-      >
-        Back
-      </Button>
-      <Button
-        variant={"default"}
-        onClick={handleCheckout}
-        className="px-4 py-2 text-white rounded-md"
-      >
-        Proceed to Checkout
-      </Button>
-    </div>
+    <>
+      <div className="flex gap-4">
+        <Button
+          variant={"ghost"}
+          onClick={handleBack}
+          className="px-4 py-2 rounded-md"
+        >
+          Back
+        </Button>
+        <Button
+          variant={"default"}
+          onClick={handleProceedClick}
+          className="px-4 py-2 text-white rounded-md"
+        >
+          Proceed to Checkout
+        </Button>
+      </div>
+
+      <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+        <DialogContent className="max-w-3xl p-4 sm:p-6 rounded-xl z-[99999]">
+          <DialogHeader className="flex flex-row items-center justify-between p-0 mb-4">
+            <DialogTitle className="text-lg font-semibold">
+              Scan to Continue
+            </DialogTitle>
+            <Button
+              variant="outline"
+              className="w-[32px] h-[32px] rounded-full"
+              onClick={() => setShowQRModal(false)}
+              aria-label="Close modal"
+            >
+              <IconClose size={16} />
+            </Button>
+          </DialogHeader>
+          <div className="flex flex-col items-center">
+            <PrivadoAuthQR onScanSuccess={handleQRSuccess} />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

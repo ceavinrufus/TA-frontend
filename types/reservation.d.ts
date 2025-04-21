@@ -9,7 +9,7 @@ type Reservation = {
   listing_address: string;
   base_price: number;
   tax: number;
-  currency: string;
+  service_fee: number;
   night_staying: number;
   check_in_date: string;
   check_out_date: string;
@@ -17,10 +17,11 @@ type Reservation = {
   total_price: number;
   payments: Payment[] | null;
   guest_info: GuestInfo[] | null;
-  user_billing_detail: UserBillingDetail | null;
+  guest_wallet_address: string;
   status: string;
   cancel_reason: string;
   book_hash: string;
+  guest_did: string;
   dispute?: Dispute | null;
   deleted_at?: string | null;
   created_at: string;

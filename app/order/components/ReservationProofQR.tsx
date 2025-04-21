@@ -46,8 +46,8 @@ const ReservationProofQR = () => {
           ),
         };
 
-        const data = await issueCredential(body);
-        const { credential_id: credentialId } = data;
+        const response = await issueCredential(body);
+        const { credential_id: credentialId } = response.data;
 
         const baseUrl =
           process.env.NODE_ENV === "development"
