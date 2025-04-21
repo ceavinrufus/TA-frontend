@@ -121,7 +121,7 @@ const CheckoutButtons: React.FC = () => {
       });
 
       setIsPaymentSuccessful(true);
-      // router.push("/order/success");
+      router.push(`/order/success?reservationId=${reservationDetails.id}`);
     } catch (error) {
       await createPayment({
         amount: 0,

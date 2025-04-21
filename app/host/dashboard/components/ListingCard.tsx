@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Listing } from "@/types/listing";
+import { ReservationStatus } from "../reservations/utils/statusLabel";
 
 /**
  * A card component for displaying listing information in the host dashboard.
