@@ -76,7 +76,7 @@ const ReservationProofQR = () => {
     };
 
     getIssuedCredential();
-  }, [reservationDetails, reservationId, hasIssued]);
+  }, [reservationDetails, reservationId]);
 
   if (!qrCode) {
     return <Skeleton className="w-[300px] h-[300px] bg-gray-200 rounded-lg" />;

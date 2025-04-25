@@ -62,7 +62,7 @@ const PrivadoAuthQR = ({
     };
 
     generateQR();
-  }, [hasIssued]);
+  }, []);
 
   useEffect(() => {
     if (!isPolling || !sessionId) return;
@@ -82,7 +82,7 @@ const PrivadoAuthQR = ({
     }, 2000); // Poll every 2s
 
     return () => clearInterval(poll);
-  }, [sessionId, hasIssued, isPolling, onScanSuccess]);
+  }, [sessionId, isPolling, onScanSuccess]);
 
   if (!qrCode) {
     return (
