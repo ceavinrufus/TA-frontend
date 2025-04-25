@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BackToDashboardButton from "../../components/BackToDashboardButton";
-import { getStatusLabel, statusColors } from "../utils/statusLabel";
+import {
+  getStatusLabel,
+  ReservationStatus,
+  statusColors,
+} from "../utils/statusLabel";
 import { Badge } from "@/components/ui/badge";
 import {
   DateTimeDisplayMode,
@@ -150,9 +154,9 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
           <div className="flex gap-20 text-base">
             <div className="font-bold w-[200px]">Total Amount:</div>
             <ValueWrapper loading={loading}>
-              {reservation?.currency === "ETH"
-                ? `${reservation?.total_price?.toFixed(2)} ETH`
-                : `$${reservation?.total_price?.toFixed(2)}`}
+              {reservation?.total_price !== null
+                ? `${Number(reservation?.total_price?.toFixed(8))} ETH`
+                : `-`}
             </ValueWrapper>
           </div>
           <div className="flex gap-20 text-base">
@@ -182,7 +186,7 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
               <div className="flex gap-4">
                 <Button
                   onClick={acceptReservation}
-                  variant="secondary"
+                  variant="outline"
                   className=""
                 >
                   <p className="font-bold text-blue-950">
@@ -191,10 +195,10 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
                 </Button>
                 <Button
                   onClick={declineReservation}
-                  variant="secondary"
-                  className=""
+                  variant="outline"
+                  className="bg-red-error"
                 >
-                  <p className="font-bold text-red-error">✖ Decline</p>
+                  <p className="font-bold text-secondary-error">✖ Decline</p>
                 </Button>
               </div>
             </div>

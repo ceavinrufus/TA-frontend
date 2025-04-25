@@ -10,13 +10,14 @@ import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statu
 import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
-import PrivadoAuthQR from "./PrivadoAuthQR"; // assume this is your QR component
+import PrivadoAuthQR from "./PrivadoAuthQR";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"; // or any modal/dialog system you use
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import IconClose from "@/components/icons/IconClose";
 
 const OrderDetailsButtons: React.FC = () => {
@@ -109,25 +110,24 @@ const OrderDetailsButtons: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="flex gap-4">
-        <Button
-          variant={"ghost"}
-          onClick={handleBack}
-          className="px-4 py-2 rounded-md"
-        >
-          Back
-        </Button>
-        <Button
-          variant={"default"}
-          onClick={handleProceedClick}
-          className="px-4 py-2 text-white rounded-md"
-        >
-          Proceed to Checkout
-        </Button>
-      </div>
-
+    <div className="flex gap-4">
+      <Button
+        variant={"ghost"}
+        onClick={handleBack}
+        className="px-4 py-2 rounded-md"
+      >
+        Back
+      </Button>
       <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+        <DialogTrigger asChild>
+          <Button
+            variant={"default"}
+            onClick={handleProceedClick}
+            className="px-4 py-2 text-white rounded-md"
+          >
+            Proceed to Checkout
+          </Button>
+        </DialogTrigger>
         <DialogContent className="max-w-3xl p-4 sm:p-6 rounded-xl z-[99999]">
           <DialogHeader className="flex flex-row items-center justify-between p-0 mb-4">
             <DialogTitle className="text-lg font-semibold">
@@ -147,7 +147,7 @@ const OrderDetailsButtons: React.FC = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

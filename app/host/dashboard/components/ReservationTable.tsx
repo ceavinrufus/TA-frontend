@@ -16,6 +16,16 @@ import { Button } from "@/components/ui/button";
 import IconEye from "@/components/icons/IconEye";
 import { getReservationsByHost } from "@/lib/api/reservation";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
+import IconQR from "@/components/icons/IconQR";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import IconClose from "@/components/icons/IconClose";
+import ReservationVerificationQR from "./ReservationVerificationQR";
+import { CheckCircle } from "lucide-react";
 
 /**
  * A component that displays a table of reservations for a host's listings.
@@ -56,6 +66,12 @@ const ReservationTable = () => {
   const [selectedReservationFilters, setSelectedReservationFilters] = useState(
     new Set(["all"])
   );
+  const [selectedReservationId, setSelectedReservationId] = useState<
+    string | null
+  >(null);
+  const [isReservationVerified, setIsReservationVerified] =
+    useState<boolean>(false);
+  const [showQRModal, setShowQRModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -101,6 +117,17 @@ const ReservationTable = () => {
       return matchesListing && matchesStatus;
     });
   }, [reservations, selectedListingFilters, selectedReservationFilters]);
+
+  const handleQRSuccess = (did: string) => {
+    setIsReservationVerified(true);
+    // Add other logic if needed
+  };
+
+  const openQRModal = (reservationId: string) => {
+    setSelectedReservationId(reservationId);
+    setShowQRModal(true);
+    setIsReservationVerified(false);
+  };
 
   return (
     <div className="flex flex-col w-full shadow-neumorphic-card-up p-8 pb-12 rounded-2xl gap-12">
@@ -170,9 +197,7 @@ const ReservationTable = () => {
                 </td>
                 <td className="text-center table-cell text-sm">
                   {reservation.total_price !== null
-                    ? reservation?.currency === "ETH"
-                      ? `${reservation?.total_price?.toFixed(2)} ETH`
-                      : `$${reservation?.total_price?.toFixed(2)}`
+                    ? `${Number(reservation?.total_price?.toFixed(8))} ETH`
                     : "-"}
                 </td>
                 <td className="text-center table-cell text-sm">
@@ -187,7 +212,7 @@ const ReservationTable = () => {
                   </Badge>
                 </td>
                 <td className="text-center table-cell text-sm flex-shrink-0">
-                  <div className="flex gap-4">
+                  <div className="flex justify-center gap-1">
                     <Button
                       className="size-8"
                       variant={"outline"}
@@ -199,12 +224,13 @@ const ReservationTable = () => {
                     >
                       <IconEye size={16} />
                     </Button>
-                    {/* <Tooltip content="Send message to guest">
-                      <NeumorphicIconButton
-                        icon={"icon-send"}
-                        className="size-8"
-                      />
-                    </Tooltip> */}
+                    <Button
+                      className="size-8"
+                      variant={"outline"}
+                      onClick={() => openQRModal(reservation.id)}
+                    >
+                      <IconQR size={16} />
+                    </Button>
                   </div>
                 </td>
               </tr>
@@ -212,6 +238,43 @@ const ReservationTable = () => {
           </tbody>
         </table>
       </div>
+
+      {/* QR Modal separated from the table rows */}
+      <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+        <DialogContent className="max-w-3xl p-4 sm:p-6 rounded-xl z-[99999]">
+          <DialogHeader className="flex flex-row items-center justify-between p-0 mb-4">
+            <DialogTitle className="text-lg font-semibold">
+              {isReservationVerified
+                ? "Reservation Verified!"
+                : "Scan to Continue"}
+            </DialogTitle>
+            <Button
+              variant="outline"
+              className="w-[32px] h-[32px] rounded-full"
+              onClick={() => setShowQRModal(false)}
+              aria-label="Close modal"
+            >
+              <IconClose size={16} />
+            </Button>
+          </DialogHeader>
+          <div className="flex flex-col items-center">
+            {selectedReservationId &&
+              (!isReservationVerified ? (
+                <ReservationVerificationQR
+                  onScanSuccess={handleQRSuccess}
+                  reservationId={selectedReservationId}
+                />
+              ) : (
+                <div className="text-center">
+                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <p className="text-gray-600 mb-6">
+                    Your reservation has been confirmed.
+                  </p>
+                </div>
+              ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
