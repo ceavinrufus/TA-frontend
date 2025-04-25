@@ -1,14 +1,55 @@
+"use client";
+
 import React from "react";
 import ListingResults from "./components/ListingResults";
 import SearchComponent from "@/components/SearchComponent";
 import { Separator } from "@/components/ui/separator";
+import { useSearchParams } from "next/navigation";
 
 const SearchPage = () => {
+  const searchParams = useSearchParams();
+  const name = searchParams.get("name") || "";
+  const guests = parseInt(searchParams.get("guests") || "0");
+  const checkin = searchParams.get("checkin");
+  const checkout = searchParams.get("checkout");
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const dayAfterTomorrow = new Date(tomorrow);
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1);
+
+  let validatedGuests = guests;
+  if (guests < 1) validatedGuests = 1;
+  if (guests > 6) validatedGuests = 6;
+
+  let fromDate = checkin ? new Date(checkin) : tomorrow;
+  let toDate = checkout ? new Date(checkout) : dayAfterTomorrow;
+
+  if (fromDate < tomorrow) fromDate = tomorrow;
+  if (toDate <= fromDate) toDate = new Date(fromDate.getTime() + 86400000); // Add 1 day
+
+  const initialData = {
+    destination: name,
+    guests: validatedGuests,
+    date: {
+      from: fromDate,
+      to: toDate,
+    },
+  };
+
   return (
     <div className="flex flex-col gap-6">
-      <SearchComponent />
+      <SearchComponent initialData={initialData} />
       <Separator className="my-4" />
-      <ListingResults />
+      <ListingResults
+        searchParams={{
+          name: name,
+          guests: validatedGuests,
+          checkIn: fromDate.toISOString(),
+          checkOut: toDate.toISOString(),
+        }}
+      />
     </div>
   );
 };

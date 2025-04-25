@@ -1,20 +1,27 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { SearchListing } from "@/types/listing";
 import { searchListings } from "@/lib/api/listing";
 import ListingCard from "./ListingCard";
 
-const ListingResults = () => {
-  const searchParams = useSearchParams();
+const ListingResults = ({
+  searchParams,
+}: {
+  searchParams: {
+    name: string | null;
+    guests: number | null;
+    checkIn: string | null;
+    checkOut: string | null;
+  };
+}) => {
   const [listings, setListings] = useState<SearchListing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const name = searchParams.get("name");
-  const guests = searchParams.get("guests");
-  const checkIn = searchParams.get("checkIn");
-  const checkOut = searchParams.get("checkOut");
+  const name = searchParams.name;
+  const guests = searchParams.guests;
+  const checkIn = searchParams.checkIn;
+  const checkOut = searchParams.checkOut;
 
   useEffect(() => {
     const fetchListings = async () => {

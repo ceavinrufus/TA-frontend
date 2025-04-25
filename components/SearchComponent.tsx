@@ -16,14 +16,30 @@ import { searchListings } from "@/lib/api/listing";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-const SearchComponent = () => {
+const SearchComponent = ({
+  initialData,
+}: {
+  initialData?: {
+    destination: string;
+    guests: number;
+    date: DateRange | null;
+  };
+}) => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const dayAfterTomorrow = new Date(tomorrow);
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1);
+
   const [searchListingsParams, setSearchListingsParams] = React.useState({
-    destination: "",
-    guests: 1,
-    date: {
-      from: undefined,
-      to: undefined,
-    } as DateRange,
+    destination: initialData?.destination ?? "",
+    guests: initialData?.guests ?? 1,
+    date:
+      initialData?.date ??
+      ({
+        from: tomorrow,
+        to: dayAfterTomorrow,
+      } as DateRange),
   });
 
   const router = useRouter();
