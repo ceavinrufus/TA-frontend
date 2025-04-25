@@ -70,7 +70,7 @@ const EditSecurityAgreement = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-[32px]">
       <div className="space-y-2">
-        <h1 className="edit-listing-page-title">Security Agreement</h1>
+        <h1 className="text-2xl font-bold text-blue-950">Security Agreement</h1>
         <p className="edit-listing-page-subtitle">
           To ensure the safety and comfort of your guests, please confirm the
           following:
@@ -86,7 +86,9 @@ const EditSecurityAgreement = () => {
           onClick={() => handleSelect(index)}
         >
           <div className="flex flex-col gap-2 h-full justify-center">
-            <h2 className="host-page-h2-primary-blue">{agreement.title}</h2>
+            <h2 className="text-xl font-semibold text-blue-950">
+              {agreement.title}
+            </h2>
             <p>{agreement.description}</p>
           </div>
           <Checkbox

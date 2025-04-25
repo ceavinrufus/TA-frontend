@@ -27,6 +27,9 @@ export default {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          placeholder: "#B0B0B0",
+          success: "#89A373",
+          error: "#BB563A",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -51,7 +54,7 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
         "green-success": "#EAEFE6",
-        "red-error": "#F7E9E5",
+        "red-error": "#FFE8E8",
       },
       backgroundImage: {
         noise: "url('/noise.svg')",

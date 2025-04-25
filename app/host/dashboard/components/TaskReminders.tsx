@@ -30,7 +30,7 @@ const TaskCard = ({
       }}
     >
       <div className="flex flex-col justify-start gap-3">
-        <p className="host-page-h2-primary-blue !text-red2">{title}</p>
+        <p className="text-xl font-semibold text-blue-950">{title}</p>
         <p>{description}</p>
       </div>
       <Link className="flex items-center gap-1" href={linkHref}>
@@ -98,7 +98,7 @@ const TaskReminders = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="host-page-h2-primary-blue">Task Reminders</h2>
+      <h2 className="text-xl font-semibold text-blue-950">Task Reminders</h2>
       <div className="flex gap-6">
         {isLoading ? (
           Array(2)

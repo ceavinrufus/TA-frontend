@@ -54,7 +54,9 @@ const CreateListingStepThree = () => {
             onClick={() => handleSelect(place.type)}
           >
             <div className="flex flex-col gap-2 h-full justify-center">
-              <p className="host-page-h2-primary-blue">{place.type}</p>
+              <p className="text-xl font-semibold text-blue-950">
+                {place.type}
+              </p>
               <p className="create-listing-place-type-description">
                 {place.description}
               </p>

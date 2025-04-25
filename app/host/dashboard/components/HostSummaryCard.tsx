@@ -139,7 +139,7 @@ const HostSummaryCard = () => {
 
   return (
     <div className="host-summary-section">
-      <h1 className="host-dashboard-welcome-title">
+      <h1 className="text-3xl font-semibold mb-2">
         Welcome back, {formatCryptoAddressForDisplay(address)}
       </h1>
       <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#E3E8F2]">
@@ -154,24 +154,26 @@ const HostSummaryCard = () => {
         </div>
         <div className="grid grid-cols-3 w-full h-full gap-y-8">
           {summaryItems.map((item, index) => (
-            <div key={index} className="flex flex-col gap-2 host-card-text">
+            <div key={index} className="flex flex-col gap-2 text-blue-950">
               <p>{item.label}</p>
               <div className="flex items-center gap-1">
-                <p className="host-page-h1-primary-blue">{item.value}</p>
+                <p className="text-2xl font-semibold text-blue-950">
+                  {item.value}
+                </p>
                 <p>{item.desc}</p>
               </div>
             </div>
           ))}
           {isSecurityDepositLoading ? (
-            <div className="flex flex-col gap-2 host-card-text">
+            <div className="flex flex-col gap-2 text-blue-950">
               <p>Security deposit</p>
               <Skeleton className="h-9 w-16 rounded" />
             </div>
           ) : (
-            <div className="flex flex-col gap-2 host-card-text">
+            <div className="flex flex-col gap-2 text-blue-950">
               <p>Security deposit</p>
-              <div className="flex items-center gap-4">
-                <p className="host-page-h1-primary-blue">{`${
+              <div className="flex items-center gap-3">
+                <p className="text-2xl font-semibold text-blue-950">{`${
                   hostStats.securityDeposit ?? 0
                 } ETH`}</p>
                 <SecurityDepositModal

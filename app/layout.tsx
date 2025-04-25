@@ -15,8 +15,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "MetaMask SDK Quickstart",
-  description: "MetaMask SDK Quickstart app",
+  title: "StayChain",
+  description: "StayChain app",
 };
 
 export default async function RootLayout({

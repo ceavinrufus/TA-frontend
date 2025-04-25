@@ -28,9 +28,9 @@ const ClickableCard = ({
   return (
     <div
       className={cn(
-        `px-2 py-4 rounded-2xl flex flex-col justify-center items-center host-card-text cursor-pointer`,
+        `px-2 py-4 rounded-2xl flex flex-col justify-center items-center text-blue-950 cursor-pointer`,
         isClicked ? "shadow-button-down bg-[#E3E8F2]" : "shadow-button-up",
-        className,
+        className
       )}
       onClick={onClick}
     >

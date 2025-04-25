@@ -89,7 +89,9 @@ const CreateListingStepNine = () => {
           onClick={() => handleSelect(index)}
         >
           <div className="flex flex-col gap-2 h-full justify-center">
-            <h2 className="host-page-h2-primary-blue">{agreement.title}</h2>
+            <h2 className="text-xl font-semibold text-blue-950">
+              {agreement.title}
+            </h2>
             <p>{agreement.description}</p>
           </div>
           <Checkbox

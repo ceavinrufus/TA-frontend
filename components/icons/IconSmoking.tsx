@@ -26,8 +26,8 @@ const IconSmoking: React.FC<IconSmokingProps> = ({
         fill={color}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M2 16C2 14.8954 2.89543 14 4 14H20C21.1046 14 22 14.8954 22 16V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V16ZM6.7 15.5H20.5V18.5H6.7V15.5ZM5.2 15.5H3.5V18.5H5.2V15.5Z"
         fill={color}
       />

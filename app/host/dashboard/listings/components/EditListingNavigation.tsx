@@ -177,7 +177,7 @@ const EditListingNavigation = () => {
           >
             <div
               className={`p-1 h-fit rounded-full ${
-                currentStep === item.step ? "bg-primary-blue" : "bg-[#E3E8F2]"
+                currentStep === item.step ? "bg-blue-950" : "bg-[#E3E8F2]"
               }`}
             >
               <ResponsiveIcon
@@ -187,11 +187,9 @@ const EditListingNavigation = () => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <p className="edit-listing-nav-label">{item.name}</p>
+              <p className="font-semibold">{item.name}</p>
               {item.description && (
-                <p className="edit-listing-nav-default-value">
-                  {item.description}
-                </p>
+                <p className="text-sm text-gray-600">{item.description}</p>
               )}
             </div>
           </li>

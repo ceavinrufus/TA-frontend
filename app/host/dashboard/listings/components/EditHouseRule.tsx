@@ -48,16 +48,16 @@ const EditHouseRule = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="edit-listing-page-title">House Rule</h1>
+      <h1 className="text-2xl font-bold text-blue-950">House Rule</h1>
       <div className="flex flex-col gap-6 w-full">
-        <h2 className="edit-listing-form-input-label">Rule for guest</h2>
+        <h2 className="font-semibold">Rule for guest</h2>
         {guestRules.map((rule) => (
           <div
             className="flex justify-between w-full rounded-[32px] px-12 py-6 gap-12 items-center flex-row shadow-button-up"
             key={rule}
           >
             <div className="flex flex-col gap-2 h-full justify-center">
-              <h2 className="host-page-h3-primary-blue">{rule}</h2>
+              <h2 className="text-lg font-semibold text-blue-950">{rule}</h2>
             </div>
             <div className="flex items-center h-full gap-6">
               {(() => {
@@ -74,7 +74,7 @@ const EditHouseRule = () => {
                     }}
                     className={cn(
                       "h-[32px] w-[32px] rounded-full",
-                      isDisabled ? "!bg-primary-blue" : ""
+                      isDisabled ? "!bg-blue-950" : ""
                     )}
                     disabled={isDisabled}
                   >
@@ -98,7 +98,7 @@ const EditHouseRule = () => {
                     }}
                     className={cn(
                       "h-[32px] w-[32px] rounded-full",
-                      isDisabled ? "!bg-primary-blue" : ""
+                      isDisabled ? "!bg-blue-950" : ""
                     )}
                     disabled={isDisabled}
                   >
@@ -115,7 +115,7 @@ const EditHouseRule = () => {
         ))}
         <GuestCountModifier
           className="py-6 h-fit gap-12"
-          labelClassName="host-page-h3-primary-blue"
+          labelClassName="text-lg font-semibold text-blue-950"
           label={"Maximum guest number"}
           count={listing.guest_number ?? 1}
           onDecrease={() => handleDecrease()}
@@ -125,14 +125,10 @@ const EditHouseRule = () => {
         />
       </div>
       <div className="flex flex-col gap-6 w-full">
-        <h2 className="edit-listing-form-input-label">
-          Check-in and check-out time
-        </h2>
+        <h2 className="font-semibold">Check-in and check-out time</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2 h-full justify-center">
-            <label className="edit-listing-form-input-label">
-              Earliest check-in time
-            </label>
+            <label className="font-semibold">Earliest check-in time</label>
             <TimePicker
               timeIntervals={generateTimeIntervals()}
               onChange={(value) =>
@@ -142,9 +138,7 @@ const EditHouseRule = () => {
             />
           </div>
           <div className="flex flex-col gap-2 h-full justify-center">
-            <label className="edit-listing-form-input-label">
-              Latest check-in time
-            </label>
+            <label className="font-semibold">Latest check-in time</label>
             <TimePicker
               timeIntervals={generateTimeIntervals()}
               onChange={(value) =>
@@ -154,9 +148,7 @@ const EditHouseRule = () => {
             />
           </div>
           <div className="flex flex-col gap-2 h-full justify-center">
-            <label className="edit-listing-form-input-label">
-              Check-out time
-            </label>
+            <label className="font-semibold">Check-out time</label>
             <TimePicker
               timeIntervals={generateTimeIntervals()}
               onChange={(value) => updateListing({ check_out_time: value })}

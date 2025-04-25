@@ -82,15 +82,12 @@ const EditPropertyType = () => {
 
   return (
     <form className="flex flex-col items-start justify-start gap-12">
-      <h1 className="edit-listing-page-title">Property Type</h1>
+      <h1 className="text-2xl font-bold text-blue-950">Property Type</h1>
 
       <div className="flex flex-col w-full gap-4">
         {/* Property type */}
         <div className="flex flex-col w-full gap-2">
-          <label
-            className="edit-listing-form-input-label"
-            htmlFor="propertyType"
-          >
+          <label className="font-semibold" htmlFor="propertyType">
             Which of these best describes your property?
           </label>
           <CustomDropdown
@@ -108,7 +105,7 @@ const EditPropertyType = () => {
 
         {/* Place type */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="placeType">
+          <label className="font-semibold" htmlFor="placeType">
             Which type of place will guest get?
           </label>
           <CustomDropdown
@@ -126,11 +123,11 @@ const EditPropertyType = () => {
       </div>
 
       <div className="flex flex-col w-full gap-6">
-        <h1 className="edit-listing-form-input-label">Room setting</h1>
+        <h1 className="font-semibold">Room setting</h1>
         {types.map((type) => (
           <GuestCountModifier
             className="py-6 h-fit gap-12"
-            labelClassName="host-page-h3-primary-blue"
+            labelClassName="text-lg font-semibold text-blue-950"
             key={type.id}
             label={type.label}
             count={Number(

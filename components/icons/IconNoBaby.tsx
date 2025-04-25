@@ -24,8 +24,8 @@ const IconNoBaby: React.FC<IconNoBabyProps> = ({
         stroke-width="0.1"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M3.65428 2.90874C3.95709 2.62612 4.43168 2.64248 4.71431 2.9453L21.5143 20.9453C21.7969 21.2481 21.7806 21.7227 21.4778 22.0053C21.1749 22.288 20.7004 22.2716 20.4177 21.9688L3.61773 3.96877C3.3351 3.66596 3.35147 3.19137 3.65428 2.90874Z"
         fill={color}
       />

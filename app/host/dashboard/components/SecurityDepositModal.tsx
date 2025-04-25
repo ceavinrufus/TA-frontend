@@ -6,6 +6,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogFooter,
+  DialogTrigger,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import IconClose from "@/components/icons/IconClose";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
@@ -17,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
-  const [amount, setAmount] = useState<string>();
+  const [amount, setAmount] = useState<string>("");
   const [isMakingDeposit, setIsMakingDeposit] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { hostStats, setHostStats } = useHostStore();
@@ -112,21 +114,24 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
 
   return (
     <>
-      <div
-        onClick={openModal}
-        className="flex justify-center items-center cursor-pointer"
-      >
-        <ResponsiveIcon icon="icon-edit" sizeDesktop={24} sizeMobile={24} />
-      </div>
-
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogTrigger
+          className="flex justify-center items-center cursor-pointer"
+          onClick={openModal}
+        >
+          <ResponsiveIcon
+            icon="icon-add-circle"
+            sizeDesktop={24}
+            sizeMobile={24}
+          />
+        </DialogTrigger>
         <DialogContent
           className={`hotel-management-cancel-booking-dialog z-[99999] rounded-t-2xl md:rounded-xl`}
         >
           <DialogHeader className="w-full flex flex-row justify-between items-center">
-            <p className="hotel-management-cancel-booking-dialog-title">
+            <DialogTitle className="hotel-management-cancel-booking-dialog-title">
               Top Up Your Security Deposit
-            </p>
+            </DialogTitle>
             <Button
               variant="outline"
               className="w-[32px] h-[32px] rounded-full"
@@ -147,17 +152,12 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
             </div>
 
             <div className="space-y-1">
-              <p className="host-page-p2-primary-black">
-                <span className="host-page-p2-primary-black-bold">
-                  Current Balance:
-                </span>{" "}
+              <p className="text-base">
+                <span className="font-bold">Current Balance:</span>{" "}
                 {initialAmount} ETH
               </p>
-              <p className="host-page-p2-primary-black">
-                <span className="host-page-p2-primary-black-bold">
-                  Minimum Required:
-                </span>{" "}
-                0.25 ETH
+              <p className="text-base">
+                <span className="font-bold">Minimum Required:</span> 0.25 ETH
               </p>
             </div>
 
@@ -180,7 +180,7 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
               onClick={closeModal}
               className="!hidden md:!inline-block md:px-[24px] md:h-[56px] md:py-[16px] p-[16px] flex-1"
             >
-              <p className="neumorphic-button-engraved-text bg-primary-blue">
+              <p className="neumorphic-button-engraved-text bg-blue-950">
                 Cancel
               </p>
             </Button>

@@ -23,10 +23,10 @@ const CardWithSwitch: React.FC<CardWithSwitchProps> = ({
   return (
     <div className="flex justify-between w-full rounded-[32px] px-12 py-6 gap-12 items-center flex-row shadow-button-up">
       <div className="flex flex-col gap-2 h-full justify-center">
-        {title && <h2 className="host-page-h3-primary-blue">{title}</h2>}
-        {description && (
-          <p className="edit-listing-card-description">{description}</p>
+        {title && (
+          <h2 className="text-lg font-semibold text-blue-950">{title}</h2>
         )}
+        {description && <p className="text-gray-600">{description}</p>}
       </div>
       <Switch checked={checked} onCheckedChange={onCheckedChange} />
     </div>
@@ -65,9 +65,9 @@ const EditBookingSetting = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="edit-listing-page-title">Booking Setting</h1>
+      <h1 className="text-2xl font-bold text-blue-950">Booking Setting</h1>
       <div className="flex flex-col gap-6 w-full">
-        <h2 className="edit-listing-form-input-label">Instant booking</h2>
+        <h2 className="font-semibold">Instant booking</h2>
         <CardWithSwitch
           title={"Instant booking"}
           description={
@@ -82,7 +82,7 @@ const EditBookingSetting = () => {
         />
       </div>
       <div className="flex flex-col gap-6 w-full">
-        <h2 className="edit-listing-form-input-label">Cancellation policy</h2>
+        <h2 className="font-semibold">Cancellation policy</h2>
         <div className="flex flex-col gap-4">
           <RadioGroup
             defaultValue={
@@ -107,10 +107,10 @@ const EditBookingSetting = () => {
               }}
             >
               <div className="p-2 space-y-2">
-                <p className="host-page-h3-primary-blue">
+                <p className="text-lg font-semibold text-blue-950">
                   No free cancellation
                 </p>
-                <p className="edit-listing-card-description">
+                <p className="text-gray-600">
                   No refunds for cancellations once the guest has made an
                   reservation.
                 </p>
@@ -130,10 +130,10 @@ const EditBookingSetting = () => {
               }}
             >
               <div className="p-2 space-y-2">
-                <p className="host-page-h3-primary-blue">
+                <p className="text-lg font-semibold text-blue-950">
                   Flexible cancellation policy
                 </p>
-                <p className="edit-listing-card-description">
+                <p className="text-gray-600">
                   The guest can receive a complete refund when he cancels the
                   booking within the stipulated time period.
                 </p>
@@ -182,10 +182,10 @@ const EditBookingSetting = () => {
                   }}
                 >
                   <div className="p-2 space-y-2">
-                    <p className="host-page-h3-primary-blue">{policy.title}</p>
-                    <p className="edit-listing-card-description">
-                      {policy.description}
+                    <p className="text-lg font-semibold text-blue-950">
+                      {policy.title}
                     </p>
+                    <p className="text-gray-600">{policy.description}</p>
                   </div>
                   <RadioGroupItem value={policy.title} id={`r2-${index}`} />
                 </ClickableCard>
@@ -195,9 +195,9 @@ const EditBookingSetting = () => {
         </div>
       </div>
       <div className="flex flex-col gap-6 w-full">
-        <h2 className="edit-listing-form-input-label">Trip Length</h2>
+        <h2 className="font-semibold">Trip Length</h2>
         <div className="flex flex-col gap-2 h-full justify-center">
-          <label className="edit-listing-form-input-label">
+          <label className="font-semibold">
             Guest can book on the same day as check-in until this time
           </label>
           <TimePicker
@@ -209,9 +209,7 @@ const EditBookingSetting = () => {
           />
         </div>
         <div className="flex flex-col gap-2 h-full justify-center">
-          <label className="edit-listing-form-input-label">
-            Minimum night for booking
-          </label>
+          <label className="font-semibold">Minimum night for booking</label>
           <Input
             className="py-[12px] px-[16px] w-full h-14 rounded-[16px] md:px-[16px] md:py-[12px] md:rounded-[16px]"
             placeholder={"1"}
@@ -224,9 +222,7 @@ const EditBookingSetting = () => {
           />
         </div>
         <div className="flex flex-col gap-2 h-full justify-center">
-          <label className="edit-listing-form-input-label">
-            Maximum night for booking
-          </label>
+          <label className="font-semibold">Maximum night for booking</label>
           <Input
             className="py-[12px] px-[16px] w-full h-14 rounded-[16px] md:px-[16px] md:py-[12px] md:rounded-[16px]"
             placeholder={"10"}

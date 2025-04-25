@@ -66,7 +66,7 @@ const EditLocation = () => {
 
   return (
     <form className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="edit-listing-page-title">Location</h1>
+      <h1 className="text-2xl font-bold text-blue-950">Location</h1>
 
       {/* Map View */}
       <MapDisplayComponentEditListing
@@ -82,7 +82,7 @@ const EditLocation = () => {
       <div className="flex flex-col w-full gap-4">
         {/* Place AutoComplete Input */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="address">
+          <label className="font-semibold" htmlFor="address">
             Address
           </label>
           <PlaceAutoCompleteInput
@@ -98,7 +98,7 @@ const EditLocation = () => {
         </div>
         {/* Unit / Floor */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="unit">
+          <label className="font-semibold" htmlFor="unit">
             Unit / Floor
           </label>
           <Input
@@ -112,7 +112,7 @@ const EditLocation = () => {
 
         {/* Building */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="building">
+          <label className="font-semibold" htmlFor="building">
             Building
           </label>
           <Input
@@ -125,7 +125,7 @@ const EditLocation = () => {
         </div>
         {/* District/Town/Village */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="district">
+          <label className="font-semibold" htmlFor="district">
             District/Town/Village
           </label>
           <Input
@@ -138,7 +138,7 @@ const EditLocation = () => {
         </div>
         {/* City / Region */}
         <div className="flex flex-col w-full gap-2">
-          <label className="edit-listing-form-input-label" htmlFor="city">
+          <label className="font-semibold" htmlFor="city">
             City/Region
           </label>
           <Input
@@ -153,7 +153,7 @@ const EditLocation = () => {
 
       {/* Provide More Details */}
       <div className="flex flex-col w-full gap-2">
-        <label className="edit-listing-form-input-label" htmlFor="more-details">
+        <label className="font-semibold" htmlFor="more-details">
           Provide More Details
         </label>
         <Textarea

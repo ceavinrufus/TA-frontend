@@ -9,7 +9,7 @@ const ReservationsPage = () => {
         <BackToDashboardButton />
       </div>
       <div className="flex flex-col gap-12 pt-12">
-        <h2 className="host-page-h2-primary-black">Your Reservations</h2>
+        <h2 className="text-xl font-semibold">Your Reservations</h2>
         <ReservationTable />
       </div>
     </div>

@@ -122,30 +122,30 @@ const ReservationTable = () => {
         <table className="min-w-full">
           <thead>
             <tr>
-              <th className="host-dashboard-table-header">List name</th>
-              <th className="host-dashboard-table-header">Guest</th>
-              <th className="host-dashboard-table-header">Check-in Date</th>
-              <th className="host-dashboard-table-header">Check-out Date</th>
-              <th className="host-dashboard-table-header">No. of Guests</th>
-              <th className="host-dashboard-table-header">Total Amount</th>
-              <th className="host-dashboard-table-header">Status</th>
-              <th className="host-dashboard-table-header">Action</th>
+              <th className="font-semibold">List name</th>
+              <th className="font-semibold">Guest</th>
+              <th className="font-semibold">Check-in Date</th>
+              <th className="font-semibold">Check-out Date</th>
+              <th className="font-semibold">No. of Guests</th>
+              <th className="font-semibold">Total Amount</th>
+              <th className="font-semibold">Status</th>
+              <th className="font-semibold">Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredReservations.map((reservation, index) => (
               <tr key={index}>
-                <td className="text-center table-cell max-w-[130px]">
+                <td className="text-center table-cell text-sm max-w-[130px]">
                   {reservation.listing.name}
                 </td>
-                <td className="text-center table-cell">
-                  {reservation.user_billing_detail?.wallet_address
+                <td className="text-center table-cell text-sm">
+                  {reservation.guest_wallet_address
                     ? formatCryptoAddressForDisplay(
-                        reservation.user_billing_detail.wallet_address
+                        reservation.guest_wallet_address
                       )
                     : reservation.guest_info?.[0]?.email}
                 </td>
-                <td className="text-center table-cell">
+                <td className="text-center table-cell text-sm">
                   {reservation.check_in_date
                     ? formatDateStringForDisplay(
                         reservation.check_in_date,
@@ -155,7 +155,7 @@ const ReservationTable = () => {
                       )
                     : "-"}
                 </td>
-                <td className="text-center table-cell">
+                <td className="text-center table-cell text-sm">
                   {reservation.check_out_date
                     ? formatDateStringForDisplay(
                         reservation.check_out_date,
@@ -165,17 +165,17 @@ const ReservationTable = () => {
                       )
                     : "-"}
                 </td>
-                <td className="text-center table-cell">
+                <td className="text-center table-cell text-sm">
                   {reservation.guest_number}
                 </td>
-                <td className="text-center table-cell">
+                <td className="text-center table-cell text-sm">
                   {reservation.total_price !== null
                     ? reservation?.currency === "ETH"
                       ? `${reservation?.total_price?.toFixed(2)} ETH`
                       : `$${reservation?.total_price?.toFixed(2)}`
                     : "-"}
                 </td>
-                <td className="text-center table-cell">
+                <td className="text-center table-cell text-sm">
                   <Badge
                     className={`text-[#474747] table-content px-2 py-1 rounded-[4px] w-[85px] ${
                       statusColors[getStatusLabel(reservation)]
@@ -186,7 +186,7 @@ const ReservationTable = () => {
                     </p>
                   </Badge>
                 </td>
-                <td className="text-center table-cell flex-shrink-0">
+                <td className="text-center table-cell text-sm flex-shrink-0">
                   <div className="flex gap-4">
                     <Button
                       className="size-8"

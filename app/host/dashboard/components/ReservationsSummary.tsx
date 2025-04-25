@@ -66,7 +66,7 @@ const ReservationsSummary = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="host-page-h2-primary-blue">Reservations</h2>
+        <h2 className="text-xl font-semibold text-blue-950">Reservations</h2>
         <Link
           className="flex items-center gap-1 neumorphic-text-button"
           href={"/host/dashboard/reservations"}
@@ -86,7 +86,9 @@ const ReservationsSummary = () => {
           <div className="flex flex-col justify-start gap-2 w-full">
             <p>Check-in today</p>
             <div className="flex w-full justify-between gap-1">
-              <p className="host-page-h1-primary-blue">{summary.check_ins}</p>
+              <p className="text-2xl font-semibold text-blue-950">
+                {summary.check_ins}
+              </p>
               <Button
                 className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
                 onClick={(e) => {
@@ -111,7 +113,9 @@ const ReservationsSummary = () => {
           <div className="flex flex-col justify-start gap-2 w-full">
             <p>Check-out today</p>
             <div className="flex w-full justify-between gap-1">
-              <p className="host-page-h1-primary-blue">{summary.check_outs}</p>
+              <p className="text-2xl font-semibold text-blue-950">
+                {summary.check_outs}
+              </p>
               <Button
                 className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
                 onClick={(e) => {

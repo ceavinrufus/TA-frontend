@@ -54,7 +54,9 @@ const CreateListingStepFive = () => {
         },
       ].map((section, index) => (
         <div key={index} className="flex flex-col gap-6">
-          <h2 className="host-page-h2-primary-blue">{section.title}</h2>
+          <h2 className="text-xl font-semibold text-blue-950">
+            {section.title}
+          </h2>
           <div className="grid grid-cols-4 gap-6">
             {section.amenities.map((amenity, idx) => (
               <ClickableCard

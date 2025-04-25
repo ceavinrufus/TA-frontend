@@ -68,7 +68,7 @@ const EarningsSummary = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="host-page-h2-primary-blue">Earnings</h2>
+        <h2 className="text-xl font-semibold text-blue-950">Earnings</h2>
       </div>
       <div className="flex gap-8">
         {summary.map((item, index) => (
@@ -82,7 +82,7 @@ const EarningsSummary = () => {
             <div className="flex flex-col justify-start gap-2 w-full">
               <p>{item.label}</p>
               <div className="flex w-full justify-between gap-1">
-                <p className="host-page-h1-primary-blue">
+                <p className="text-2xl font-semibold text-blue-950">
                   {currency}
                   {item.value}
                 </p>

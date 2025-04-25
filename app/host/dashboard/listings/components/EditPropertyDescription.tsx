@@ -50,9 +50,11 @@ const EditPropertyDescription = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="edit-listing-page-title">Title and Description</h1>
+      <h1 className="text-2xl font-bold text-blue-950">
+        Title and Description
+      </h1>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="edit-listing-form-input-label">Name Your Place</h2>
+        <h2 className="font-semibold">Name Your Place</h2>
         <Textarea
           placeholder={
             "Give your property a unique and memorable name to make it stand out!"
@@ -64,7 +66,7 @@ const EditPropertyDescription = () => {
         />
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="edit-listing-form-input-label">Tag Your Place</h2>
+        <h2 className="font-semibold">Tag Your Place</h2>
         <div className="flex flex-wrap gap-6">
           {tags.map((tag, index) => (
             <ClickableCard
@@ -86,9 +88,7 @@ const EditPropertyDescription = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="edit-listing-form-input-label">
-          Write a Captivating Description
-        </h2>
+        <h2 className="font-semibold">Write a Captivating Description</h2>
         <Textarea
           placeholder={
             "Highlight what makes your property unique and appealing. Mention its standout features, nearby attractions, and any special touches that create an unforgettable experience. Be detailed yet concise to help guests imagine their stay."

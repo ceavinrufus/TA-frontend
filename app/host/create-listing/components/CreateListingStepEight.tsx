@@ -94,7 +94,9 @@ const CreateListingStepEight = () => {
       </h1>
       <div className="flex flex-col gap-20 shadow-neumorphic-card-up w-full rounded-[32px] p-12">
         <div className="flex flex-col items-center gap-6">
-          <h2 className="host-page-h2-primary-blue">Daily base price</h2>
+          <h2 className="text-xl font-semibold text-blue-950">
+            Daily base price
+          </h2>
           <NoBorderInput
             value={inputValue ? inputValue + " " + currency : ""}
             onChange={handlePriceChange}
@@ -104,21 +106,21 @@ const CreateListingStepEight = () => {
         </div>
         <div className="flex flex-col gap-[14px]">
           {/* Base price */}
-          <div className="flex justify-between host-card-text">
+          <div className="flex justify-between text-blue-950">
             <p>Base price</p>
             <p>
               {basePrice.toFixed(2)} {currency}
             </p>
           </div>
           {/* Service fee */}
-          <div className="flex justify-between host-card-text">
+          <div className="flex justify-between text-blue-950">
             <p>Service fee (5%)</p>
             <p>
               {serviceFee.toFixed(2)} {currency}
             </p>
           </div>
           {/* Tax fee */}
-          <div className="flex justify-between host-card-text">
+          <div className="flex justify-between text-blue-950">
             <p>Tax fee (10%)</p>
             <p>
               {taxFee.toFixed(2)} {currency}
@@ -126,7 +128,7 @@ const CreateListingStepEight = () => {
           </div>
           <Separator orientation="horizontal" />
           {/* Host earnings */}
-          <div className="flex justify-between host-card-text !font-bold">
+          <div className="flex justify-between text-blue-950 !font-bold">
             <p>You earn</p>
             <p>
               {hostEarnings.toFixed(2)} {currency}

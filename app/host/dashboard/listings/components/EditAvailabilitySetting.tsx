@@ -84,13 +84,10 @@ const EditAvailabilitySetting = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="edit-listing-page-title">Availability Setting</h1>
+      <h1 className="text-2xl font-bold text-blue-950">Availability Setting</h1>
 
       <div className="flex flex-col w-full gap-2">
-        <label
-          className="edit-listing-form-input-label"
-          htmlFor="bookingWindow"
-        >
+        <label className="font-semibold" htmlFor="bookingWindow">
           How far in advance can guests book?
         </label>
         <CustomDropdown
@@ -106,7 +103,7 @@ const EditAvailabilitySetting = () => {
         />
       </div>
       <div className="flex flex-col w-full gap-2">
-        <label className="edit-listing-form-input-label" htmlFor="bufferPeriod">
+        <label className="font-semibold" htmlFor="bufferPeriod">
           How many nights do you need to block before and after each booking?
         </label>
         <CustomDropdown
@@ -125,9 +122,7 @@ const EditAvailabilitySetting = () => {
       <div className="flex flex-col gap-6 w-full">
         <div className="flex flex-col gap-2 h-full justify-center">
           <div className="flex flex-col gap-1 h-full justify-center">
-            <label className="edit-listing-form-input-label">
-              Restricted check-in
-            </label>
+            <label className="font-semibold">Restricted check-in</label>
             <p className="edit-listing-page-subtitle">
               If guests start their stay on these days, they will not be able to
               book your room.
@@ -155,9 +150,7 @@ const EditAvailabilitySetting = () => {
 
         <div className="flex flex-col gap-2 h-full justify-center">
           <div className="flex flex-col gap-1 h-full justify-center">
-            <label className="edit-listing-form-input-label">
-              Restricted check-out
-            </label>
+            <label className="font-semibold">Restricted check-out</label>
             <p className="edit-listing-page-subtitle">
               If guests end their stay on these days, they will not be able to
               book your room.

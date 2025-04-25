@@ -27,8 +27,8 @@ const IconNoElderly: React.FC<IconNoElderlyProps> = ({
           fill={color}
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M3.1953 9.15516C3.44351 8.93776 3.83252 8.95035 4.06418 9.18328L17.8347 23.0294C18.0663 23.2624 18.0529 23.6274 17.8047 23.8448C17.5565 24.0622 17.1675 24.0497 16.9358 23.8167L3.16534 9.97057C2.93368 9.73764 2.94709 9.37257 3.1953 9.15516Z"
           fill={color}
         />

@@ -83,7 +83,7 @@ const ListingsSummary = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="host-page-h2-primary-blue">Listings</h2>
+        <h2 className="text-xl font-semibold text-blue-950">Listings</h2>
         <Link
           className="flex items-center gap-1 neumorphic-text-button"
           href={"/host/dashboard/listings"}
@@ -107,7 +107,7 @@ const ListingsSummary = () => {
             <div className="flex flex-col justify-start gap-2 w-full">
               <p>{item.label}</p>
               <div className="flex w-full justify-between gap-1">
-                <p className="host-page-h1-primary-blue">
+                <p className="text-2xl font-semibold text-blue-950">
                   {summary.availability_counts[item.key] ?? 0}
                 </p>
                 <Button
@@ -135,7 +135,7 @@ const ListingsSummary = () => {
           <div className="flex flex-col justify-start gap-2 w-full">
             <p>Draft</p>
             <div className="flex w-full justify-between gap-1">
-              <p className="host-page-h1-primary-blue">
+              <p className="text-2xl font-semibold text-blue-950">
                 {summary.status_counts["LISTING_DRAFT"] ?? 0}
               </p>
               <Button

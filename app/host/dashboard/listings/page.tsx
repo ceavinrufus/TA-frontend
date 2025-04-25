@@ -9,7 +9,7 @@ const ListingsPage = () => {
         <BackToDashboardButton />
       </div>
       <div className="flex flex-col gap-12 pt-12">
-        <h1 className="host-page-h2-primary-blue">Your Listings</h1>
+        <h1 className="text-xl font-semibold text-blue-950">Your Listings</h1>
         <ListingsCards />
       </div>
     </div>

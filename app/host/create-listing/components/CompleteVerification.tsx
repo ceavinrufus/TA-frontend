@@ -65,7 +65,9 @@ const CompleteVerification = () => {
             onClick={method.onClick ?? (() => {})}
           >
             <div className="flex flex-col gap-2 h-full justify-center flex-grow">
-              <h2 className="host-page-h2-primary-blue">{method.name}</h2>
+              <h2 className="text-xl font-semibold text-blue-950">
+                {method.name}
+              </h2>
               <p>{method.description}</p>
             </div>
             <Button

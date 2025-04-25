@@ -47,7 +47,7 @@ const CreateListingStepSeven = () => {
     <div className="flex flex-col items-start justify-start gap-[64px]">
       <h1 className="create-listing-page-title">Make Your Space Stand Out!</h1>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="host-page-h2-primary-blue">Name Your Place</h2>
+        <h2 className="text-xl font-semibold text-blue-950">Name Your Place</h2>
         <Textarea
           placeholder={
             "Give your property a unique and memorable name to make it stand out!"
@@ -59,7 +59,7 @@ const CreateListingStepSeven = () => {
         />
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="host-page-h2-primary-blue">Tag Your Place</h2>
+        <h2 className="text-xl font-semibold text-blue-950">Tag Your Place</h2>
         <div className="flex flex-wrap gap-6">
           {tags.map((tag, index) => (
             <ClickableCard
@@ -81,7 +81,7 @@ const CreateListingStepSeven = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="host-page-h2-primary-blue">
+        <h2 className="text-xl font-semibold text-blue-950">
           Write a Captivating Description
         </h2>
         <Textarea

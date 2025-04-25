@@ -43,8 +43,8 @@ const ListingsCard = ({ listing }: { listing: Listing }) => {
     "Available today": "bg-green-success text-secondary-success",
     Unlisted: "bg-[#EBEBEB] text-[#888888]",
     Draft: "bg-[#EBEBEB] text-[#888888]",
-    Rejected: "bg-secondary-red-error-bg text-secondary-error",
-    "Reserved today": "bg-[#E3E8F2] text-primary-blue",
+    Rejected: "bg-red-error text-secondary-error",
+    "Reserved today": "bg-[#E3E8F2] text-blue-950",
     "In-review": "bg-[#F2EAD5] text-[#D7AA22]",
   };
 
@@ -108,14 +108,14 @@ const ListingsCard = ({ listing }: { listing: Listing }) => {
           />
         </div>
         <div className="flex flex-col items-start gap-2">
-          <p className="host-listing-card-title">{listing.name}</p>
-          <p className="host-listing-card-address">{listing.address}</p>
+          <p className="font-bold">{listing.name}</p>
+          <p className="text-gray-600">{listing.address}</p>
         </div>
       </div>
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center gap-1">
           {/* Overall rating */}
-          {/* <div className="rounded-[4px] gap-[10px] p-1 bg-primary-blue">
+          {/* <div className="rounded-[4px] gap-[10px] p-1 bg-blue-950">
                 <p className="host-listing-card-rating-number"></p>
               </div> */}
           <div className="flex flex-col gap-1">
@@ -127,7 +127,7 @@ const ListingsCard = ({ listing }: { listing: Listing }) => {
         </div>
         <Badge
           className={cn(
-            "p-1 justify-center items-center flex gap-1 rounded-[4px] host-listing-status-text capitalize",
+            "p-1 justify-center items-center flex gap-1 rounded-[4px] capitalize",
             statusColors[statusLabel as keyof typeof statusColors] ??
               "bg-[#EBEBEB] text-[#888888]"
           )}

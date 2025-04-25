@@ -79,7 +79,7 @@ const CreateListingStepFour = () => {
       <div className="flex flex-col w-full gap-12">
         {types.map((type) => (
           <GuestCountModifier
-            labelClassName="host-page-h2-primary-blue"
+            labelClassName="text-xl font-semibold text-blue-950"
             key={type.id}
             label={type.label}
             count={Number(listing[type.id] ?? type.minCount)}
