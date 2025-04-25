@@ -2,7 +2,6 @@
 
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
-import { useSwitchChain, useAccount } from "wagmi";
 import { useWalletAuth } from "@/hooks/useWalletAuth";
 import {
   DropdownMenu,
@@ -13,6 +12,9 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import RoleSwitcher from "./RoleSwitcher";
+import NetworkSwitcher from "./NetworkSwitcher";
 
 export function Navbar() {
   const {
@@ -25,9 +27,8 @@ export function Navbar() {
     authenticate,
   } = useWalletAuth();
 
-  const { switchChain, chains } = useSwitchChain();
+  const router = useRouter();
   const { toast } = useToast();
-  const { chain } = useAccount();
 
   return (
     <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
@@ -37,27 +38,7 @@ export function Navbar() {
       </Link>
 
       {isConnected ? (
-        <div className="flex-col md:flex-row flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="bg-white h-fit md:px-3 py-2 rounded-2xl font-semibold flex justify-center items-center gap-1">
-              {chain?.name.split(" ").slice(0, 2).join(" ")} <ChevronDown />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full justify-center rounded-2xl">
-              {chains.map(
-                (c) =>
-                  c.id !== chain?.id && (
-                    <DropdownMenuItem
-                      key={c.id}
-                      onClick={() => switchChain({ chainId: c.id })}
-                      className="cursor-pointer w-full flex justify-center rounded-2xl font-semibold"
-                    >
-                      {c.name}
-                    </DropdownMenuItem>
-                  )
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+        <div className="flex-col md:flex-row flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger
               className={`${
@@ -81,12 +62,15 @@ export function Navbar() {
               ) : (
                 <>
                   {/* Show protected menu here */}
-                  {/* <DropdownMenuItem
+                  <DropdownMenuItem className="cursor-pointer w-full flex justify-center rounded-2xl font-semibold">
+                    <RoleSwitcher />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
                     onClick={() => router.push("/dashboard")}
                     className="cursor-pointer w-full flex justify-center rounded-2xl font-semibold"
                   >
                     Dashboard
-                  </DropdownMenuItem> */}
+                  </DropdownMenuItem>
                 </>
               )}
               <DropdownMenuItem
@@ -103,6 +87,7 @@ export function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <NetworkSwitcher />
         </div>
       ) : (
         <Button
