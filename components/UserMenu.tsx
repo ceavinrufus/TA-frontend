@@ -14,7 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
+import {
+  copyToClipboard,
+  formatCryptoAddressForDisplay,
+} from "@/lib/ui/ui-utils";
 import { useRouter } from "next/navigation";
 import RoleSwitcher from "./RoleSwitcher";
 import { useWalletAuth } from "@/hooks/useWalletAuth";
@@ -24,6 +27,7 @@ import NetworkSwitcher, { CHAIN_LOGOS } from "./NetworkSwitcher";
 import { useAccount } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { Button } from "./ui/button";
+import ResponsiveIcon from "./icons/ResponsiveIconBuilder";
 
 const UserMenu = () => {
   const {
@@ -59,15 +63,33 @@ const UserMenu = () => {
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[240px]">
+      <DropdownMenuContent align="end" className="w-[280px]">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 p-2 text-sm">
+          <div className="flex items-center gap-2 px-3 py-2 text-sm">
             <UserAvatar
               walletAddress={address || ""}
               size={20}
               typeOfAvatar="beam"
             />
             {formatCryptoAddressForDisplay(address)}
+            {address && (
+              <div
+                onClick={async () => {
+                  await copyToClipboard({ text: address });
+                  toast({
+                    title: "Copied to clipboard!",
+                    description: "Address copied to clipboard",
+                  });
+                }}
+                className="w-fit cursor-pointer"
+              >
+                <ResponsiveIcon
+                  icon="icon-copy"
+                  sizeDesktop={14}
+                  sizeMobile={12}
+                />
+              </div>
+            )}
           </div>
           <NetworkSwitcher />
         </div>
