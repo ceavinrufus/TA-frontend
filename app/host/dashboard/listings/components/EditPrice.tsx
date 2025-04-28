@@ -113,21 +113,21 @@ const EditPrice = () => {
           <div className="flex justify-between text-blue-950">
             <p>Base price</p>
             <p>
-              {basePrice.toFixed(2)} {currency}
+              {Number(basePrice.toFixed(8))} {currency}
             </p>
           </div>
           {/* Service fee */}
           <div className="flex justify-between text-blue-950">
             <p>Service fee (5%)</p>
             <p>
-              {serviceFee.toFixed(2)} {currency}
+              {Number(serviceFee.toFixed(8))} {currency}
             </p>
           </div>
           {/* Tax fee */}
           <div className="flex justify-between text-blue-950">
             <p>Tax fee (10%)</p>
             <p>
-              {taxFee.toFixed(2)} {currency}
+              {Number(taxFee.toFixed(8))} {currency}
             </p>
           </div>
           <Separator orientation="horizontal" />
@@ -135,7 +135,7 @@ const EditPrice = () => {
           <div className="flex justify-between text-blue-950 !font-bold">
             <p>You earn</p>
             <p>
-              {hostEarnings.toFixed(2)} {currency}
+              {Number(hostEarnings.toFixed(8))} {currency}
             </p>
           </div>
         </div>

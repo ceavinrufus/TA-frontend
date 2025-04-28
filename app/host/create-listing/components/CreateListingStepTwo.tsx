@@ -43,9 +43,7 @@ const CreateListingStepTwo = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="create-listing-page-title">
-        Which of these best describes your property?
-      </h1>
+      <h1 className="text-3xl">Which of these best describes your property?</h1>
       <div className="grid grid-cols-4 gap-6">
         {propertyTypes.map((property, index) => (
           <ClickableCard

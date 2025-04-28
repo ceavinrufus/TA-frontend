@@ -73,7 +73,7 @@ const CreateListingStepNine = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-[32px]">
       <div className="space-y-2">
-        <h1 className="create-listing-page-title">Security Agreement</h1>
+        <h1 className="text-3xl">Security Agreement</h1>
         <p className="create-listing-page-subtitle">
           To ensure the safety and comfort of your guests, please confirm the
           following:

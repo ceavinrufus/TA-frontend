@@ -42,9 +42,7 @@ const CreateListingStepOne = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
       <div className="space-y-2">
-        <h1 className="create-listing-page-title">
-          Where is your property located?
-        </h1>
+        <h1 className="text-3xl">Where is your property located?</h1>
         <p className="create-listing-page-subtitle">
           Please be assured that in order to protect your privacy, we do not
           display your address details until the guest has made a booking.

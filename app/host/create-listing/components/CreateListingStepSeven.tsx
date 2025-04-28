@@ -45,7 +45,7 @@ const CreateListingStepSeven = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="create-listing-page-title">Make Your Space Stand Out!</h1>
+      <h1 className="text-3xl">Make Your Space Stand Out!</h1>
       <div className="flex flex-col gap-4 w-full">
         <h2 className="text-xl font-semibold text-blue-950">Name Your Place</h2>
         <Textarea

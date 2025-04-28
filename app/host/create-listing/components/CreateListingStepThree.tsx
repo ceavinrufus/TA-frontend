@@ -42,9 +42,7 @@ const CreateListingStepThree = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="create-listing-page-title">
-        What type of place will guest get?
-      </h1>
+      <h1 className="text-3xl">What type of place will guest get?</h1>
       <div className="flex flex-col w-full gap-12">
         {placeTypes.map((place, index) => (
           <ClickableCard

@@ -138,7 +138,7 @@ const CreateListingStepSix = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
       <div className="space-y-2">
-        <h1 className="create-listing-page-title">
+        <h1 className="text-3xl">
           Please upload at least 2 photos of your place.
         </h1>
         <p className="create-listing-page-subtitle">

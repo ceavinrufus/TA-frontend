@@ -136,7 +136,7 @@ const EditPhotos = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
       <div className="space-y-2">
-        <h1 className="create-listing-page-title">Photos</h1>
+        <h1 className="text-3xl">Photos</h1>
         <p className="create-listing-page-subtitle">
           Here you can rearrange your photos and upload more new ones!
         </p>

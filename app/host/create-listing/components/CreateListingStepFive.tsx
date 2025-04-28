@@ -42,9 +42,7 @@ const CreateListingStepFive = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="create-listing-page-title">
-        What kind of amenities your place provide?
-      </h1>
+      <h1 className="text-3xl">What kind of amenities your place provide?</h1>
       {[
         { title: "In Room", amenities: inRoom, category: "inRoom" },
         {

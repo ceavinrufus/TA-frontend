@@ -48,7 +48,7 @@ const CompleteVerification = () => {
   return (
     <div className="flex flex-col items-center justify-start gap-12">
       <div className="space-y-6">
-        <h1 className="create-listing-page-title !text-center">
+        <h1 className="text-3xl !text-center">
           You are almost there! Complete your verification
         </h1>
         <p className="create-listing-verification-subtitle">

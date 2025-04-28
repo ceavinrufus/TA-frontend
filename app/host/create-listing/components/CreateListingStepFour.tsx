@@ -73,7 +73,7 @@ const CreateListingStepFour = () => {
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
-      <h1 className="create-listing-page-title">
+      <h1 className="text-3xl">
         How many guests can fit comfortably in your space?
       </h1>
       <div className="flex flex-col w-full gap-12">
