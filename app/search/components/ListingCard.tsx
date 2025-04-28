@@ -16,7 +16,7 @@ const ListingCard = ({ listing }: { listing: SearchListing }) => {
     <ClickableCard
       onClick={() => {
         router.push(
-          `/search/${listing.slug}?checkin=${checkIn}&checkout=${checkOut}&guests=${guests}`
+          `/search/${listing.slug}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`
         );
       }}
       className="border items-start rounded-lg p-4 shadow hover:shadow-neumorphic-card-up transition-shadow duration-200 ease-in-out"

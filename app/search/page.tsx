@@ -10,10 +10,11 @@ const SearchPage = () => {
   const searchParams = useSearchParams();
   const name = searchParams.get("name") || "";
   const guests = parseInt(searchParams.get("guests") || "0");
-  const checkin = searchParams.get("checkin");
-  const checkout = searchParams.get("checkout");
+  const checkIn = searchParams.get("checkIn");
+  const checkOut = searchParams.get("checkOut");
 
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const dayAfterTomorrow = new Date(tomorrow);
@@ -23,8 +24,10 @@ const SearchPage = () => {
   if (guests < 1) validatedGuests = 1;
   if (guests > 6) validatedGuests = 6;
 
-  let fromDate = checkin ? new Date(checkin) : tomorrow;
-  let toDate = checkout ? new Date(checkout) : dayAfterTomorrow;
+  let fromDate = checkIn ? new Date(checkIn) : tomorrow;
+  fromDate.setHours(0, 0, 0, 0);
+  let toDate = checkOut ? new Date(checkOut) : dayAfterTomorrow;
+  toDate.setHours(0, 0, 0, 0);
 
   if (fromDate < tomorrow) fromDate = tomorrow;
   if (toDate <= fromDate) toDate = new Date(fromDate.getTime() + 86400000); // Add 1 day
@@ -46,8 +49,8 @@ const SearchPage = () => {
         searchParams={{
           name: name,
           guests: validatedGuests,
-          checkIn: fromDate.toISOString(),
-          checkOut: toDate.toISOString(),
+          checkIn: fromDate,
+          checkOut: toDate,
         }}
       />
     </div>

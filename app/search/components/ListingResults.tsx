@@ -11,8 +11,8 @@ const ListingResults = ({
   searchParams: {
     name: string | null;
     guests: number | null;
-    checkIn: string | null;
-    checkOut: string | null;
+    checkIn: Date | null;
+    checkOut: Date | null;
   };
 }) => {
   const [listings, setListings] = useState<SearchListing[]>([]);

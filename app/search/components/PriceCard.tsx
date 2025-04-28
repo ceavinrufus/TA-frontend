@@ -44,8 +44,8 @@ const PriceCard = ({
   tomorrow.setDate(today.getDate() + 1); // Add one day to today's date
 
   const guests = Number(searchParams.get("guests") || 1);
-  const checkIn = new Date(searchParams.get("checkin") || today);
-  const checkOut = new Date(searchParams.get("checkout") || tomorrow);
+  const checkIn = new Date(searchParams.get("checkIn") || today);
+  const checkOut = new Date(searchParams.get("checkOut") || tomorrow);
 
   const [searchListingParams, setSearchListingParams] = useState({
     guests: guests,

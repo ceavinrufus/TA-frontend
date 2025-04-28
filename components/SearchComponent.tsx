@@ -124,14 +124,23 @@ const SearchComponent = ({
 
     try {
       // Call the search API with the constructed search data
+      console.log("Search data:", searchData);
+      console.log("Search data:", {
+        ...searchData,
+        params: {
+          ...searchData.params,
+          check_in: searchData.params.check_in.toISOString(),
+          check_out: searchData.params.check_out.toISOString(),
+        },
+      });
       await searchListings(searchData);
       router.push(
         `/search?name=${encodeURIComponent(
           searchListingsParams.destination
         )}&guests=${searchListingsParams.guests}&checkIn=${
-          searchListingsParams.date.from?.toISOString().split("T")[0] || ""
+          searchListingsParams.date.from?.toLocaleDateString("en-CA") || ""
         }&checkOut=${
-          searchListingsParams.date.to?.toISOString().split("T")[0] || ""
+          searchListingsParams.date.to?.toLocaleDateString("en-CA") || ""
         }`
       );
     } catch (error) {
