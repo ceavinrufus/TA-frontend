@@ -124,15 +124,6 @@ const SearchComponent = ({
 
     try {
       // Call the search API with the constructed search data
-      console.log("Search data:", searchData);
-      console.log("Search data:", {
-        ...searchData,
-        params: {
-          ...searchData.params,
-          check_in: searchData.params.check_in.toISOString(),
-          check_out: searchData.params.check_out.toISOString(),
-        },
-      });
       await searchListings(searchData);
       router.push(
         `/search?name=${encodeURIComponent(

@@ -22,7 +22,6 @@ const ListingDetails = ({ slug }: { slug: string }) => {
       setIsLoading(true);
       try {
         const response = (await getListingBySlug(slug)) as SearchListing;
-        console.log(response);
         setListing(response);
       } catch (error) {
         console.error("Error fetching listings:", error);

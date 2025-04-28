@@ -120,6 +120,7 @@ const UserMenu = () => {
             <CommandGroup>
               <CommandItem
                 onSelect={() => {
+                  localStorage.removeItem("auth_token");
                   disconnect();
                   toast({
                     title: "Disconnected",
