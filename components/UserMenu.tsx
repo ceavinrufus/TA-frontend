@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Command,
   CommandGroup,
@@ -18,7 +18,7 @@ import {
   copyToClipboard,
   formatCryptoAddressForDisplay,
 } from "@/lib/ui/ui-utils";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import RoleSwitcher from "./RoleSwitcher";
 import { useWalletAuth } from "@/hooks/useWalletAuth";
 import { UserAvatar } from "./UserAvatar";
@@ -42,6 +42,17 @@ const UserMenu = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { chain } = useAccount();
+  const pathname = usePathname();
+
+  const [isHost, setIsHost] = useState(false);
+
+  useEffect(() => {
+    if (pathname.startsWith("/host")) {
+      setIsHost(true);
+    } else {
+      setIsHost(false);
+    }
+  }, [pathname]);
 
   return isConnected ? (
     <DropdownMenu>
@@ -109,11 +120,13 @@ const UserMenu = () => {
             ) : (
               <CommandGroup heading="Menu">
                 <CommandItem>
-                  <RoleSwitcher />
+                  <RoleSwitcher isHost={isHost} />
                 </CommandItem>
-                <CommandItem onSelect={() => router.push("/bookings")}>
-                  Bookings
-                </CommandItem>
+                {!isHost && (
+                  <CommandItem onSelect={() => router.push("/bookings")}>
+                    Bookings
+                  </CommandItem>
+                )}
               </CommandGroup>
             )}
             <CommandSeparator />

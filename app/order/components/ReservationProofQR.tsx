@@ -49,10 +49,7 @@ const ReservationProofQR = () => {
         const response = await issueCredential(body);
         const { credential_id: credentialId } = response.data;
 
-        const baseUrl =
-          process.env.NODE_ENV === "development"
-            ? "http://192.168.0.101:8000/api/v1"
-            : process.env.NEXT_PUBLIC_BASE_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
         const universalLink = `https://wallet.privado.id#request_uri=${encodeURIComponent(
           baseUrl +

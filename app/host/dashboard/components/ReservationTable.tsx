@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import FilterComponent from "./FilterComponent";
 import {
   getStatusLabel,
+  ReservationStatus,
   statusColors,
 } from "../reservations/utils/statusLabel";
 import {
@@ -224,10 +225,16 @@ const ReservationTable = () => {
                     >
                       <IconEye size={16} />
                     </Button>
+
                     <Button
                       className="size-8"
                       variant={"outline"}
                       onClick={() => openQRModal(reservation.id)}
+                      disabled={
+                        reservation.status !==
+                          ReservationStatus.ORDER_COMPLETED ||
+                        new Date(reservation.check_out_date) < new Date()
+                      }
                     >
                       <IconQR size={16} />
                     </Button>

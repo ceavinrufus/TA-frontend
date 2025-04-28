@@ -1,21 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import React from "react";
 
-const RoleSwitcher = () => {
-  const pathname = usePathname();
-  const [isHost, setIsHost] = useState(false);
-
-  useEffect(() => {
-    if (pathname.startsWith("/host")) {
-      setIsHost(true);
-    } else {
-      setIsHost(false);
-    }
-  }, [pathname]);
-
+const RoleSwitcher = ({ isHost }: { isHost: boolean }) => {
   return (
     <Link href={isHost ? "/" : "/host"}>
       {isHost ? "Switch to Traveling" : "Switch to Hosting"}

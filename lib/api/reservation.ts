@@ -107,3 +107,17 @@ export async function getPreReservationByHash(
 ): Promise<Partial<Reservation>> {
   return await apiClient.get(`/reservations/pre-booking/${reservationId}`);
 }
+
+/**
+ * Server Action: Fetches reservations by guest ID with pagination and category filtering.
+ * @param guestId - The ID of the guest.
+ * @param category - The category of reservations to fetch (upcoming, past, cancelled, paid, or not-paid).
+ * @param page - The page number for pagination.
+ * @param limit - The number of items per page.
+ * @returns A promise that resolves to the paginated reservations data.
+ */
+export async function getReservationsByGuest(
+  category: "all" | "upcoming" | "past" | "cancelled" | "paid" | "not-paid"
+) {
+  return await apiClient.get(`/reservations/guest?category=${category}`);
+}
