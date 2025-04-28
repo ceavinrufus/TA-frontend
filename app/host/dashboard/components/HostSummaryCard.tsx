@@ -16,7 +16,7 @@ import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
  * A dashboard component that displays a host's summary information including:
  * - Welcome message with formatted crypto address
  * - Profile avatar
- * - Statistical summary (total listings, reservations, earnings, security deposit)
+ * - Statistical summary (total listings, reservations, earnings, host stake)
  *
  * @component
  * @returns {JSX.Element} A card displaying host summary information
@@ -45,7 +45,7 @@ const HostSummaryCard = () => {
   const [isSecurityDepositLoading, setIsSecurityDepositLoading] =
     React.useState<boolean>(true);
 
-  const checkSecurityDeposit = async (): Promise<string | undefined> => {
+  const checkHostStake = async (): Promise<string | undefined> => {
     setIsSecurityDepositLoading(true); // Set loading state to true
     try {
       if (typeof window.ethereum === "undefined") {
@@ -64,18 +64,18 @@ const HostSummaryCard = () => {
       );
 
       const host = await signer.getAddress(); // Get host wallet address
-      const securityDeposit = await contract.checkSecurityDeposit(host);
+      const hostStake = await contract.checkHostStake(host);
 
-      const deposit = ethers.formatEther(securityDeposit); // Convert to Ether
+      const stake = ethers.formatEther(hostStake); // Convert to Ether
 
       setHostStats({
         totalListings: hostStats?.totalListings ?? 0,
         totalReservations: hostStats?.totalReservations ?? 0,
         totalEarnings: hostStats?.totalEarnings ?? 0,
-        securityDeposit: deposit,
-      }); // Update host stats with security deposit
+        hostStake: stake,
+      }); // Update host stats with host stake
     } catch (error) {
-      console.error("Error checking security deposit:", error);
+      console.error("Error checking host stake:", error);
       return undefined;
     } finally {
       setIsSecurityDepositLoading(false); // Set loading state to false
@@ -85,7 +85,7 @@ const HostSummaryCard = () => {
   React.useEffect(() => {
     const fetchAllStats = async () => {
       await fetchHostStats();
-      await checkSecurityDeposit(); // Call the function to check security deposit
+      await checkHostStake(); // Call the function to check host stake
     };
     fetchAllStats();
   }, []);
@@ -166,19 +166,17 @@ const HostSummaryCard = () => {
           ))}
           {isSecurityDepositLoading ? (
             <div className="flex flex-col gap-2 text-blue-950">
-              <p>Security deposit</p>
+              <p>Host stake</p>
               <Skeleton className="h-9 w-16 rounded" />
             </div>
           ) : (
             <div className="flex flex-col gap-2 text-blue-950">
-              <p>Security deposit</p>
+              <p>Host stake</p>
               <div className="flex items-center gap-3">
                 <p className="text-2xl font-semibold text-blue-950">{`${
-                  hostStats.securityDeposit ?? 0
+                  hostStats.hostStake ?? 0
                 } ETH`}</p>
-                <SecurityDepositModal
-                  initialAmount={hostStats.securityDeposit}
-                />
+                <SecurityDepositModal initialAmount={hostStats.hostStake} />
               </div>
             </div>
           )}

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
  *
  * This component shows a verification page with two options:
  * 1. Identity verification through government-issued ID
- * 2. Security deposit payment
+ * 2. Host stake payment
  *
  * The component includes:
  * - A title and subtitle explaining the verification process
@@ -38,11 +38,11 @@ const CompleteVerification = () => {
       buttonText: "Go to submit",
     },
     {
-      name: "Provide a Security Deposit",
+      name: "Stake your tokens",
       description:
-        "Pay a one-time refundable security deposit to complete verification. This deposit helps safeguard the platform and will be returned to you after a specified period or when certain conditions are met.",
+        "Stake a minimum amount of tokens to become a verified host. This ensures host accountability and commitment to providing quality service. Your staked tokens will be locked during your active hosting period.",
       onClick: null,
-      buttonText: "Pay deposit",
+      buttonText: "Stake now",
     },
   ];
   return (

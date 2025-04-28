@@ -75,7 +75,7 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
         signer
       );
       setIsMakingDeposit(true);
-      const transaction = await contract.depositSecurity({
+      const transaction = await contract.depositHostStake({
         value: ethers.parseEther(amount),
       });
       closeModal();
@@ -83,14 +83,13 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
       await transaction.wait();
       toast({
         title: "Deposit Successful",
-        description: "Your security deposit has been successfully topped up.",
+        description: "Your host stake has been successfully topped up.",
         variant: "default",
       });
 
       const newAmount = Number(
         (
-          parseFloat(hostStats?.securityDeposit || "0") +
-          parseFloat(amount || "0")
+          parseFloat(hostStats?.hostStake || "0") + parseFloat(amount || "0")
         ).toFixed(8)
       ).toString();
 
@@ -98,7 +97,7 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
         totalReservations: hostStats?.totalReservations ?? 0,
         totalListings: hostStats?.totalListings ?? 0,
         totalEarnings: hostStats?.totalEarnings ?? 0,
-        securityDeposit: newAmount,
+        hostStake: newAmount,
       });
     } catch (error) {
       console.error("Error during deposit:", error);
@@ -145,9 +144,9 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
           <div className="flex flex-col gap-[32px]">
             <div className="space-y-6">
               <p className="hotel-management-dispute-booking-option-description">
-                Your security deposit ensures smooth transactions and compliance
-                with platform policies. You can add funds at any time to
-                maintain sufficient coverage.
+                Your host stake ensures smooth transactions and compliance with
+                platform policies. You can add funds at any time to maintain
+                sufficient coverage.
               </p>
             </div>
 
@@ -180,9 +179,7 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
               onClick={closeModal}
               className="!hidden md:!inline-block md:px-[24px] md:h-[56px] md:py-[16px] p-[16px] flex-1"
             >
-              <p className="neumorphic-button-engraved-text bg-blue-950">
-                Cancel
-              </p>
+              <p className="neumorphic-button-engraved-text">Cancel</p>
             </Button>
             <Button
               disabled={isMakingDeposit}
@@ -190,9 +187,7 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
               onClick={handleDeposit}
               className="md:px-[24px] md:py-[16px] p-[16px] flex-1 md:h-[56px]"
             >
-              <p className="gradient-button-engraved-text bg-primary-black">
-                Confirm
-              </p>
+              <p className="">Confirm</p>
             </Button>
           </DialogFooter>
         </DialogContent>
