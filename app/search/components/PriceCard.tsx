@@ -45,7 +45,9 @@ const PriceCard = ({
 
   const guests = Number(searchParams.get("guests") || 1);
   const checkIn = new Date(searchParams.get("checkIn") || today);
+  checkIn.setHours(0, 0, 0, 0); // By default, it's read not in local time, so need to set hours to 0
   const checkOut = new Date(searchParams.get("checkOut") || tomorrow);
+  checkOut.setHours(0, 0, 0, 0);
 
   const [searchListingParams, setSearchListingParams] = useState({
     guests: guests,
