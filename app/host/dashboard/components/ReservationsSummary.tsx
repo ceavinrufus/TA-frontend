@@ -78,7 +78,7 @@ const ReservationsSummary = () => {
       </div>
       <div className="flex gap-8">
         <ClickableCard
-          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#E3E8F2]"
+          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
             router.replace("/host/dashboard/reservations?status=check-in");
           }}
@@ -90,7 +90,7 @@ const ReservationsSummary = () => {
                 {summary.check_ins}
               </p>
               <Button
-                className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
+                className="size-[40px] group-hover:visible invisible !bg-[#D2DFFB]"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -105,7 +105,7 @@ const ReservationsSummary = () => {
           </div>
         </ClickableCard>
         <ClickableCard
-          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#E3E8F2]"
+          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
             router.replace("/host/dashboard/reservations?status=check-out");
           }}
@@ -117,7 +117,7 @@ const ReservationsSummary = () => {
                 {summary.check_outs}
               </p>
               <Button
-                className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
+                className="size-[40px] group-hover:visible invisible !bg-[#D2DFFB]"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();

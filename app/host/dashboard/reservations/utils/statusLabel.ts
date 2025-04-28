@@ -2,7 +2,7 @@ export const statusColors = {
   Completed: "bg-green-success",
   Pending: "bg-[#EBEBEB]",
   Cancelled: "bg-red-error",
-  Upcoming: "bg-[#E3E8F2]",
+  Upcoming: "bg-[#D2DFFB]",
   "Checked-in": "bg-[#F2EAD5]",
   "Checked-out": "bg-[#F2EAD5]",
   "": "",

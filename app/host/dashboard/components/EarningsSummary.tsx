@@ -74,7 +74,7 @@ const EarningsSummary = () => {
         {summary.map((item, index) => (
           <ClickableCard
             key={index}
-            className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#E3E8F2]"
+            className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
             onClick={() => {
               router.replace(item.linkHref);
             }}
@@ -88,7 +88,7 @@ const EarningsSummary = () => {
                 </p>
                 {/* <NeumorphicIconButton
                   icon="icon-arrow-forward"
-                  className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
+                  className="size-[40px] group-hover:visible invisible !bg-[#D2DFFB]"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();

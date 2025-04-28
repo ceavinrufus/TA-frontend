@@ -44,7 +44,7 @@ const ListingsCard = ({ listing }: { listing: Listing }) => {
     Unlisted: "bg-[#EBEBEB] text-[#888888]",
     Draft: "bg-[#EBEBEB] text-[#888888]",
     Rejected: "bg-red-error text-secondary-error",
-    "Reserved today": "bg-[#E3E8F2] text-blue-950",
+    "Reserved today": "bg-[#D2DFFB] text-blue-950",
     "In-review": "bg-[#F2EAD5] text-[#D7AA22]",
   };
 

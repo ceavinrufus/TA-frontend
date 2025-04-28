@@ -288,7 +288,7 @@ const PriceCard = ({
         className="h-12 px-8 w-full"
         onClick={handleSearch}
       >
-        Reserve
+        Book
       </Button>
 
       {/* Total Price (Desktop) */}

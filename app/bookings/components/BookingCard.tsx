@@ -20,21 +20,10 @@ import {
   formatDateStringForDisplay,
 } from "@/lib/time/time-utils";
 import { useRouter } from "next/navigation";
-
-const getStatusBadge = (status: ReservationStatus) => {
-  switch (status) {
-    case "ORDER_COMPLETED":
-      return <Badge className="bg-green-500">Completed</Badge>;
-    case "ORDER_PROCESSING":
-      return <Badge className="bg-blue-500">Processing</Badge>;
-    case "ORDER_CANCELED":
-      return <Badge className="bg-red-500">Cancelled</Badge>;
-    case "ORDER_WAITING_PAYMENT":
-      return <Badge className="bg-yellow-500">Unpaid</Badge>;
-    default:
-      return <Badge className="bg-gray-500">{status}</Badge>;
-  }
-};
+import {
+  getStatusLabel,
+  statusColors,
+} from "@/app/host/dashboard/reservations/utils/statusLabel";
 
 const formatDate = (dateString: string) => {
   return formatDateStringForDisplay(
@@ -81,7 +70,15 @@ const BookingCard = ({ reservation }: { reservation: Reservation }) => {
                 </CardDescription>
               </div>
               <div className="flex flex-col items-end">
-                {getStatusBadge(reservation.status as ReservationStatus)}
+                <Badge
+                  className={`text-[#474747] table-content px-2 py-1 rounded-[4px] w-[85px] ${
+                    statusColors[getStatusLabel(reservation)]
+                  }`}
+                >
+                  <p className="text-center w-full">
+                    {getStatusLabel(reservation)}
+                  </p>
+                </Badge>
                 <p className="text-sm text-gray-500 mt-1">
                   {reservation.booking_number}
                 </p>

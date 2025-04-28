@@ -171,13 +171,13 @@ const EditListingNavigation = () => {
           <li
             key={index}
             className={`flex cursor-pointer rounded-[8px] p-4 gap-4 ${
-              currentStep === item.step ? "bg-[#E3E8F2]" : ""
+              currentStep === item.step ? "bg-[#D2DFFB]" : ""
             }`}
             onClick={() => handleNavigation(item.step)}
           >
             <div
               className={`p-1 h-fit rounded-full ${
-                currentStep === item.step ? "bg-blue-950" : "bg-[#E3E8F2]"
+                currentStep === item.step ? "bg-blue-950" : "bg-[#D2DFFB]"
               }`}
             >
               <ResponsiveIcon

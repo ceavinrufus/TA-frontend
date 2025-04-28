@@ -97,7 +97,7 @@ const ListingsSummary = () => {
         {showedAvailability.map((item, index) => (
           <ClickableCard
             key={index}
-            className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#E3E8F2]"
+            className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
             onClick={() => {
               router.replace(
                 `/host/dashboard/listings?availability=${item.key.toLowerCase()}`
@@ -111,7 +111,7 @@ const ListingsSummary = () => {
                   {summary.availability_counts[item.key] ?? 0}
                 </p>
                 <Button
-                  className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
+                  className="size-[40px] group-hover:visible invisible !bg-[#D2DFFB]"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -127,7 +127,7 @@ const ListingsSummary = () => {
           </ClickableCard>
         ))}
         <ClickableCard
-          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#E3E8F2]"
+          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
             router.replace(`/host/dashboard/listings?status=draft`);
           }}
@@ -139,7 +139,7 @@ const ListingsSummary = () => {
                 {summary.status_counts["LISTING_DRAFT"] ?? 0}
               </p>
               <Button
-                className="size-[40px] group-hover:visible invisible !bg-[#E3E8F2]"
+                className="size-[40px] group-hover:visible invisible !bg-[#D2DFFB]"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();

@@ -112,7 +112,7 @@ const HostSummaryCard = () => {
     return (
       <div className="host-summary-section">
         <Skeleton className="h-8 w-72 rounded mb-4" />
-        <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#E3E8F2]">
+        <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
           <div className="flex flex-col gap-4">
             <Skeleton className="size-[139px] rounded-full flex-shrink-0" />
             <div className="space-y-1">
@@ -142,7 +142,7 @@ const HostSummaryCard = () => {
       <h1 className="text-3xl font-semibold mb-2">
         Welcome back, {formatCryptoAddressForDisplay(address)}
       </h1>
-      <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#E3E8F2]">
+      <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
         <div className="flex flex-col gap-4">
           <div className="size-[139px] rounded-full border border-off-white flex items-center justify-center flex-shrink-0">
             <UserAvatar
