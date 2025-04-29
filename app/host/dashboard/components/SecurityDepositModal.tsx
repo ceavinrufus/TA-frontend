@@ -12,7 +12,7 @@ import {
 import IconClose from "@/components/icons/IconClose";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { ethers } from "ethers";
-import RentalPayments from "@/abi/RentalPayments.json";
+import HostStake from "@/abi/HostStake.json";
 import { useHostStore } from "../../store/host-store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -67,11 +67,12 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
-      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+      const contractAddress =
+        process.env.NEXT_PUBLIC_HOST_STAKE_CONTRACT_ADDRESS!;
 
       const contract = new ethers.Contract(
         contractAddress,
-        RentalPayments.abi,
+        HostStake.abi,
         signer
       );
       setIsMakingDeposit(true);

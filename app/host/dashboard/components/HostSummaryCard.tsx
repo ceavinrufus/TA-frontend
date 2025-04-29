@@ -55,7 +55,8 @@ const HostSummaryCard = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
-      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+      const contractAddress =
+        process.env.NEXT_PUBLIC_RENTAL_PAYMENTS_CONTRACT_ADDRESS!;
 
       const contract = new ethers.Contract(
         contractAddress,

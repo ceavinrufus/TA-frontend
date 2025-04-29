@@ -68,7 +68,8 @@ const CheckoutButtons: React.FC = () => {
 
     const totalPrice = reservationDetails.total_price;
     const contractABI = RentalPayments.abi;
-    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+    const contractAddress =
+      process.env.NEXT_PUBLIC_RENTAL_PAYMENTS_CONTRACT_ADDRESS!;
 
     const rentalPaymentsContract = new ethers.Contract(
       contractAddress,
