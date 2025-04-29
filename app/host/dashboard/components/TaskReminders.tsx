@@ -74,13 +74,13 @@ const TaskReminders = () => {
 
   // Add verification task if host is not verified
   if (host) {
-    if (!host.is_verified) {
+    if (!host.is_liveness_verified || !host.is_uniqueness_verified) {
       tasks.push({
         title: "Finish your verification",
         description:
           "Complete your verification process to start hosting and earning on our platform.",
         linkText: "To verify",
-        linkHref: "/host/verification", // adjust the path as needed
+        linkHref: "/verification", // adjust the path as needed
       });
     }
 

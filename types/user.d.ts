@@ -3,8 +3,9 @@ type User = {
   name: string | null;
   email: string;
   wallet_address: string;
-  is_verified: boolean;
-  is_anonymous: boolean;
+  is_uniqueness_verified: boolean;
+  is_liveness_verified: boolean;
+  is_identity_verified: boolean;
   is_host: boolean;
   is_admin: boolean;
   is_profile_complete?: boolean;
