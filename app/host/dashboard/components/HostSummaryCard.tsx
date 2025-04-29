@@ -3,7 +3,7 @@
 import React from "react";
 import { useHostStore } from "../../store/host-store";
 import { ethers } from "ethers";
-import RentalPayments from "@/abi/RentalPayments.json";
+import HostStake from "@/abi/HostStake.json";
 import SecurityDepositModal from "./SecurityDepositModal";
 import { useAccount } from "wagmi";
 import { UserAvatar } from "@/components/UserAvatar";
@@ -60,7 +60,7 @@ const HostSummaryCard = () => {
 
       const contract = new ethers.Contract(
         contractAddress,
-        RentalPayments.abi,
+        HostStake.abi,
         signer
       );
 

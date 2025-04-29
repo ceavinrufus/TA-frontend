@@ -80,7 +80,7 @@ const ReservationsSummary = () => {
         <ClickableCard
           className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
-            router.replace("/host/dashboard/reservations?status=check-in");
+            router.replace("/host/dashboard/reservations?status=checked-in");
           }}
         >
           <div className="flex flex-col justify-start gap-2 w-full">
@@ -95,7 +95,7 @@ const ReservationsSummary = () => {
                   e.preventDefault();
                   e.stopPropagation();
                   router.replace(
-                    "/host/dashboard/reservations?status=check-in"
+                    "/host/dashboard/reservations?status=checked-in"
                   );
                 }}
               >
@@ -107,7 +107,7 @@ const ReservationsSummary = () => {
         <ClickableCard
           className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
-            router.replace("/host/dashboard/reservations?status=check-out");
+            router.replace("/host/dashboard/reservations?status=checked-out");
           }}
         >
           <div className="flex flex-col justify-start gap-2 w-full">
@@ -122,7 +122,7 @@ const ReservationsSummary = () => {
                   e.preventDefault();
                   e.stopPropagation();
                   router.replace(
-                    "/host/dashboard/reservations?status=check-out"
+                    "/host/dashboard/reservations?status=checked-out"
                   );
                 }}
               >

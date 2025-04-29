@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FilterComponent from "./FilterComponent";
 import {
   getStatusLabel,
@@ -60,12 +60,15 @@ import { CheckCircle } from "lucide-react";
  * @returns A table component showing filtered reservation data with filtering controls
  */
 const ReservationTable = () => {
+  const searchParams = useSearchParams();
+  const status = searchParams.get("status") || "all";
+
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedListingFilters, setSelectedListingFilters] = useState(
     new Set(["all"])
   );
   const [selectedReservationFilters, setSelectedReservationFilters] = useState(
-    new Set(["all"])
+    new Set(Array.from(status.split(",")))
   );
   const [selectedReservationId, setSelectedReservationId] = useState<
     string | null
@@ -90,12 +93,21 @@ const ReservationTable = () => {
   }, []);
 
   const listingsFilter = useMemo(() => {
-    const listingNames = Array.from(
-      new Set(reservations.map((r) => r.listing.name))
+    const listings = Array.from(
+      new Map(
+        reservations.map((r) => [
+          r.listing.slug,
+          { name: r.listing.name, slug: r.listing.slug },
+        ])
+      ).values()
     );
+
     return [
       { label: "All Listings", value: "all" },
-      ...listingNames.map((name) => ({ label: name, value: name })),
+      ...listings.map((listing) => ({
+        label: listing.name,
+        value: listing.slug,
+      })),
     ];
   }, [reservations]);
 
@@ -103,7 +115,10 @@ const ReservationTable = () => {
     const statuses = ["Upcoming", "Checked-in", "Checked-out", "Cancelled"];
     return [
       { label: "All Reservations", value: "all" },
-      ...statuses.map((status) => ({ label: status, value: status })),
+      ...statuses.map((status) => ({
+        label: status,
+        value: status.toLowerCase(),
+      })),
     ];
   }, []);
 
@@ -112,9 +127,12 @@ const ReservationTable = () => {
       const matchesListing =
         selectedListingFilters.has("all") ||
         selectedListingFilters.has(reservation.listing.name);
+
       const matchesStatus =
         selectedReservationFilters.has("all") ||
-        selectedReservationFilters.has(getStatusLabel(reservation));
+        selectedReservationFilters.has(
+          getStatusLabel(reservation).toLowerCase()
+        );
       return matchesListing && matchesStatus;
     });
   }, [reservations, selectedListingFilters, selectedReservationFilters]);
@@ -143,7 +161,10 @@ const ReservationTable = () => {
           accessMode="desktop"
           filters={reservationsFilter}
           selectedFilters={selectedReservationFilters}
-          onFilterChange={setSelectedReservationFilters}
+          onFilterChange={(value) => {
+            router.push("?status=" + Array.from(value).join(","));
+            setSelectedReservationFilters(value);
+          }}
         />
       </div>
       <div className="overflow-x-auto md:overflow-x-visible">
