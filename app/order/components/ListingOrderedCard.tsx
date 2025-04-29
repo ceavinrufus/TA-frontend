@@ -9,6 +9,7 @@ import {
 } from "@/lib/time/time-utils";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { Separator } from "@/components/ui/separator";
+import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 
 const ListingOrderedCard = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
@@ -126,8 +127,13 @@ const ListingOrderedCard = () => {
         {/* Price Details */}
         <div className="flex flex-col items-end">
           <p className="text-lg font-semibold">
-            {listingDetails.default_price} ETH{" "}
-            <span className="text-gray-500 text-xs">/night</span>
+            {Number(
+              (
+                listingDetails.default_price! *
+                (1 - GUEST_DEPOSIT_RATE - SERVICE_FEE_RATE)
+              ).toFixed(8)
+            )}{" "}
+            ETH <span className="text-gray-500 text-xs">/night</span>
           </p>
           <div className="flex flex-row justify-start items-center gap-[4px]">
             <ResponsiveIcon

@@ -1,7 +1,7 @@
 "use client";
 
 import { useOrderStore } from "../store/orderStore";
-import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
+import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 
 const PriceBreakdown = () => {
   const { reservationDetails, listingDetails } = useOrderStore();
@@ -17,9 +17,8 @@ const PriceBreakdown = () => {
   const priceTimesNight =
     listingDetails.default_price! * reservationDetails.night_staying!;
 
-  // Calculate service fee (assuming 10% of base price)
-  const taxFee = priceTimesNight * TAX_RATE;
   const serviceFee = priceTimesNight * SERVICE_FEE_RATE;
+  const guestDeposit = priceTimesNight * GUEST_DEPOSIT_RATE;
 
   return (
     <div className="border border-neutral-200 rounded-lg p-6 bg-white">
@@ -31,17 +30,21 @@ const PriceBreakdown = () => {
             {reservationDetails.night_staying}{" "}
             {reservationDetails.night_staying === 1 ? "night" : "nights"}
           </span>
-          <span>{formatPrice(priceTimesNight)}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span>Tax</span>
-          <span>{formatPrice(taxFee)}</span>
+          <span>
+            {formatPrice(
+              priceTimesNight * (1 - SERVICE_FEE_RATE - GUEST_DEPOSIT_RATE)
+            )}
+          </span>
         </div>
 
         <div className="flex justify-between">
           <span>Service fee</span>
           <span>{formatPrice(serviceFee)}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span>Guest deposit</span>
+          <span>{formatPrice(guestDeposit)}</span>
         </div>
 
         <div className="border-t pt-4 mt-4">

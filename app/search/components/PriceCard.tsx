@@ -24,7 +24,7 @@ import GuestCountModifier from "@/components/GuestCountModifier";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { useToast } from "@/hooks/use-toast";
 
-import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
+import { GUEST_DEPOSIT_RATE } from "@/constants";
 
 const PriceCard = ({
   hotelId,
@@ -137,9 +137,7 @@ const PriceCard = ({
           (1000 * 60 * 60 * 24)
       );
 
-      const total =
-        (updatedPrices?.totalPrice || listing.total_price) *
-        (1 + TAX_RATE + SERVICE_FEE_RATE);
+      const total = updatedPrices?.totalPrice || listing.total_price;
 
       const reservationData = {
         listing_id: listing.id,
@@ -194,8 +192,12 @@ const PriceCard = ({
     return `${formattedFrom} - ${formattedTo}`;
   };
 
-  const displayDailyPrice =
-    updatedPrices?.dailyPrice?.[0] ?? hotelPrice.dailyPrice?.[0];
+  const displayDailyPrice = Number(
+    (
+      (updatedPrices?.dailyPrice?.[0] ?? hotelPrice.dailyPrice?.[0]) *
+      (1 - GUEST_DEPOSIT_RATE)
+    ).toFixed(8)
+  );
   const displayTotalPrice = updatedPrices?.totalPrice ?? hotelPrice.totalPrice;
 
   const handleGuestChange = (delta: number) => {
@@ -301,13 +303,13 @@ const PriceCard = ({
             <p>
               {displayTotalPrice
                 ? `${Number(
-                    (displayTotalPrice * (1 + TAX_RATE)).toFixed(8)
+                    (displayTotalPrice * (1 - GUEST_DEPOSIT_RATE)).toFixed(8)
                   )} ETH`
                 : ""}
             </p>
           )}
         </div>
-        <p className="text-xs">(Incl. Taxes)</p>
+        <p className="text-xs">(Incl. Fee)</p>
       </div>
     </div>
   );

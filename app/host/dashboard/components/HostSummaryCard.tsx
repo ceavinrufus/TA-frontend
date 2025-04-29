@@ -45,7 +45,7 @@ const HostSummaryCard = () => {
   const [isSecurityDepositLoading, setIsSecurityDepositLoading] =
     React.useState<boolean>(true);
 
-  const checkHostStake = async (): Promise<string | undefined> => {
+  const checkHostStake = async () => {
     setIsSecurityDepositLoading(true); // Set loading state to true
     try {
       if (typeof window.ethereum === "undefined") {
@@ -76,7 +76,6 @@ const HostSummaryCard = () => {
       }); // Update host stats with host stake
     } catch (error) {
       console.error("Error checking host stake:", error);
-      return undefined;
     } finally {
       setIsSecurityDepositLoading(false); // Set loading state to false
     }

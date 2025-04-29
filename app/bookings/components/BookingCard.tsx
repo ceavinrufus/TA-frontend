@@ -108,7 +108,7 @@ const BookingCard = ({ reservation }: { reservation: Reservation }) => {
                   <CreditCardIcon size={16} className="mr-2" />
                   <span className="text-sm">
                     <span className="font-medium">
-                      {reservation.total_price} ETH
+                      {reservation.total_price - reservation.guest_deposit} ETH
                     </span>{" "}
                     total
                   </span>

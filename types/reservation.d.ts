@@ -8,8 +8,8 @@ type Reservation = {
   listing_name: string;
   listing_address: string;
   base_price: number;
-  tax: number;
   service_fee: number;
+  guest_deposit: number;
   night_staying: number;
   check_in_date: string;
   check_out_date: string;

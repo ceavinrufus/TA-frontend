@@ -7,7 +7,7 @@ import { createReservation } from "@/lib/api/reservation";
 import { useOrderStore } from "../store/orderStore";
 import { getGuestInfo } from "@/lib/api/guest";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
-import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
+import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
 import PrivadoAuthQR from "./PrivadoAuthQR";
@@ -65,21 +65,20 @@ const OrderDetailsButtons: React.FC = () => {
     const priceTimesNight =
       listingDetails.default_price! * reservationDetails.night_staying!;
 
-    // Calculate service fee (assuming 10% of base price)
-    const taxFee = priceTimesNight * TAX_RATE;
     const serviceFee = priceTimesNight * SERVICE_FEE_RATE;
+    const guestDeposit = priceTimesNight * GUEST_DEPOSIT_RATE;
 
     const payload = {
       listing_id: listingDetails.id,
       guest_id: user.id,
-      base_price: priceTimesNight,
+      base_price: priceTimesNight * (1 - SERVICE_FEE_RATE - GUEST_DEPOSIT_RATE),
       check_in_date: checkIn.toString(),
       check_out_date: checkOut.toString(),
       guest_number: reservationDetails.guest_number,
       night_staying: reservationDetails.night_staying,
       total_price: reservationDetails.total_price,
-      tax: taxFee,
       service_fee: serviceFee,
+      guest_deposit: guestDeposit,
       guest_info: [],
       guest_wallet_address: user.wallet_address,
       status: ReservationStatus.ORDER_WAITING_PAYMENT,
@@ -100,8 +99,9 @@ const OrderDetailsButtons: React.FC = () => {
         variant: "destructive",
       });
       return;
+    } else {
+      setShowQRModal(true);
     }
-    setShowQRModal(true);
   };
 
   const handleQRSuccess = (did: string) => {
@@ -118,7 +118,7 @@ const OrderDetailsButtons: React.FC = () => {
       >
         Back
       </Button>
-      <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+      <Dialog open={showQRModal}>
         <DialogTrigger asChild>
           <Button
             variant={"default"}

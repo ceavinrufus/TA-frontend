@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import NoBorderInput from "./NoBorderInput";
 import { useCreateListing } from "../../providers/CreateListingProvider";
-import { SERVICE_FEE_RATE, TAX_RATE } from "@/constants";
+import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 import { Separator } from "@/components/ui/separator";
 
 /**
@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
  * - Real-time price formatting and validation
  * - Automatic calculation of:
  *   - Service fee
- *   - Tax fee
+ *   - Guest deposit
  *   - Host earnings
  *
  * @example
@@ -84,8 +84,8 @@ const CreateListingStepEight = () => {
   // Calculate fees
   const basePrice = parseFloat(inputValue) || 0;
   const serviceFee = basePrice * SERVICE_FEE_RATE;
-  const taxFee = basePrice * TAX_RATE;
-  const hostEarnings = basePrice - serviceFee - taxFee;
+  const guestDeposit = basePrice * GUEST_DEPOSIT_RATE;
+  const hostEarnings = basePrice - serviceFee - guestDeposit;
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
@@ -117,11 +117,11 @@ const CreateListingStepEight = () => {
               {Number(serviceFee.toFixed(8))} {currency}
             </p>
           </div>
-          {/* Tax fee */}
+          {/* Guest deposit */}
           <div className="flex justify-between text-blue-950">
-            <p>Tax fee (10%)</p>
+            <p>Guest deposit (5%)</p>
             <p>
-              {Number(taxFee.toFixed(8))} {currency}
+              {Number(guestDeposit.toFixed(8))} {currency}
             </p>
           </div>
           <Separator orientation="horizontal" />

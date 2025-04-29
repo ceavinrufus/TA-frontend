@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import NoBorderInput from "@/app/host/create-listing/components/NoBorderInput";
 import { Separator } from "@/components/ui/separator";
+import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 
 /**
  * EditPrice Component
@@ -17,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
  * - Price breakdown display showing:
  *   - Base price
  *   - Service fee (5%)
- *   - Tax fee (10%)
+ *   - Guest deposit (5%)
  *   - Final host earnings
  *
  * @component
@@ -89,9 +90,9 @@ const EditPrice = () => {
 
   // Calculate fees
   const basePrice = parseFloat(inputValue) || 0;
-  const serviceFee = basePrice * 0.05;
-  const taxFee = basePrice * 0.1;
-  const hostEarnings = basePrice - serviceFee - taxFee;
+  const serviceFee = basePrice * SERVICE_FEE_RATE;
+  const guestDeposit = basePrice * GUEST_DEPOSIT_RATE;
+  const hostEarnings = basePrice - serviceFee - guestDeposit;
 
   return (
     <div className="flex flex-col items-start justify-start gap-[64px]">
@@ -123,11 +124,11 @@ const EditPrice = () => {
               {Number(serviceFee.toFixed(8))} {currency}
             </p>
           </div>
-          {/* Tax fee */}
+          {/* Guest deposit */}
           <div className="flex justify-between text-blue-950">
-            <p>Tax fee (10%)</p>
+            <p>Guest deposit (5%)</p>
             <p>
-              {Number(taxFee.toFixed(8))} {currency}
+              {Number(guestDeposit.toFixed(8))} {currency}
             </p>
           </div>
           <Separator orientation="horizontal" />

@@ -154,8 +154,13 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
           <div className="flex gap-20 text-base">
             <div className="font-bold w-[200px]">Total Amount:</div>
             <ValueWrapper loading={loading}>
-              {reservation?.total_price !== null
-                ? `${Number(reservation?.total_price?.toFixed(8))} ETH`
+              {reservation?.total_price
+                ? `${Number(
+                    (
+                      reservation?.total_price -
+                      (reservation?.guest_deposit ?? 0)
+                    )?.toFixed(8)
+                  )} ETH`
                 : `-`}
             </ValueWrapper>
           </div>

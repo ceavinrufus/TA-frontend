@@ -197,8 +197,13 @@ const ReservationTable = () => {
                   {reservation.guest_number}
                 </td>
                 <td className="text-center table-cell text-sm">
-                  {reservation.total_price !== null
-                    ? `${Number(reservation?.total_price?.toFixed(8))} ETH`
+                  {reservation?.total_price
+                    ? `${Number(
+                        (
+                          reservation?.total_price -
+                          (reservation?.guest_deposit ?? 0)
+                        ).toFixed(8)
+                      )} ETH`
                     : "-"}
                 </td>
                 <td className="text-center table-cell text-sm">
