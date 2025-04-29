@@ -1,7 +1,7 @@
 "use client";
 
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,10 +12,16 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import UniquenessVerificationQR from "./UniquenessVerificationQR";
+import { useUserStore } from "@/store/user-store";
 
 const UserVerification = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
+  const { fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const steps = [
     {

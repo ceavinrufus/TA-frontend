@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createReservation } from "@/lib/api/reservation";
 import { useOrderStore } from "../store/orderStore";
-import { getGuestInfo } from "@/lib/api/guest";
+import { getUserInfo } from "@/lib/api/user";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 import { useAccount } from "wagmi";
@@ -42,7 +42,7 @@ const OrderDetailsButtons: React.FC = () => {
       ? new Date(reservationDetails.check_out_date)
       : null;
 
-    const user = await getGuestInfo();
+    const user = await getUserInfo();
 
     if (!user || !isConnected) {
       toast({

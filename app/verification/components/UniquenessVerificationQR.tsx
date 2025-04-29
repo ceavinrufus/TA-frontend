@@ -5,8 +5,9 @@ import QRCode from "qrcode";
 import Image from "next/image";
 import { getVerificationResult, requestProof } from "@/lib/api/verifier";
 import { useToast } from "@/hooks/use-toast";
-import { getUserInfo } from "@/lib/api/user";
+import { getUserInfo, updateUser } from "@/lib/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUserStore } from "@/store/user-store";
 
 const UniquenessVerificationQR = ({
   onScanSuccess,
@@ -15,14 +16,12 @@ const UniquenessVerificationQR = ({
 }) => {
   const [qrCode, setQrCode] = useState<string>("");
   const [sessionId, setSessionId] = useState<string>();
-  const [hasIssued, setHasIssued] = useState<boolean>(false);
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const { toast } = useToast();
+  const { user, setUser } = useUserStore();
 
   useEffect(() => {
     const generateQR = async () => {
-      if (hasIssued) return;
-
       try {
         const user = await getUserInfo();
 
@@ -69,7 +68,6 @@ const UniquenessVerificationQR = ({
             return;
           }
           setQrCode(url);
-          setHasIssued(true);
           setIsPolling(true);
         });
       } catch (error) {
@@ -81,7 +79,7 @@ const UniquenessVerificationQR = ({
   }, []);
 
   useEffect(() => {
-    if (!isPolling || !sessionId) return;
+    if (!isPolling || !sessionId || !user) return;
 
     const poll = setInterval(async () => {
       try {
@@ -90,7 +88,13 @@ const UniquenessVerificationQR = ({
         if (response && response.from) {
           clearInterval(poll);
           setIsPolling(false);
-          onScanSuccess(); // callback with the DID
+
+          // Update user state with the verification result
+          const newUser = { ...user!, is_uniqueness_verified: true };
+          setUser(newUser);
+          await updateUser(user.id, newUser);
+
+          onScanSuccess(); // callback
         }
       } catch {
         console.error("Polling for verification result failed.");
@@ -98,7 +102,7 @@ const UniquenessVerificationQR = ({
     }, 2000); // Poll every 2s
 
     return () => clearInterval(poll);
-  }, [sessionId, isPolling, onScanSuccess]);
+  }, [sessionId, isPolling, onScanSuccess, user]);
 
   if (!qrCode) {
     return <Skeleton className="w-[500px] h-[500px] bg-gray-200 rounded-lg" />;

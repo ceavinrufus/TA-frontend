@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import Image from "next/image";
 import { getVerificationResult } from "@/lib/api/verifier";
 import { basicPrivadoAuth } from "@/lib/api/auth";
-import { getGuestInfo } from "@/lib/api/guest";
+import { getUserInfo } from "@/lib/api/user";
 import { useToast } from "@/hooks/use-toast";
 
 const PrivadoAuthQR = ({
@@ -21,7 +21,7 @@ const PrivadoAuthQR = ({
   useEffect(() => {
     const generateQR = async () => {
       try {
-        const user = await getGuestInfo();
+        const user = await getUserInfo();
 
         if (!user) {
           toast({

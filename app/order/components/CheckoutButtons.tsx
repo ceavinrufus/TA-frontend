@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useOrderStore } from "../store/orderStore";
 import { updateReservation } from "@/lib/api/reservation";
-import { getGuestInfo } from "@/lib/api/guest";
+import { getUserInfo } from "@/lib/api/user";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
@@ -34,7 +34,7 @@ const CheckoutButtons: React.FC = () => {
       });
     }
 
-    const user = await getGuestInfo();
+    const user = await getUserInfo();
 
     if (!user || !isConnected) {
       toast({

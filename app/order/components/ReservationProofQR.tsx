@@ -10,7 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ReservationProofQR = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
-  const [hasIssued, setHasIssued] = useState(false);
 
   const searchParams = useSearchParams();
   const reservationId = searchParams.get("reservationId");
@@ -29,7 +28,7 @@ const ReservationProofQR = () => {
   }, [reservationId]);
 
   useEffect(() => {
-    if (!reservationDetails || !reservationId || hasIssued) return;
+    if (!reservationDetails || !reservationId) return;
 
     const getIssuedCredential = async () => {
       try {
@@ -65,7 +64,6 @@ const ReservationProofQR = () => {
             return;
           }
           setQrCode(url);
-          setHasIssued(true); // Prevent re-issuing
         });
       } catch (error) {
         console.error("Error issuing credential:", error);
