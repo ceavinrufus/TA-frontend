@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import Image from "next/image";
@@ -13,14 +15,11 @@ const PrivadoAuthQR = ({
 }) => {
   const [qrCode, setQrCode] = useState<string>("");
   const [sessionId, setSessionId] = useState<string>();
-  const [hasIssued, setHasIssued] = useState<boolean>(false);
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const { toast } = useToast();
 
   useEffect(() => {
     const generateQR = async () => {
-      if (hasIssued) return;
-
       try {
         const user = await getGuestInfo();
 
@@ -53,7 +52,6 @@ const PrivadoAuthQR = ({
             return;
           }
           setQrCode(url);
-          setHasIssued(true);
           setIsPolling(true);
         });
       } catch (error) {

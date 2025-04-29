@@ -122,7 +122,11 @@ const UserMenu = () => {
                 <CommandItem>
                   <RoleSwitcher isHost={isHost} />
                 </CommandItem>
-                {!isHost && (
+                {isHost ? (
+                  <CommandItem onSelect={() => router.push("/host/dashboard")}>
+                    Dashboard
+                  </CommandItem>
+                ) : (
                   <CommandItem onSelect={() => router.push("/bookings")}>
                     Bookings
                   </CommandItem>
