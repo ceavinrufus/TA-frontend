@@ -1,7 +1,6 @@
 type User = {
   id: string;
-  name: string | null;
-  email: string;
+  did: string | null;
   wallet_address: string;
   is_uniqueness_verified: boolean;
   is_liveness_verified: boolean;

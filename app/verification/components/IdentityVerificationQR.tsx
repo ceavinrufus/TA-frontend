@@ -9,7 +9,7 @@ import { getUserInfo, updateUser } from "@/lib/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserStore } from "@/store/user-store";
 
-const LivenessVerificationQR = ({
+const IdentityVerificationQR = ({
   onScanSuccess,
 }: {
   onScanSuccess: () => void;
@@ -42,16 +42,16 @@ const LivenessVerificationQR = ({
           data: { request },
         } = await requestProof(
           `${user.id}${randomNumber}`,
-          "Liveness verification",
+          "Identity verification",
           {
             allowedIssuers: ["*"],
             context:
-              "https://raw.githubusercontent.com/anima-protocol/claims-polygonid/main/schemas/json-ld/pol-v1.json-ld",
+              "https://raw.githubusercontent.com/anima-protocol/claims-polygonid/main/schemas/json-ld/poi-v2.json-ld",
             credentialSubject: JSON.stringify({
-              human: { $eq: true },
+              kyc_validated: { $eq: true },
             }),
             proofType: "BJJSignature2021",
-            type: "AnimaProofOfLife",
+            type: "AnimaProofOfIdentity",
           }
         );
 
@@ -92,7 +92,7 @@ const LivenessVerificationQR = ({
           // Update user state with the verification result
           const newUser = {
             ...user!,
-            is_liveness_verified: true,
+            is_identity_verified: true,
             did: response.from,
           };
           setUser(newUser);
@@ -123,4 +123,4 @@ const LivenessVerificationQR = ({
   );
 };
 
-export default LivenessVerificationQR;
+export default IdentityVerificationQR;

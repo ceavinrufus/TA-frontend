@@ -16,21 +16,25 @@ import { useUserStore } from "@/store/user-store";
 import LivenessVerificationQR from "./LivenessVerificationQR";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import IdentityVerificationQR from "./IdentityVerificationQR";
+import { useToast } from "@/hooks/use-toast";
 
 const UserVerification = () => {
   const [currentStep, setCurrentStep] = useState<number | null>(null);
-  const totalSteps = 2;
+  const totalSteps = 3;
   const { user, fetchUser, isLoading } = useUserStore();
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchUser();
   }, []);
 
   useEffect(() => {
-    if (user?.is_liveness_verified) {
-      // setCurrentStep(2);
+    if (user?.is_identity_verified) {
       router.back();
+    } else if (user?.is_liveness_verified) {
+      setCurrentStep(2);
     } else if (user?.is_uniqueness_verified) {
       setCurrentStep(1);
     } else {
@@ -55,17 +59,6 @@ const UserVerification = () => {
       description: "Verify your identity documents",
     },
   ];
-
-  // const handleNextStep = () => {
-  //   const nextStep = Math.min(currentStep + 1, totalSteps);
-  //   if (
-  //     (nextStep === 2 && !user?.is_uniqueness_verified) ||
-  //     (nextStep === 3 && !user?.is_liveness_verified)
-  //   ) {
-  //     return;
-  //   }
-  //   setCurrentStep(nextStep);
-  // };
 
   if (isLoading || !user || currentStep === null) {
     return (
@@ -115,7 +108,10 @@ const UserVerification = () => {
             <div className="flex items-center w-full">
               <UniquenessVerificationQR
                 onScanSuccess={() => {
-                  // setCurrentStep(1);
+                  toast({
+                    title: "Uniqueness verification successful",
+                    description: "You have been verified as a unique user.",
+                  });
                 }}
               />
             </div>
@@ -125,7 +121,10 @@ const UserVerification = () => {
             <div className="space-y-4">
               <LivenessVerificationQR
                 onScanSuccess={() => {
-                  // setCurrentStep(2);
+                  toast({
+                    title: "Liveness verification successful",
+                    description: "You have been verified as a real user.",
+                  });
                 }}
               />
             </div>
@@ -133,7 +132,14 @@ const UserVerification = () => {
 
           {currentStep === 2 && (
             <div className="space-y-4">
-              {/* Add identity verification components here */}
+              <IdentityVerificationQR
+                onScanSuccess={() => {
+                  toast({
+                    title: "Identity verification successful",
+                    description: "Your identity has been verified.",
+                  });
+                }}
+              />
             </div>
           )}
         </CardContent>

@@ -14,7 +14,7 @@ const UniquenessVerificationQR = ({
 }: {
   onScanSuccess: () => void;
 }) => {
-  const [qrCode, setQrCode] = useState<string>("");
+  const [qrCode, setQrCode] = useState<string>();
   const [sessionId, setSessionId] = useState<string>();
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const { toast } = useToast();
@@ -90,7 +90,11 @@ const UniquenessVerificationQR = ({
           setIsPolling(false);
 
           // Update user state with the verification result
-          const newUser = { ...user!, is_uniqueness_verified: true };
+          const newUser = {
+            ...user!,
+            is_uniqueness_verified: true,
+            did: response.from,
+          };
           setUser(newUser);
           await updateUser(user.id, newUser);
 
