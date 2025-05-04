@@ -114,7 +114,7 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
       <div className="">
         <BackToDashboardButton />
       </div>
-      <h2 className="text-xl font-semibold">Booking Detail</h2>
+      <h2 className="text-xl font-semibold">Reservation Detail</h2>
       <div className="flex justify-between gap-12">
         <div className="flex flex-col gap-8 rounded-md">
           <div className="flex gap-20 text-base">
@@ -227,13 +227,6 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
             </div>
           )}
         </div>
-        {/* <div className="">
-          {!loading && (
-            <SelfHostedHotelTotalCostAndMetadataUpdateComponent
-              predefinedHotelRateMetadata={reservation}
-            />
-          )}
-        </div> */}
       </div>
     </div>
   );

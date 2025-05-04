@@ -34,14 +34,53 @@ const formatDate = (dateString: string) => {
   );
 };
 
-const BookingCard = ({ reservation }: { reservation: Reservation }) => {
+const BookingCard = ({ reservation }: { reservation: Reservation | null }) => {
   const router = useRouter();
+
+  if (!reservation) {
+    return (
+      <Card className="overflow-hidden">
+        <div className="flex flex-row">
+          <div className="relative w-1/4 min-h-[200px]">
+            <div className="h-full w-full animate-pulse bg-gray-200" />
+          </div>
+          <div className="w-3/4">
+            <CardHeader className="pb-2">
+              <div className="flex justify-between items-start">
+                <div>
+                  <div className="h-6 w-48 animate-pulse bg-gray-200 rounded" />
+                  <div className="h-4 w-32 animate-pulse bg-gray-200 rounded mt-2" />
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="h-6 w-20 animate-pulse bg-gray-200 rounded" />
+                  <div className="h-4 w-24 animate-pulse bg-gray-200 rounded mt-1" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="h-4 w-32 animate-pulse bg-gray-200 rounded"
+                  />
+                ))}
+              </div>
+              <div className="mt-4">
+                <div className="h-4 w-64 animate-pulse bg-gray-200 rounded" />
+              </div>
+            </CardContent>
+          </div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card
       className="overflow-hidden cursor-pointer"
       onClick={() => {
-        router.push(`/reservation/${reservation.id}`);
+        router.push(`/bookings/${reservation.id}`);
       }}
     >
       <div className="flex flex-row">
