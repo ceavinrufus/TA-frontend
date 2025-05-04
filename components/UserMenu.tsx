@@ -46,19 +46,25 @@ const UserMenu = () => {
   const pathname = usePathname();
   const { user, fetchUser } = useUserStore();
 
-  const [isHost, setIsHost] = useState(false);
+  const [isInHost, setIsInHost] = useState(false);
+  const [isInAdmin, setIsInAdmin] = useState(false);
 
   useEffect(() => {
     if (pathname.startsWith("/host")) {
-      setIsHost(true);
+      setIsInHost(true);
+      setIsInAdmin(false);
+    } else if (pathname.startsWith("/admin")) {
+      setIsInHost(false);
+      setIsInAdmin(true);
     } else {
-      setIsHost(false);
+      setIsInHost(false);
+      setIsInAdmin(false);
     }
   }, [pathname]);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [isAuthenticated]);
 
   return isConnected ? (
     <DropdownMenu>
@@ -126,15 +132,23 @@ const UserMenu = () => {
             ) : (
               <CommandGroup heading="Menu">
                 <CommandItem>
-                  <RoleSwitcher isHost={isHost} />
+                  <RoleSwitcher isInHost={isInHost} />
                 </CommandItem>
+                {user?.is_admin && (
+                  <CommandItem
+                    onSelect={() => router.push(isInAdmin ? "/" : "/admin")}
+                  >
+                    {isInAdmin ? "Switch to Guest" : "Switch to Admin"}
+                  </CommandItem>
+                )}
                 {(!user?.is_uniqueness_verified ||
-                  !user?.is_liveness_verified) && (
+                  !user?.is_liveness_verified ||
+                  !user?.is_identity_verified) && (
                   <CommandItem onSelect={() => router.push("/verification")}>
                     Verify yourself
                   </CommandItem>
                 )}
-                {isHost ? (
+                {isInHost ? (
                   <CommandItem onSelect={() => router.push("/host/dashboard")}>
                     Dashboard
                   </CommandItem>

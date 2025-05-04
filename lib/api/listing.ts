@@ -6,7 +6,7 @@ import {
 } from "@/types/listing";
 
 /**
- * Server Action: Create a new listing.
+ * Create a new listing.
  * @param listingData - The data for the new listing.
  * @returns The created listing data.
  */
@@ -15,7 +15,7 @@ export async function createListing(listingData: Partial<Listing>) {
 }
 
 /**
- * Server Action: Update an existing listing.
+ * Update an existing listing.
  * @param listingId - The ID of the listing to update.
  * @param listingData - The updated listing data.
  * @returns The updated listing data.
@@ -28,7 +28,7 @@ export async function updateListing(
 }
 
 /**
- * Server Action: Retrieve a listing by ID.
+ * Retrieve a listing by ID.
  * @param listingId - The ID of the listing to retrieve.
  * @returns The retrieved listing data.
  */
@@ -37,7 +37,7 @@ export async function getListingById(listingId: string): Promise<Listing> {
 }
 
 /**
- * Server Action: Search listings with filters and pagination.
+ * Search listings with filters and pagination.
  * @param searchParams - The search parameters including filters, pagination, and other params.
  * @returns The search results.
  */
@@ -47,7 +47,7 @@ export async function searchListings(searchParams: any) {
 }
 
 /**
- * Server Action: Retrieve a listing by slug.
+ * Retrieve a listing by slug.
  * @param slug - The slug of the listing to retrieve.
  * @returns The retrieved listing data.
  */
@@ -71,7 +71,7 @@ export async function getListingBySlug(slug: string) {
 }
 
 /**
- * Server Action: Check listing availability and get price details.
+ * Check listing availability and get price details.
  * @param slug - The slug of the listing to check.
  * @param startDate - The check-in date.
  * @param endDate - The check-out date.
@@ -91,7 +91,7 @@ export async function checkListingAvailability(
 }
 
 /**
- * Server Action: Fetches listings by host ID.
+ * Fetches listings by host ID.
  * @returns A promise that resolves to the listings data.
  */
 export async function getListingByHost() {

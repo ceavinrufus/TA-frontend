@@ -1,7 +1,7 @@
 type Dispute = {
   id: string;
   reservation_id: string;
-  reservation: SelfListingReservation;
+  reservation?: Reservation;
   raised_by_id: string;
   raised_at: Date;
   resolved_at: Date;

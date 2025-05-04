@@ -13,7 +13,7 @@ interface EarningsStats {
 }
 
 /**
- * Server Action: Update an existing reservation.
+ * Update an existing reservation.
  * @param reservationId - The ID of the reservation to update.
  * @param reservationData - The updated reservation data.
  * @returns The updated reservation data.
@@ -29,7 +29,7 @@ export async function updateReservation(
 }
 
 /**
- * Server Action: Retrieve a reservation by ID.
+ * Retrieve a reservation by ID.
  * @param reservationId - The ID of the reservation to retrieve.
  * @returns The retrieved reservation data.
  */
@@ -40,7 +40,7 @@ export async function getReservationById(
 }
 
 /**
- * Server Action: Fetches reservations by host ID.
+ * Fetches reservations by host ID.
  * @returns A promise that resolves to the reservations data.
  */
 export async function getReservationsByHost() {
@@ -48,7 +48,7 @@ export async function getReservationsByHost() {
 }
 
 /**
- * Server Action: Fetches today's guests by host ID.
+ * Fetches today's guests by host ID.
  * @returns A promise that resolves to today's guests data.
  */
 export async function getTodaysGuestsByHost(): Promise<ReservationStats> {
@@ -56,7 +56,7 @@ export async function getTodaysGuestsByHost(): Promise<ReservationStats> {
 }
 
 /**
- * Server Action: Fetches earnings statistics for the host.
+ * Fetches earnings statistics for the host.
  * @returns A promise that resolves to the host's earnings data containing pending, monthly, and yearly earnings.
  */
 export async function getHostEarnings(): Promise<EarningsStats> {
@@ -64,7 +64,7 @@ export async function getHostEarnings(): Promise<EarningsStats> {
 }
 
 /**
- * Server Action: Create a new pre-reservation.
+ * Create a new pre-reservation.
  * @param reservationData - The data for the new pre-reservation.
  * @returns The created pre-reservation data.
  */
@@ -75,7 +75,7 @@ export async function createPreReservation(
 }
 
 /**
- * Server Action: Generate a booking hash for a reservation.
+ * Generate a booking hash for a reservation.
  * @param reservationData - The reservation data to generate hash for.
  * @returns The generated booking hash.
  */
@@ -89,7 +89,7 @@ export async function generateBookingHash(
 }
 
 /**
- * Server Action: Create a new reservation.
+ * Create a new reservation.
  * @param reservationData - The data for the new reservation.
  * @returns The created reservation data.
  */
@@ -98,7 +98,7 @@ export async function createReservation(reservationData: Partial<Reservation>) {
 }
 
 /**
- * Server Action: Retrieve a pre-reservation by hash.
+ * Retrieve a pre-reservation by hash.
  * @param reservationId - The hash of the pre-reservation to retrieve.
  * @returns The retrieved pre-reservation data.
  */
@@ -109,7 +109,7 @@ export async function getPreReservationByHash(
 }
 
 /**
- * Server Action: Fetches reservations by guest ID with pagination and category filtering.
+ * Fetches reservations by guest ID with pagination and category filtering.
  * @param guestId - The ID of the guest.
  * @param category - The category of reservations to fetch (upcoming, past, cancelled, paid, or not-paid).
  * @param page - The page number for pagination.

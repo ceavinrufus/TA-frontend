@@ -72,6 +72,7 @@ const DisputeModal = ({
   const [guestClaim, setGuestClaim] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [evidences, setEvidences] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserStore();
   const { toast } = useToast();
 
@@ -86,74 +87,87 @@ const DisputeModal = ({
     if (!reservation) return;
     if (!user) return;
 
-    if (selectedReasons.length > 0 && guestClaim.trim()) {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      const contractABI = RentalPayments.abi;
-      const contractAddress =
-        process.env.NEXT_PUBLIC_RENTAL_PAYMENTS_CONTRACT_ADDRESS!;
+    try {
+      setIsLoading(true);
 
-      const rentalPaymentsContract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
+      if (selectedReasons.length > 0 && guestClaim.trim()) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const contractABI = RentalPayments.abi;
+        const contractAddress =
+          process.env.NEXT_PUBLIC_RENTAL_PAYMENTS_CONTRACT_ADDRESS!;
 
-      // Get on chain reservation details using the transaction hash
-      const bookingReceipt = await provider.getTransactionReceipt(
-        reservation.payments![0].transaction_hash!
-      );
-      const log = bookingReceipt!.logs[0];
-      const parsedLog = rentalPaymentsContract.interface.parseLog({
-        topics: log.topics,
-        data: log.data,
-      });
-
-      if (parsedLog && parsedLog.name === "PaymentInitiated") {
-        const bookingId = parsedLog.args.bookingId; // Extract bookingId from the log
-        const transaction = await rentalPaymentsContract.raiseDispute(
-          bookingId
+        const rentalPaymentsContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
         );
-        const receipt = await transaction.wait();
-        const txHash = receipt.hash;
 
-        // Handle dispute creation here
-        const disputeData: Partial<Dispute> = {
-          reservation_id: reservation.id,
-          raised_by_id: user?.id,
-          reasons: selectedReasons,
-          guest_claim: guestClaim,
-          evidences: evidences,
-          status: DisputeStatus.PENDING,
-          raise_dispute_transaction_hash: txHash,
-        };
+        // Get on chain reservation details using the transaction hash
+        const bookingReceipt = await provider.getTransactionReceipt(
+          reservation.payments![0].transaction_hash!
+        );
+        const log = bookingReceipt!.logs[0];
+        const parsedLog = rentalPaymentsContract.interface.parseLog({
+          topics: log.topics,
+          data: log.data,
+        });
 
-        try {
-          const data = await createDispute(disputeData);
-          onSubmit({
-            ...reservation,
-            dispute: data,
-          } as Reservation);
-          toast({
-            title: "Dispute raised successfully",
-            description: "Your dispute has been submitted.",
-            variant: "default",
-          });
-        } catch (error) {
-          console.error("Error creating dispute:", error);
-          toast({
-            title: "Error raising dispute",
-            description: (error as Error).message,
-            variant: "destructive",
-          });
+        if (parsedLog && parsedLog.name === "PaymentInitiated") {
+          const bookingId = parsedLog.args.bookingId; // Extract bookingId from the log
+          const transaction = await rentalPaymentsContract.raiseDispute(
+            bookingId
+          );
+          const receipt = await transaction.wait();
+          const txHash = receipt.hash;
+
+          // Handle dispute creation here
+          const disputeData: Partial<Dispute> = {
+            reservation_id: reservation.id,
+            raised_by_id: user?.id,
+            reasons: selectedReasons,
+            guest_claim: guestClaim,
+            evidences: evidences,
+            status: DisputeStatus.PENDING,
+            raise_dispute_transaction_hash: txHash,
+          };
+
+          try {
+            const data = await createDispute(disputeData);
+            onSubmit({
+              ...reservation,
+              dispute: data,
+            } as Reservation);
+            toast({
+              title: "Dispute raised successfully",
+              description: "Your dispute has been submitted.",
+              variant: "default",
+            });
+          } catch (error) {
+            console.error("Error creating dispute:", error);
+            toast({
+              title: "Error raising dispute",
+              description: (error as Error).message,
+              variant: "destructive",
+            });
+          }
         }
-      }
 
-      setIsOpen(false);
-      setSelectedReasons([]);
-      setGuestClaim("");
-      setEvidences([]);
+        setIsOpen(false);
+        setSelectedReasons([]);
+        setGuestClaim("");
+        setEvidences([]);
+      }
+    } catch (error) {
+      console.error("Error creating dispute:", error);
+      toast({
+        title: "Error raising dispute",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -252,9 +266,13 @@ const DisputeModal = ({
         <Button
           variant="default"
           className="w-full"
-          disabled={!isButtonEnabled}
+          disabled={!isButtonEnabled || isLoading}
         >
-          {isDisputed ? "View Dispute" : "Raise a Dispute"}
+          {isDisputed
+            ? "View Dispute"
+            : isLoading
+            ? "Raising dispute..."
+            : "Raise a Dispute"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
@@ -296,9 +314,11 @@ const DisputeModal = ({
             <Button
               onClick={handleSubmit}
               className="w-full"
-              disabled={selectedReasons.length === 0 || !guestClaim.trim()}
+              disabled={
+                selectedReasons.length === 0 || !guestClaim.trim() || isLoading
+              }
             >
-              Submit Dispute
+              {isLoading ? "Raising dispute..." : "Submit Dispute"}
             </Button>
           </div>
         )}

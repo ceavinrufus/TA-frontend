@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-const RoleSwitcher = ({ isHost }: { isHost: boolean }) => {
+const RoleSwitcher = ({ isInHost }: { isInHost: boolean }) => {
   return (
-    <Link href={isHost ? "/" : "/host"}>
-      {isHost ? "Switch to Traveling" : "Switch to Hosting"}
+    <Link href={isInHost ? "/" : "/host"}>
+      {isInHost ? "Switch to Guest" : "Switch to Host"}
     </Link>
   );
 };
