@@ -24,6 +24,7 @@ import {
   getStatusLabel,
   statusColors,
 } from "@/app/host/dashboard/reservations/utils/statusLabel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formatDate = (dateString: string) => {
   return formatDateStringForDisplay(
@@ -42,32 +43,29 @@ const BookingCard = ({ reservation }: { reservation: Reservation | null }) => {
       <Card className="overflow-hidden">
         <div className="flex flex-row">
           <div className="relative w-1/4 min-h-[200px]">
-            <div className="h-full w-full animate-pulse bg-gray-200" />
+            <Skeleton className="h-full w-full" />
           </div>
           <div className="w-3/4">
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <div>
-                  <div className="h-6 w-48 animate-pulse bg-gray-200 rounded" />
-                  <div className="h-4 w-32 animate-pulse bg-gray-200 rounded mt-2" />
+                  <Skeleton className="h-6 w-48 rounded" />
+                  <Skeleton className="h-4 w-32 rounded mt-2" />
                 </div>
                 <div className="flex flex-col items-end">
-                  <div className="h-6 w-20 animate-pulse bg-gray-200 rounded" />
-                  <div className="h-4 w-24 animate-pulse bg-gray-200 rounded mt-1" />
+                  <Skeleton className="h-6 w-20 rounded" />
+                  <Skeleton className="h-4 w-24 rounded mt-1" />
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="h-4 w-32 animate-pulse bg-gray-200 rounded"
-                  />
+                  <Skeleton key={i} className="h-4 w-32 rounded" />
                 ))}
               </div>
               <div className="mt-4">
-                <div className="h-4 w-64 animate-pulse bg-gray-200 rounded" />
+                <Skeleton className="h-4 w-64 rounded" />
               </div>
             </CardContent>
           </div>

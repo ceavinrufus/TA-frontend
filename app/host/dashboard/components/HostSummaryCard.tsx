@@ -9,6 +9,7 @@ import { useAccount } from "wagmi";
 import { UserAvatar } from "@/components/UserAvatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
+import { useToast } from "@/hooks/use-toast";
 
 /**
  * HostSummaryCard Component
@@ -44,12 +45,17 @@ const HostSummaryCard = () => {
   const currency = "$";
   const [isSecurityDepositLoading, setIsSecurityDepositLoading] =
     React.useState<boolean>(true);
+  const { toast } = useToast();
 
   const checkHostStake = async () => {
     setIsSecurityDepositLoading(true); // Set loading state to true
     try {
-      if (typeof window.ethereum === "undefined") {
-        throw new Error("MetaMask not detected. Please install MetaMask.");
+      if (!window.ethereum) {
+        toast({
+          title: "No wallet detected",
+          description: "Please install a wallet extension to proceed.",
+          variant: "destructive",
+        });
       }
 
       const provider = new ethers.BrowserProvider(window.ethereum);

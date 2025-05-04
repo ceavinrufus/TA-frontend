@@ -9,6 +9,7 @@ import PriceBreakdown from "../components/PriceBreakdown";
 import BookingAdditionalInfo from "../components/BookingAdditionalInfo";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import DisputeModal from "../components/DisputeModal";
 
 export default function BookingDetailsPage({ id }: { id: string }) {
   const router = useRouter();
@@ -52,13 +53,7 @@ export default function BookingDetailsPage({ id }: { id: string }) {
           <BookingAdditionalInfo reservation={reservation} />
           <Separator orientation="horizontal" />
           <div className="space-y-1">
-            <Button
-              variant="default"
-              className="w-full"
-              onClick={() => router.push("/bookings")}
-            >
-              Dispute
-            </Button>
+            <DisputeModal reservation={reservation} />
             <Button
               variant="default"
               className="w-full"

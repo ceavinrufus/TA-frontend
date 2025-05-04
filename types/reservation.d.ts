@@ -29,6 +29,18 @@ type Reservation = {
   updated_at: string;
 };
 
+type OnChainReservation = {
+  renter: string;
+  owner: string;
+  amount: number;
+  guestDeposit: number;
+  startTime: number;
+  endTime: number;
+  isDisputeRaised: boolean;
+  isResolved: boolean;
+  isPaymentReleased: boolean;
+};
+
 type GuestInfo = {
   first_name?: string;
   last_name?: string;

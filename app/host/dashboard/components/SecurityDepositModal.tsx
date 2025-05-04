@@ -52,8 +52,13 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
 
   const handleDeposit = async () => {
     if (!window.ethereum) {
-      throw new Error("NO-ETHEREUM-PROVIDER");
+      toast({
+        title: "No wallet detected",
+        description: "Please install a wallet extension to proceed.",
+        variant: "destructive",
+      });
     }
+
     if (!amount || parseFloat(amount) <= 0) {
       toast({
         title: "Deposit Failed",
