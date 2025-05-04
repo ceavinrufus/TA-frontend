@@ -130,10 +130,10 @@ const DisputeModal = ({
         };
 
         try {
-          const response = await createDispute(disputeData);
+          const data = await createDispute(disputeData);
           onSubmit({
             ...reservation,
-            dispute: response.data,
+            dispute: data,
           } as Reservation);
           toast({
             title: "Dispute raised successfully",
@@ -191,9 +191,60 @@ const DisputeModal = ({
   // - For cancelled bookings: can only dispute if checkout date hasn't passed yet
   // - For any booking: can dispute if within dispute period
   // - Can never dispute if already disputed
-  const isButtonEnabled =
+  const canBeDisputed =
     ((isCancelledStatus && checkOutDate > today) || inDisputePeriod) &&
     !isDisputed;
+
+  const isButtonEnabled = canBeDisputed || isDisputed;
+
+  const renderDisputeDetails = () => {
+    if (!reservation.dispute) return null;
+
+    return (
+      <div className="space-y-4">
+        <div className="space-y-1">
+          <Label>Dispute Status</Label>
+          <p className="text-sm">{reservation.dispute.status}</p>
+        </div>
+        <div className="space-y-1">
+          <Label>Reasons for Dispute</Label>
+          {reservation.dispute.reasons.map((reason) => (
+            <div key={reason} className="flex items-center space-x-2">
+              <p className="text-sm">
+                •{" "}
+                {
+                  disputeReasonOptions.find((opt) => opt.value === reason)
+                    ?.description
+                }
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-1">
+          <Label>Detailed Explanation</Label>
+          <p className="text-sm whitespace-pre-wrap">
+            {reservation.dispute.guest_claim}
+          </p>
+        </div>
+        {reservation.dispute.evidences &&
+          reservation.dispute.evidences.length > 0 && (
+            <div className="space-y-2">
+              <Label>Evidence Links</Label>
+              {reservation.dispute.evidences.map((evidence, index) => (
+                <p
+                  key={index}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  <a href={evidence} target="_blank" rel="noopener noreferrer">
+                    Evidence {index + 1}
+                  </a>
+                </p>
+              ))}
+            </div>
+          )}
+      </div>
+    );
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -203,48 +254,54 @@ const DisputeModal = ({
           className="w-full"
           disabled={!isButtonEnabled}
         >
-          Raise a Dispute
+          {isDisputed ? "View Dispute" : "Raise a Dispute"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Submit Dispute</DialogTitle>
           <DialogDescription>
-            Please select all applicable reasons and provide details about your
-            dispute.
+            {isDisputed
+              ? "Below are the details of your submitted dispute."
+              : "Please select all applicable reasons and provide details about your dispute."}
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label>Reasons for Dispute</Label>
-            {disputeReasonOptions.map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
-                <Checkbox
-                  id={option.value}
-                  checked={selectedReasons.includes(option.value)}
-                  onCheckedChange={() => handleReasonToggle(option.value)}
-                />
-                <Label htmlFor={option.value}>{option.description}</Label>
-              </div>
-            ))}
+
+        {isDisputed ? (
+          renderDisputeDetails()
+        ) : (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Reasons for Dispute</Label>
+              {disputeReasonOptions.map((option) => (
+                <div key={option.value} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={option.value}
+                    checked={selectedReasons.includes(option.value)}
+                    onCheckedChange={() => handleReasonToggle(option.value)}
+                  />
+                  <Label htmlFor={option.value}>{option.description}</Label>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-2">
+              <Label>Detailed Explanation</Label>
+              <Textarea
+                placeholder="Please provide specific details about your dispute..."
+                value={guestClaim}
+                onChange={(e) => setGuestClaim(e.target.value)}
+                className="min-h-[100px]"
+              />
+            </div>
+            <Button
+              onClick={handleSubmit}
+              className="w-full"
+              disabled={selectedReasons.length === 0 || !guestClaim.trim()}
+            >
+              Submit Dispute
+            </Button>
           </div>
-          <div className="space-y-2">
-            <Label>Detailed Explanation</Label>
-            <Textarea
-              placeholder="Please provide specific details about your dispute..."
-              value={guestClaim}
-              onChange={(e) => setGuestClaim(e.target.value)}
-              className="min-h-[100px]"
-            />
-          </div>
-          <Button
-            onClick={handleSubmit}
-            className="w-full"
-            disabled={selectedReasons.length === 0 || !guestClaim.trim()}
-          >
-            Submit Dispute
-          </Button>
-        </div>
+        )}
       </DialogContent>
     </Dialog>
   );

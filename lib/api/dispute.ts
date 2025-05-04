@@ -8,7 +8,7 @@ import { apiClient } from "./api-client";
  */
 export async function createDispute(
   disputeData: Partial<Dispute>
-): Promise<any> {
+): Promise<Dispute> {
   return await apiClient.post("/disputes", disputeData);
 }
 
