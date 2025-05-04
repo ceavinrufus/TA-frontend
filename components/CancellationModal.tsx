@@ -16,8 +16,18 @@ import { updateReservation } from "@/lib/api/reservation";
 import { useToast } from "@/hooks/use-toast";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUserStore } from "@/store/user-store";
 
-export enum HotelCancellationOption {
+export enum HostCancellationOption {
+  PROPERTY_MAINTENANCE = "PROPERTY_MAINTENANCE",
+  OVERBOOKING = "OVERBOOKING",
+  EMERGENCY_SITUATION = "EMERGENCY_SITUATION",
+  GUEST_POLICY_VIOLATION = "GUEST_POLICY_VIOLATION",
+  OTHERS = "OTHERS",
+}
+
+// Rename existing enum to distinguish it
+export enum GuestCancellationOption {
   NEED_TO_MODIFY_DATE = "NEED_TO_MODIFY_DATE",
   FOUND_BETTER_PRICE_ON_OTHER_SITE = "FOUND_BETTER_PRICE_ON_OTHER_SITE",
   BOOKED_THE_WRONG_HOTEL = "BOOKED_WRONG_HOTEL",
@@ -25,25 +35,48 @@ export enum HotelCancellationOption {
   OTHERS = "OTHERS",
 }
 
-const cancellationReasons = [
+const guestCancellationReasons = [
   {
-    value: HotelCancellationOption.NEED_TO_MODIFY_DATE,
+    value: GuestCancellationOption.NEED_TO_MODIFY_DATE,
     description: "Need to change booking dates",
   },
   {
-    value: HotelCancellationOption.FOUND_BETTER_PRICE_ON_OTHER_SITE,
+    value: GuestCancellationOption.FOUND_BETTER_PRICE_ON_OTHER_SITE,
     description: "Found better price on another website",
   },
   {
-    value: HotelCancellationOption.BOOKED_THE_WRONG_HOTEL,
+    value: GuestCancellationOption.BOOKED_THE_WRONG_HOTEL,
     description: "Booked the wrong hotel",
   },
   {
-    value: HotelCancellationOption.TRAVEL_PLAN_CANCELLED,
+    value: GuestCancellationOption.TRAVEL_PLAN_CANCELLED,
     description: "Travel plans have been canceled",
   },
   {
-    value: HotelCancellationOption.OTHERS,
+    value: GuestCancellationOption.OTHERS,
+    description: "Other reason",
+  },
+];
+
+const hostCancellationReasons = [
+  {
+    value: HostCancellationOption.PROPERTY_MAINTENANCE,
+    description: "Property needs urgent maintenance",
+  },
+  {
+    value: HostCancellationOption.OVERBOOKING,
+    description: "Booking system error/overbooking",
+  },
+  {
+    value: HostCancellationOption.EMERGENCY_SITUATION,
+    description: "Emergency situation",
+  },
+  {
+    value: HostCancellationOption.GUEST_POLICY_VIOLATION,
+    description: "Guest policy violation",
+  },
+  {
+    value: HostCancellationOption.OTHERS,
     description: "Other reason",
   },
 ];
@@ -55,29 +88,29 @@ const CancellationModal = ({
   reservation: Reservation | null;
   onSubmit: (reservation: Reservation) => void;
 }) => {
-  const [selectedReason, setSelectedReason] =
-    useState<HotelCancellationOption | null>(null);
+  const [selectedReason, setSelectedReason] = useState<string | null>(null);
   const [otherReason, setOtherReason] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  const { user } = useUserStore();
 
   const handleSubmit = async () => {
-    if (!selectedReason || !reservation) return;
+    if (!selectedReason || !reservation || !user) return;
 
     try {
       const cancelReason =
-        selectedReason === HotelCancellationOption.OTHERS
-          ? otherReason
-          : selectedReason;
+        selectedReason === "OTHERS" ? otherReason : selectedReason;
 
-      await updateReservation(reservation.id, {
-        status: "ORDER_CANCELED",
-        cancel_reason: cancelReason,
-      });
-      onSubmit({
-        ...reservation,
+      const payload = {
         status: ReservationStatus.ORDER_CANCELED,
         cancel_reason: cancelReason,
+        cancelled_by_id: user.id,
+      };
+
+      await updateReservation(reservation.id, payload);
+      onSubmit({
+        ...reservation,
+        ...payload,
       });
 
       toast({
@@ -104,6 +137,11 @@ const CancellationModal = ({
     reservation.status === ReservationStatus.ORDER_CANCELED;
   const isButtonEnabled = !isCancelledStatus && checkOutDate > today;
 
+  const isHost = user?.id === reservation?.host_id;
+  const cancellationReasons = isHost
+    ? hostCancellationReasons
+    : guestCancellationReasons;
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -120,6 +158,8 @@ const CancellationModal = ({
           <DialogTitle>Cancel Reservation</DialogTitle>
           <DialogDescription>
             Please select a reason for cancellation.
+            {isHost &&
+              " As a host, your cancellation may affect your property's rating."}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
@@ -136,7 +176,7 @@ const CancellationModal = ({
             ))}
           </div>
 
-          {selectedReason === HotelCancellationOption.OTHERS && (
+          {selectedReason === "OTHERS" && (
             <div className="space-y-2">
               <Label>Please specify your reason</Label>
               <Textarea
@@ -153,8 +193,7 @@ const CancellationModal = ({
             className="w-full"
             disabled={
               !selectedReason ||
-              (selectedReason === HotelCancellationOption.OTHERS &&
-                !otherReason.trim())
+              (selectedReason === "OTHERS" && !otherReason.trim())
             }
           >
             Confirm Cancellation

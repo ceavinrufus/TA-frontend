@@ -16,20 +16,35 @@ import {
 import { getReservationById, updateReservation } from "@/lib/api/reservation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useHostStore } from "@/app/host/store/host-store";
 import { issueCredential } from "@/lib/api/issuer";
+import PriceBreakdown from "@/app/bookings/components/PriceBreakdown";
+import { Separator } from "@/components/ui/separator";
+import DisputeModal from "@/components/DisputeModal";
+import CancellationModal from "@/components/CancellationModal";
+import { useUserStore } from "@/store/user-store";
 
 export default function ReservationDetailsPage({ id }: { id: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [reservation, setReservation] = useState<Reservation | null>(null);
 
-  const { host } = useHostStore();
+  const { user, fetchUser } = useUserStore();
 
   useEffect(() => {
+    if (!user) {
+      fetchUser();
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
     async function fetchReservation() {
       try {
-        const currentUserId = host?.id;
+        const currentUserId = user?.id;
 
         const response = await getReservationById(id);
         const currentReservation = response as Reservation;
@@ -48,7 +63,7 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
     }
 
     fetchReservation();
-  }, [id]);
+  }, [id, user]);
 
   const statusLabel = getStatusLabel(reservation!);
 
@@ -109,13 +124,18 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
       )}
     </div>
   );
+
+  const updateReservationState = async (updatedReservation: Reservation) => {
+    setReservation(updatedReservation);
+  };
+
   return (
     <div className="md:min-w-[1200px] flex flex-col gap-12">
       <div className="">
         <BackToDashboardButton />
       </div>
       <h2 className="text-xl font-semibold">Reservation Detail</h2>
-      <div className="flex justify-between gap-12">
+      <div className="flex justify-between gap-12 w-full">
         <div className="flex flex-col gap-8 rounded-md">
           <div className="flex gap-20 text-base">
             <div className="font-bold w-[200px]">List Name:</div>
@@ -170,19 +190,6 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
             </ValueWrapper>
           </div>
           <div className="flex gap-20 text-base">
-            <div className="font-bold w-[200px]">Total Amount:</div>
-            <ValueWrapper loading={loading}>
-              {reservation?.total_price
-                ? `${Number(
-                    (
-                      reservation?.total_price -
-                      (reservation?.guest_deposit ?? 0)
-                    )?.toFixed(8)
-                  )} ETH`
-                : `-`}
-            </ValueWrapper>
-          </div>
-          <div className="flex gap-20 text-base">
             <div className="font-bold w-[200px]">Trip Status:</div>
             <ValueWrapper loading={loading}>
               <Badge
@@ -227,6 +234,28 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
             </div>
           )}
         </div>
+        <div className="flex flex-col gap-3 w-2/5">
+          <PriceBreakdown reservation={reservation!} loading={loading} />
+          <Separator orientation="horizontal" />
+          <div className="space-y-1">
+            <DisputeModal
+              reservation={reservation}
+              onSubmit={updateReservationState}
+            />
+            <CancellationModal
+              reservation={reservation}
+              onSubmit={updateReservationState}
+            />
+          </div>
+        </div>
+        {/* <div className="relative size-[320px] rounded-md overflow-hidden shadow-neumorphic-card-up">
+          <Image
+            src={reservation?.listing.pictures[0] || "/api/placeholder/300/200"}
+            alt={reservation?.listing_name ?? ""}
+            className="h-full w-full object-cover"
+            fill
+          />
+        </div> */}
       </div>
     </div>
   );

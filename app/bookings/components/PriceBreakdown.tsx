@@ -26,7 +26,7 @@ const PriceBreakdown = ({
   loading: boolean;
 }) => {
   return (
-    <Card className="border border-neutral-200 rounded-lg p-6 bg-white w-2/3">
+    <Card className="border border-neutral-200 rounded-lg p-6 bg-white">
       <CardTitle className="text-xl font-semibold mb-4">
         Price Details
       </CardTitle>

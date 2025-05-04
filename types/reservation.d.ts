@@ -20,6 +20,7 @@ type Reservation = {
   guest_wallet_address: string;
   status: string;
   cancel_reason: string;
+  cancelled_by_id: string;
   book_hash: string;
   guest_did: string;
   booking_credential_id: string;

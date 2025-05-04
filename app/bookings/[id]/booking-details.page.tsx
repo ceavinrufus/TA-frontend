@@ -8,8 +8,8 @@ import BookingCard from "../components/BookingCard";
 import PriceBreakdown from "../components/PriceBreakdown";
 import BookingAdditionalInfo from "../components/BookingAdditionalInfo";
 import { Separator } from "@/components/ui/separator";
-import DisputeModal from "../components/DisputeModal";
-import CancellationModal from "../components/CancellationModal";
+import DisputeModal from "../../../components/DisputeModal";
+import CancellationModal from "../../../components/CancellationModal";
 import ReservationProofModal from "../components/ReservationProofModal";
 
 export default function BookingDetailsPage({ id }: { id: string }) {
@@ -53,7 +53,9 @@ export default function BookingDetailsPage({ id }: { id: string }) {
     <div className="flex flex-col gap-12">
       <BookingCard reservation={reservation} />
       <div className="flex justify-between gap-12">
-        <PriceBreakdown reservation={reservation!} loading={loading} />
+        <div className="w-2/3">
+          <PriceBreakdown reservation={reservation!} loading={loading} />
+        </div>
         <div className="w-1/3 flex flex-col gap-2 justify-between">
           <BookingAdditionalInfo reservation={reservation} />
           <Separator orientation="horizontal" />
