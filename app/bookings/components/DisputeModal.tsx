@@ -59,7 +59,13 @@ export const disputeReasonOptions = [
   },
 ];
 
-const DisputeModal = ({ reservation }: { reservation: Reservation | null }) => {
+const DisputeModal = ({
+  reservation,
+  onSubmit,
+}: {
+  reservation: Reservation | null;
+  onSubmit: (reservation: Reservation) => void;
+}) => {
   const [selectedReasons, setSelectedReasons] = useState<DisputeReasonOption[]>(
     []
   );
@@ -105,7 +111,7 @@ const DisputeModal = ({ reservation }: { reservation: Reservation | null }) => {
       });
 
       if (parsedLog && parsedLog.name === "PaymentInitiated") {
-        const bookingId = parsedLog.args.bookingId;
+        const bookingId = parsedLog.args.bookingId; // Extract bookingId from the log
         const transaction = await rentalPaymentsContract.raiseDispute(
           bookingId
         );
@@ -124,7 +130,11 @@ const DisputeModal = ({ reservation }: { reservation: Reservation | null }) => {
         };
 
         try {
-          await createDispute(disputeData);
+          const response = await createDispute(disputeData);
+          onSubmit({
+            ...reservation,
+            dispute: response.data,
+          } as Reservation);
           toast({
             title: "Dispute raised successfully",
             description: "Your dispute has been submitted.",

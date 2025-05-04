@@ -10,6 +10,7 @@ import BookingAdditionalInfo from "../components/BookingAdditionalInfo";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import DisputeModal from "../components/DisputeModal";
+import CancellationModal from "../components/CancellationModal";
 
 export default function BookingDetailsPage({ id }: { id: string }) {
   const router = useRouter();
@@ -44,6 +45,10 @@ export default function BookingDetailsPage({ id }: { id: string }) {
     fetchReservation();
   }, [id, user]);
 
+  const updateReservation = async (updatedReservation: Reservation) => {
+    setReservation(updatedReservation);
+  };
+
   return (
     <div className="flex flex-col gap-12">
       <BookingCard reservation={reservation} />
@@ -53,7 +58,10 @@ export default function BookingDetailsPage({ id }: { id: string }) {
           <BookingAdditionalInfo reservation={reservation} />
           <Separator orientation="horizontal" />
           <div className="space-y-1">
-            <DisputeModal reservation={reservation} />
+            <DisputeModal
+              reservation={reservation}
+              onSubmit={updateReservation}
+            />
             <Button
               variant="default"
               className="w-full"
@@ -61,13 +69,10 @@ export default function BookingDetailsPage({ id }: { id: string }) {
             >
               Show Reservation Proof
             </Button>
-            <Button
-              variant="default"
-              className="w-full"
-              onClick={() => router.push("/bookings")}
-            >
-              Cancel Booking
-            </Button>
+            <CancellationModal
+              reservation={reservation!}
+              onSubmit={updateReservation}
+            />
           </div>
         </div>
       </div>

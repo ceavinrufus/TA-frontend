@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "./api-client";
 
 /**
@@ -5,7 +6,9 @@ import { apiClient } from "./api-client";
  * @param disputeData - The data for the new dispute.
  * @returns The created dispute data.
  */
-export async function createDispute(disputeData: Partial<Dispute>) {
+export async function createDispute(
+  disputeData: Partial<Dispute>
+): Promise<any> {
   return await apiClient.post("/disputes", disputeData);
 }
 
