@@ -7,10 +7,10 @@ import { useUserStore } from "@/store/user-store";
 import BookingCard from "../components/BookingCard";
 import PriceBreakdown from "../components/PriceBreakdown";
 import BookingAdditionalInfo from "../components/BookingAdditionalInfo";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import DisputeModal from "../components/DisputeModal";
 import CancellationModal from "../components/CancellationModal";
+import ReservationProofModal from "../components/ReservationProofModal";
 
 export default function BookingDetailsPage({ id }: { id: string }) {
   const router = useRouter();
@@ -62,15 +62,9 @@ export default function BookingDetailsPage({ id }: { id: string }) {
               reservation={reservation}
               onSubmit={updateReservation}
             />
-            <Button
-              variant="default"
-              className="w-full"
-              onClick={() => router.push("/bookings")}
-            >
-              Show Reservation Proof
-            </Button>
+            <ReservationProofModal reservation={reservation} />
             <CancellationModal
-              reservation={reservation!}
+              reservation={reservation}
               onSubmit={updateReservation}
             />
           </div>

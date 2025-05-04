@@ -52,7 +52,7 @@ const CancellationModal = ({
   reservation,
   onSubmit,
 }: {
-  reservation: Reservation;
+  reservation: Reservation | null;
   onSubmit: (reservation: Reservation) => void;
 }) => {
   const [selectedReason, setSelectedReason] =
@@ -62,7 +62,7 @@ const CancellationModal = ({
   const { toast } = useToast();
 
   const handleSubmit = async () => {
-    if (!selectedReason) return;
+    if (!selectedReason || !reservation) return;
 
     try {
       const cancelReason =
