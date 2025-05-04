@@ -28,6 +28,7 @@ import { useAccount } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { Button } from "./ui/button";
 import ResponsiveIcon from "./icons/ResponsiveIconBuilder";
+import { useUserStore } from "@/store/user-store";
 
 const UserMenu = () => {
   const {
@@ -43,6 +44,7 @@ const UserMenu = () => {
   const { toast } = useToast();
   const { chain } = useAccount();
   const pathname = usePathname();
+  const { user, fetchUser } = useUserStore();
 
   const [isHost, setIsHost] = useState(false);
 
@@ -53,6 +55,10 @@ const UserMenu = () => {
       setIsHost(false);
     }
   }, [pathname]);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return isConnected ? (
     <DropdownMenu>
@@ -122,6 +128,12 @@ const UserMenu = () => {
                 <CommandItem>
                   <RoleSwitcher isHost={isHost} />
                 </CommandItem>
+                {(!user?.is_uniqueness_verified ||
+                  !user?.is_liveness_verified) && (
+                  <CommandItem onSelect={() => router.push("/verification")}>
+                    Verify yourself
+                  </CommandItem>
+                )}
                 {isHost ? (
                   <CommandItem onSelect={() => router.push("/host/dashboard")}>
                     Dashboard

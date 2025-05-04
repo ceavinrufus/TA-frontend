@@ -1,6 +1,5 @@
 "use client";
 
-import { issueCredential } from "@/lib/api/issuer";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useOrderStore } from "../store/orderStore";
@@ -32,28 +31,12 @@ const ReservationProofQR = () => {
 
     const getIssuedCredential = async () => {
       try {
-        const body = {
-          credentialSubject: JSON.stringify({
-            id: reservationDetails.guest_did,
-            reservationId,
-          }),
-          type: "Reservation",
-          credentialSchema:
-            "https://raw.githubusercontent.com/ceavinrufus/claim-schema-vocab/refs/heads/main/schemas/json/ReservationCredential.json",
-          expiration: Math.floor(
-            new Date(reservationDetails.check_out_date!).getTime() / 1000
-          ),
-        };
-
-        const response = await issueCredential(body);
-        const { credential_id: credentialId } = response.data;
-
         const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
         const universalLink = `https://wallet.privado.id#request_uri=${encodeURIComponent(
           baseUrl +
             "/identity/" +
-            credentialId +
+            reservationDetails.booking_credential_id +
             "?to=" +
             reservationDetails.guest_did
         )}`;

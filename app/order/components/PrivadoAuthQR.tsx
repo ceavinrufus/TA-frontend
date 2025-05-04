@@ -13,7 +13,7 @@ const PrivadoAuthQR = ({
 }: {
   onScanSuccess: (did: string) => void;
 }) => {
-  const [qrCode, setQrCode] = useState<string>("");
+  const [qrCode, setQrCode] = useState<string>();
   const [sessionId, setSessionId] = useState<string>();
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const { toast } = useToast();

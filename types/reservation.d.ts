@@ -22,6 +22,7 @@ type Reservation = {
   cancel_reason: string;
   book_hash: string;
   guest_did: string;
+  booking_credential_id: string;
   dispute?: Dispute | null;
   deleted_at?: string | null;
   created_at: string;

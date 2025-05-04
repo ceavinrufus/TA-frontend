@@ -17,6 +17,7 @@ import { getReservationById, updateReservation } from "@/lib/api/reservation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHostStore } from "@/app/host/store/host-store";
+import { issueCredential } from "@/lib/api/issuer";
 
 export default function ReservationDetailsPage({ id }: { id: string }) {
   const router = useRouter();
@@ -52,9 +53,26 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
   const statusLabel = getStatusLabel(reservation!);
 
   const acceptReservation = async () => {
+    if (!reservation) return;
     try {
+      const body = {
+        credentialSubject: JSON.stringify({
+          id: reservation.guest_did,
+          reservationId: reservation.id,
+        }),
+        type: "Reservation",
+        credentialSchema:
+          "https://raw.githubusercontent.com/ceavinrufus/claim-schema-vocab/refs/heads/main/schemas/json/ReservationCredential.json",
+        expiration: Math.floor(
+          new Date(reservation.check_out_date!).getTime() / 1000
+        ),
+      };
+      const response = await issueCredential(body);
+      const { credential_id: credentialId } = response.data;
+
       const updatedData = {
         status: ReservationStatus.ORDER_COMPLETED,
+        booking_credential_id: credentialId,
       };
       await updateReservation(id, updatedData);
       setReservation((prev) => (prev ? { ...prev, ...updatedData } : null));

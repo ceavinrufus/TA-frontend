@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
 import { createPayment } from "@/lib/api/payment";
+import { issueCredential } from "@/lib/api/issuer";
 
 const CheckoutButtons: React.FC = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
@@ -20,6 +21,7 @@ const CheckoutButtons: React.FC = () => {
   const { toast } = useToast();
   const [isPaying, setIsPaying] = useState(false);
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+  const [isIssuingCredential, setIsIssuingCredential] = useState(false);
 
   const handleBack = () => router.back();
 
@@ -99,6 +101,7 @@ const CheckoutButtons: React.FC = () => {
 
       const txHash = receipt.hash;
 
+      // Create payment record in the database
       await createPayment({
         amount: totalPrice,
         is_successful: true,
@@ -109,11 +112,34 @@ const CheckoutButtons: React.FC = () => {
       const isInstantBooking =
         reservationDetails.listing.is_instant_booking ?? false;
 
-      await updateReservation(reservationDetails.id!, {
-        status: isInstantBooking
-          ? ReservationStatus.ORDER_COMPLETED
-          : ReservationStatus.ORDER_PROCESSING,
-      });
+      if (isInstantBooking) {
+        setIsIssuingCredential(true);
+        const body = {
+          credentialSubject: JSON.stringify({
+            id: reservationDetails.guest_did,
+            reservationId: reservationDetails.id,
+          }),
+          type: "Reservation",
+          credentialSchema:
+            "https://raw.githubusercontent.com/ceavinrufus/claim-schema-vocab/refs/heads/main/schemas/json/ReservationCredential.json",
+          expiration: Math.floor(
+            new Date(reservationDetails.check_out_date!).getTime() / 1000
+          ),
+        };
+
+        const response = await issueCredential(body);
+
+        const { credential_id: credentialId } = response.data;
+
+        await updateReservation(reservationDetails.id!, {
+          status: ReservationStatus.ORDER_COMPLETED,
+          booking_credential_id: credentialId,
+        });
+      } else {
+        await updateReservation(reservationDetails.id!, {
+          status: ReservationStatus.ORDER_PROCESSING,
+        });
+      }
 
       toast({
         title: "Payment successful",
@@ -139,6 +165,7 @@ const CheckoutButtons: React.FC = () => {
       setIsPaymentSuccessful(false);
     } finally {
       setIsPaying(false);
+      setIsIssuingCredential(false);
     }
   };
 
@@ -168,7 +195,9 @@ const CheckoutButtons: React.FC = () => {
         className="px-4 py-2 text-white rounded-md"
       >
         {isPaying ? (
-          <span className="animate-spin">Paying...</span>
+          <span className="animate-spin">
+            {isIssuingCredential ? "Issuing credential..." : "Paying..."}
+          </span>
         ) : (
           "Confirm & Pay"
         )}
