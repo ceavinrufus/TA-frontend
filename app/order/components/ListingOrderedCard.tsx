@@ -10,53 +10,10 @@ import {
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { Separator } from "@/components/ui/separator";
 import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
+import { reservationCancellableUntil } from "@/app/bookings/components/BookingAdditionalInfo";
 
 const ListingOrderedCard = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
-
-  const reservationCancellableUntil = (
-    check_in_date: Date | string,
-    cancellation_policy: string,
-    created_at: Date | string
-  ): Date | null => {
-    let cancellableUntil: Date | null;
-    const checkInDate = new Date(check_in_date);
-
-    if (cancellation_policy === "Flexible") {
-      const oneDayBefore = new Date(checkInDate);
-      oneDayBefore.setDate(checkInDate.getDate() - 1);
-      cancellableUntil = oneDayBefore;
-    } else if (cancellation_policy === "Moderate") {
-      const fiveDaysBefore = new Date(checkInDate);
-      fiveDaysBefore.setDate(checkInDate.getDate() - 5);
-      cancellableUntil = fiveDaysBefore;
-    } else if (cancellation_policy === "Firm") {
-      const thirtyDaysBefore = new Date(checkInDate);
-      thirtyDaysBefore.setDate(checkInDate.getDate() - 30);
-      cancellableUntil = thirtyDaysBefore;
-    } else if (cancellation_policy === "Strict") {
-      const fortyEightHoursAfterBooking = new Date(created_at);
-      fortyEightHoursAfterBooking.setHours(
-        fortyEightHoursAfterBooking.getHours() + 48
-      );
-
-      const fourteenDaysBefore = new Date(checkInDate);
-      fourteenDaysBefore.setDate(checkInDate.getDate() - 14);
-
-      // Use the earlier of the two dates
-      cancellableUntil = new Date(
-        Math.min(
-          fortyEightHoursAfterBooking.getTime(),
-          fourteenDaysBefore.getTime()
-        )
-      );
-    } else {
-      // Default to the check-in date if no valid cancellation policy is provided
-      cancellableUntil = null;
-    }
-
-    return cancellableUntil;
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;

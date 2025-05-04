@@ -85,7 +85,9 @@ const BookingAdditionalInfo: React.FC<BookingAdditionalInfoProps> = ({
     return (
       <span className="text-sm">
         Cancellable until{" "}
-        <span className="font-semibold">{format(cancellableDate, "PPP")}</span>
+        <span className="font-semibold">
+          {format(cancellableDate.toISOString().split("T")[0], "PPP")}
+        </span>
       </span>
     );
   };

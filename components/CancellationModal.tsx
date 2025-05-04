@@ -17,6 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserStore } from "@/store/user-store";
+import { reservationCancellableUntil } from "@/app/bookings/components/BookingAdditionalInfo";
+import { ethers } from "ethers";
+import RentalPayments from "@/abi/RentalPayments.json";
 
 export enum HostCancellationOption {
   PROPERTY_MAINTENANCE = "PROPERTY_MAINTENANCE",
@@ -91,32 +94,82 @@ const CancellationModal = ({
   const [selectedReason, setSelectedReason] = useState<string | null>(null);
   const [otherReason, setOtherReason] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useUserStore();
 
   const handleSubmit = async () => {
     if (!selectedReason || !reservation || !user) return;
+    if (!window.ethereum) {
+      toast({
+        title: "No wallet detected",
+        description: "Please install a wallet extension to proceed.",
+        variant: "destructive",
+      });
+    }
 
     try {
-      const cancelReason =
-        selectedReason === "OTHERS" ? otherReason : selectedReason;
+      setIsLoading(true);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = await provider.getSigner();
+      const contractABI = RentalPayments.abi;
+      const contractAddress =
+        process.env.NEXT_PUBLIC_RENTAL_PAYMENTS_CONTRACT_ADDRESS!;
 
-      const payload = {
-        status: ReservationStatus.ORDER_CANCELED,
-        cancel_reason: cancelReason,
-        cancelled_by_id: user.id,
-      };
+      const rentalPaymentsContract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        signer
+      );
 
-      await updateReservation(reservation.id, payload);
-      onSubmit({
-        ...reservation,
-        ...payload,
+      // Get on chain reservation details using the transaction hash
+      const bookingReceipt = await provider.getTransactionReceipt(
+        reservation.payments![0].transaction_hash!
+      );
+      const log = bookingReceipt!.logs[0];
+      const parsedLog = rentalPaymentsContract.interface.parseLog({
+        topics: log.topics,
+        data: log.data,
       });
 
-      toast({
-        title: "Reservation cancelled",
-        description: "Your reservation has been cancelled successfully.",
-      });
+      if (parsedLog && parsedLog.name === "PaymentInitiated") {
+        const bookingId = parsedLog.args.bookingId; // Extract bookingId from the log
+        const transaction = await rentalPaymentsContract.cancelBooking(
+          bookingId
+        );
+        const receipt = await transaction.wait();
+        const txHash = receipt.hash;
+
+        const cancelReason =
+          selectedReason === "OTHERS" ? otherReason : selectedReason;
+
+        const payload = {
+          status: ReservationStatus.ORDER_CANCELED,
+          cancel_reason: cancelReason,
+          cancelled_by_id: user.id,
+          cancellation_transaction_hash: txHash,
+        };
+
+        try {
+          await updateReservation(reservation.id, payload);
+          onSubmit({
+            ...reservation,
+            ...payload,
+          });
+          toast({
+            title: "Reservation cancelled",
+            description: "Your reservation has been cancelled successfully.",
+          });
+        } catch (error) {
+          console.error("Error cancelling reservation:", error);
+          toast({
+            title: "Error",
+            description: "Failed to cancel reservation. Please try again.",
+            variant: "destructive",
+          });
+        }
+      }
       setIsOpen(false);
       setSelectedReason(null);
       setOtherReason("");
@@ -127,30 +180,42 @@ const CancellationModal = ({
         description: "Failed to cancel reservation. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   if (!reservation) return <Skeleton className="w-full h-9 px-4 py-2" />;
-  const checkOutDate = new Date(reservation.check_out_date);
-  const today = new Date();
 
   const isCancelledStatus =
     reservation.status === ReservationStatus.ORDER_CANCELED;
-  const isButtonEnabled = !isCancelledStatus && checkOutDate > today;
 
   const isHost = user?.id === reservation?.host_id;
   const cancellationReasons = isHost
     ? hostCancellationReasons
     : guestCancellationReasons;
 
+  let isButtonEnabled = !isCancelledStatus; // Default value
+  if (!isHost) {
+    const cancellableDate = reservationCancellableUntil(
+      reservation.check_in_date,
+      reservation.listing.cancellation_policy,
+      reservation.created_at
+    );
+    isButtonEnabled =
+      !isCancelledStatus &&
+      !reservation.listing.is_no_free_cancellation &&
+      cancellableDate !== null &&
+      new Date() <= cancellableDate;
+  }
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
           variant="destructive"
           className="w-full"
-          disabled={!isButtonEnabled}
+          disabled={!isButtonEnabled || isLoading}
         >
-          Cancel Reservation
+          {isLoading ? "Cancelling..." : "Cancel Reservation"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
@@ -193,10 +258,11 @@ const CancellationModal = ({
             className="w-full"
             disabled={
               !selectedReason ||
-              (selectedReason === "OTHERS" && !otherReason.trim())
+              (selectedReason === "OTHERS" && !otherReason.trim()) ||
+              isLoading
             }
           >
-            Confirm Cancellation
+            {isLoading ? "Cancelling..." : "Confirm Cancellation"}
           </Button>
         </div>
       </DialogContent>
