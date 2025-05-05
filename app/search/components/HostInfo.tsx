@@ -6,6 +6,12 @@ import {
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
 import React from "react";
 import HostReputationModal from "./HostReputationModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const HostInfo = ({ host }: { host: User }) => {
   return (
@@ -21,21 +27,39 @@ const HostInfo = ({ host }: { host: User }) => {
                   {formatCryptoAddressForDisplay(host.wallet_address)}
                 </span>
               </p>
-              {host.is_uniqueness_verified &&
-              host.is_liveness_verified &&
-              host.is_identity_verified ? (
-                <ResponsiveIcon
-                  icon={"icon-check-circle"}
-                  sizeDesktop={16}
-                  color="#16a34a"
-                />
-              ) : (
-                <ResponsiveIcon
-                  icon={"icon-warning"}
-                  sizeDesktop={16}
-                  color="#dc2626"
-                />
-              )}
+              <TooltipProvider>
+                {(() => {
+                  const isVerified =
+                    host.is_uniqueness_verified &&
+                    host.is_liveness_verified &&
+                    host.is_identity_verified;
+
+                  return (
+                    <Tooltip delayDuration={0}>
+                      <TooltipTrigger className="text-left text-xs text-secondary-placeholder">
+                        {isVerified ? (
+                          <ResponsiveIcon
+                            icon={"icon-check-circle"}
+                            sizeDesktop={16}
+                            color="#16a34a"
+                          />
+                        ) : (
+                          <ResponsiveIcon
+                            icon={"icon-warning"}
+                            sizeDesktop={16}
+                            color="#dc2626"
+                          />
+                        )}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs">
+                          {isVerified ? "Verified Host" : "Unverified Host"}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })()}
+              </TooltipProvider>
             </div>
             <p className="text-sm">
               Joined since{" "}
