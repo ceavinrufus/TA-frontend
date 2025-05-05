@@ -103,7 +103,7 @@ type SearchListing = {
   restricted_check_in?: number[];
   restricted_check_out?: number[];
   host_id: string;
-  user: User;
+  host: User;
   prices: Price[];
   availabilities: Availability[];
   created_at: Date | string;

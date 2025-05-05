@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { placeTypes } from "@/data/placeTypes";
 import { propertyTypes } from "@/data/propertyTypes";
 import PriceCard from "./PriceCard";
+import HostInfo from "./HostInfo";
 
 const ListingDetails = ({ slug }: { slug: string }) => {
   const [listing, setListing] = useState<SearchListing>();
@@ -109,6 +110,11 @@ const ListingDetails = ({ slug }: { slug: string }) => {
       <div className="flex flex-col-reverse gap-8 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-8">
         {/* Left Column - Details */}
         <div className="flex flex-col gap-8 md:col-span-1 lg:col-span-3">
+          {/* Host */}
+          <HostInfo host={listing.host} />
+
+          <Separator />
+
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold">Property Details</h2>
 
