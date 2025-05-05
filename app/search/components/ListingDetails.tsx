@@ -22,7 +22,14 @@ const ListingDetails = ({ slug }: { slug: string }) => {
       setIsLoading(true);
       try {
         const response = (await getListingBySlug(slug)) as SearchListing;
-        setListing(response);
+        setListing({
+          ...response,
+          pictures: [
+            ...response.pictures,
+            ...response.pictures,
+            ...response.pictures,
+          ],
+        });
       } catch (error) {
         console.error("Error fetching listings:", error);
       } finally {
@@ -70,24 +77,38 @@ const ListingDetails = ({ slug }: { slug: string }) => {
         </p>
       </div>
 
-      {/* Images Grid */}
-      <div className="grid grid-cols-4 gap-4">
-        {listing.pictures.slice(0, 5).map((pic, index) => (
-          <div
-            key={index}
-            className={`relative ${
-              index === 0 ? "col-span-2 row-span-2" : ""
-            } rounded-lg overflow-hidden`}
-            style={{ height: index === 0 ? "400px" : "200px" }}
-          >
-            <Image
-              src={pic}
-              alt={`Listing image ${index + 1}`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+        {listing.pictures.slice(0, 5).map((pic, index) => {
+          const isMain = index === 0;
+          const isLastVisible = index === 4;
+          const extraCount = listing.pictures.length - 5;
+
+          return (
+            <div
+              key={index}
+              className={`relative group overflow-hidden rounded-lg ${
+                isMain
+                  ? "col-span-2 row-span-2 h-[300px] md:h-[416px]"
+                  : "h-[150px] md:h-[200px]"
+              }`}
+            >
+              <Image
+                src={pic}
+                alt={`Listing image ${index + 1}`}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+
+              {isLastVisible && extraCount > 0 && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                  <span className="text-white text-xl font-semibold">
+                    +{extraCount} more
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Main Content */}
