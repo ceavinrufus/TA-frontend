@@ -215,7 +215,7 @@ const PriceCard = ({
   };
 
   return (
-    <div className="flex flex-col md:shadow-neumorphic-card-up h-fit justify-start items-center rounded-[24px] bg-off-white gap-6 md:py-12 md:px-6 w-full md:w-[424px]">
+    <div className="flex flex-col md:shadow-neumorphic-card-up h-fit justify-start items-center rounded-[24px] bg-off-white gap-6 md:py-12 md:px-6 w-full">
       {/* Heading */}
       {!isLoading && displayDailyPrice ? (
         <p className="text-2xl font-semibold">
@@ -294,7 +294,7 @@ const PriceCard = ({
       </Button>
 
       {/* Total Price (Desktop) */}
-      <div className="md:flex-col w-full gap-1 flex">
+      <div className="flex-col w-full gap-1 flex">
         <div className="flex justify-between items-center w-full booking-price-update-component-charge-total-body">
           <p>Total Price</p>
           {isLoading || isPriceLoading ? (

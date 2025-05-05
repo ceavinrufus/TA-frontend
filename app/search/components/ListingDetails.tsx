@@ -22,14 +22,7 @@ const ListingDetails = ({ slug }: { slug: string }) => {
       setIsLoading(true);
       try {
         const response = (await getListingBySlug(slug)) as SearchListing;
-        setListing({
-          ...response,
-          pictures: [
-            ...response.pictures,
-            ...response.pictures,
-            ...response.pictures,
-          ],
-        });
+        setListing(response);
       } catch (error) {
         console.error("Error fetching listings:", error);
       } finally {
@@ -77,6 +70,7 @@ const ListingDetails = ({ slug }: { slug: string }) => {
         </p>
       </div>
 
+      {/* Listing pictures */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
         {listing.pictures.slice(0, 5).map((pic, index) => {
           const isMain = index === 0;
@@ -112,9 +106,9 @@ const ListingDetails = ({ slug }: { slug: string }) => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-3 gap-8">
+      <div className="flex flex-col-reverse gap-8 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-8">
         {/* Left Column - Details */}
-        <div className="flex flex-col gap-8 col-span-2">
+        <div className="flex flex-col gap-8 md:col-span-1 lg:col-span-3">
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold">Property Details</h2>
 
@@ -124,8 +118,8 @@ const ListingDetails = ({ slug }: { slug: string }) => {
                   icon={propertyType?.icon as IconType}
                   sizeDesktop={40}
                   color="#31456A"
-                />{" "}
-                <div className="">
+                />
+                <div>
                   <p className="font-semibold">{listing.property_type}</p>
                   <p className="text-sm">{propertyType?.description}</p>
                 </div>
@@ -136,7 +130,7 @@ const ListingDetails = ({ slug }: { slug: string }) => {
                   sizeDesktop={40}
                   color="#31456A"
                 />
-                <div className="">
+                <div>
                   <p className="font-semibold">{listing.place_type}</p>
                   <p className="text-sm">{placeType?.description}</p>
                 </div>
@@ -184,8 +178,8 @@ const ListingDetails = ({ slug }: { slug: string }) => {
           </section>
         </div>
 
-        {/* Right Column - Location */}
-        <div className="col-span-1">
+        {/* Right Column - Price Card */}
+        <div className="md:col-span-1 lg:col-span-2">
           <PriceCard
             hotelId={slug}
             maxGuests={listing.guest_number}
