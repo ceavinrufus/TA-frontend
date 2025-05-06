@@ -64,7 +64,10 @@ export default function BookingDetailsPage({ id }: { id: string }) {
               reservation={reservation}
               onSubmit={updateReservation}
             />
-            <ReservationProofModal reservation={reservation} />
+            <ReservationProofModal
+              reservation={reservation}
+              setReservation={setReservation}
+            />
             <CancellationModal
               reservation={reservation}
               onSubmit={updateReservation}
