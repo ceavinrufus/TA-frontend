@@ -101,14 +101,6 @@ const CheckoutButtons: React.FC = () => {
 
       const txHash = receipt.hash;
 
-      // Create payment record in the database
-      await createPayment({
-        amount: totalPrice,
-        is_successful: true,
-        reservation_id: reservationDetails.id!,
-        transaction_hash: txHash,
-      });
-
       const isInstantBooking =
         reservationDetails.listing.is_instant_booking ?? false;
 
@@ -131,14 +123,30 @@ const CheckoutButtons: React.FC = () => {
 
         const { credential_id: credentialId } = response.data;
 
-        await updateReservation(reservationDetails.id!, {
-          status: ReservationStatus.ORDER_COMPLETED,
-          booking_credential_id: credentialId,
-        });
+        await Promise.all([
+          createPayment({
+            amount: totalPrice,
+            is_successful: true,
+            reservation_id: reservationDetails.id!,
+            transaction_hash: txHash,
+          }),
+          updateReservation(reservationDetails.id!, {
+            status: ReservationStatus.ORDER_COMPLETED,
+            booking_credential_id: credentialId,
+          }),
+        ]);
       } else {
-        await updateReservation(reservationDetails.id!, {
-          status: ReservationStatus.ORDER_PROCESSING,
-        });
+        await Promise.all([
+          createPayment({
+            amount: totalPrice,
+            is_successful: true,
+            reservation_id: reservationDetails.id!,
+            transaction_hash: txHash,
+          }),
+          updateReservation(reservationDetails.id!, {
+            status: ReservationStatus.ORDER_PROCESSING,
+          }),
+        ]);
       }
 
       toast({
@@ -192,10 +200,10 @@ const CheckoutButtons: React.FC = () => {
           reservationDetails.status === ReservationStatus.ORDER_PROCESSING
         }
         onClick={handleCheckout}
-        className="px-4 py-2 text-white rounded-md"
+        className="px-4 py-2 text-white rounded-md animate-spin"
       >
         {isPaying ? (
-          <span className="animate-spin">
+          <span>
             {isIssuingCredential ? "Issuing credential..." : "Paying..."}
           </span>
         ) : (
