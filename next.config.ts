@@ -1,3 +1,4 @@
+import path from "path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -30,6 +31,21 @@ const nextConfig: NextConfig = {
         pathname: "**",
       },
     ],
+  },
+  experimental: {
+    // Try enabling modern module resolution
+    esmExternals: true,
+  },
+  webpack: (config, { isServer }) => {
+    // Add alias resolution for the '@' prefix
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        "@": path.resolve(__dirname),
+      },
+    };
+    return config;
   },
 };
 
