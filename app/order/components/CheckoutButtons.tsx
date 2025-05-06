@@ -13,6 +13,7 @@ import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
 import { createPayment } from "@/lib/api/payment";
 import { issueCredential } from "@/lib/api/issuer";
+import { cn } from "@/lib/utils";
 
 const CheckoutButtons: React.FC = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
@@ -200,7 +201,10 @@ const CheckoutButtons: React.FC = () => {
           reservationDetails.status === ReservationStatus.ORDER_PROCESSING
         }
         onClick={handleCheckout}
-        className="px-4 py-2 text-white rounded-md animate-spin"
+        className={cn(
+          "px-4 py-2 text-white rounded-md",
+          isPaying && "animate-spin"
+        )}
       >
         {isPaying ? (
           <span>
