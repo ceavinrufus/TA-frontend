@@ -1,7 +1,7 @@
 import React from "react";
 import CompleteVerification from "../components/CompleteVerification";
 
-const VerificationPage = (): JSX.Element => {
+const VerificationPage = () => {
   return (
     <div className="w-[792px]">
       <CompleteVerification />

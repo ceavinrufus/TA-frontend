@@ -7,9 +7,9 @@ import CreateListingNavigation from "../components/CreateListingNavigation";
  * It includes the CreateListingStepEight component and navigation buttons
  * to move back to the property description step or forward to the agreement step.
  *
- * @returns {JSX.Element} The rendered PricePage component.
+ * The rendered PricePage component.
  */
-const PricePage = (): JSX.Element => {
+const PricePage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepEight />

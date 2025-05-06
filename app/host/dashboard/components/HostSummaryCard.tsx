@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
  * - Statistical summary (total listings, reservations, earnings, host stake)
  *
  * @component
- * @returns {JSX.Element} A card displaying host summary information
+ * A card displaying host summary information
  *
  * @remarks
  * The component handles three states:

@@ -35,7 +35,7 @@ export enum CurrentPath {
  * The progress bar updates based on the current path in the application.
  *
  * @component
- * @returns {JSX.Element | null} A progress bar component or null if on verification page or invalid path
+ * A progress bar component or null if on verification page or invalid path
  *
  * Features:
  * - Automatically updates progress based on the current route

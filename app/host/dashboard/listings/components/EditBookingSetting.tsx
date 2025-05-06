@@ -43,7 +43,7 @@ const CardWithSwitch: React.FC<CardWithSwitchProps> = ({
  * - Trip length configurations (same day booking cutoff, min/max nights)
  *
  * @component
- * @returns {JSX.Element} A form interface for editing booking settings
+ * A form interface for editing booking settings
  *
  * @example
  * ```tsx

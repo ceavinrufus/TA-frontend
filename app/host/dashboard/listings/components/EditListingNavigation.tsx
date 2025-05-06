@@ -15,7 +15,7 @@ import { useSearchParams } from "next/navigation";
  * updates the URL when navigating between different sections.
  *
  * @component
- * @returns {JSX.Element} A navigation menu with different listing sections
+ * A navigation menu with different listing sections
  *
  * Features:
  * - Displays current section status with visual indicators

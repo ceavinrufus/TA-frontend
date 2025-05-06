@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
  * - A skip option that redirects to the host dashboard
  *
  * @component
- * @returns {JSX.Element} A form-like interface for host verification methods
+ * A form-like interface for host verification methods
  *
  * @example
  * return (

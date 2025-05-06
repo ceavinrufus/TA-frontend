@@ -13,7 +13,7 @@ import { tags } from "@/data/tags";
  * EditPropertyDescription component allows hosts to edit their property's title, tags, and description.
  *
  * @component
- * @returns {JSX.Element} A form section containing inputs for property name, tags, and description
+ * A form section containing inputs for property name, tags, and description
  *
  * @example
  * ```tsx

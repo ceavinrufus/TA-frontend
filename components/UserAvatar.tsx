@@ -15,7 +15,7 @@
  * @param {string} avatarProps.walletAddress - The user's wallet address used to generate the avatar
  * @param {"marble" | "beam" | "pixel" | "sunset" | "ring" | "bauhaus"} avatarProps.typeOfAvatar - The style of avatar to generate
  * @param {number} avatarProps.size - The size of the avatar in pixels
- * @returns {JSX.Element} A div containing the generated avatar
+ * A div containing the generated avatar
  */
 
 import { avatarColors } from "@/lib/ui/ui-utils";

@@ -15,9 +15,9 @@ import CreateListingStepFour from "../components/CreateListingStepFour";
  *   <GuestNumberPage />
  * )
  *
- * @returns {JSX.Element} The rendered guest number selection page.
+ * The rendered guest number selection page.
  */
-const GuestNumberPage = (): JSX.Element => {
+const GuestNumberPage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepFour />

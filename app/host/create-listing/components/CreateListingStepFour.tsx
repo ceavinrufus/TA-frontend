@@ -11,7 +11,7 @@ import {
  * Component for the fourth step of creating a listing, handling guest capacity and room details.
  *
  * @component
- * @returns {JSX.Element} A form section for specifying guest numbers, bedrooms, beds, and bathrooms
+ * A form section for specifying guest numbers, bedrooms, beds, and bathrooms
  *
  * @example
  * ```tsx

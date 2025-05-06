@@ -12,9 +12,9 @@ import CreateListingNavigation from "../components/CreateListingNavigation";
  *   <PropertyTypePage />
  * )
  *
- * @returns {JSX.Element} The rendered component.
+ * The rendered component.
  */
-const PropertyTypePage = (): JSX.Element => {
+const PropertyTypePage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepTwo />

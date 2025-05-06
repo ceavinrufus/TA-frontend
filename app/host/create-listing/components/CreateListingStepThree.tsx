@@ -13,7 +13,7 @@ import { placeTypes } from "@/data/placeTypes";
  * Allows hosts to select the type of place they are listing.
  *
  * @component
- * @returns {JSX.Element} A form section containing:
+ * A form section containing:
  * - A title asking what type of place guests will get
  * - A list of clickable cards showing different place types
  * - Each card displays:

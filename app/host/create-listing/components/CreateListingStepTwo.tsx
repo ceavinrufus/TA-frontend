@@ -13,7 +13,7 @@ import { propertyTypes } from "@/data/propertyTypes";
  * Allows users to select a property type from predefined options.
  *
  * @component
- * @returns {JSX.Element} A form section containing property type selection cards
+ * A form section containing property type selection cards
  *
  * @example
  * ```tsx

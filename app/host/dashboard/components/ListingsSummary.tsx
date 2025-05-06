@@ -31,7 +31,7 @@ import { Button } from "@/components/ui/button";
  * - useEffect - Fetches listing data on component mount
  * - useState - Manages the summary state
  *
- * @returns {JSX.Element} A component displaying listing statistics with clickable cards
+ * A component displaying listing statistics with clickable cards
  * that navigate to filtered listing views
  */
 const ListingsSummary = () => {

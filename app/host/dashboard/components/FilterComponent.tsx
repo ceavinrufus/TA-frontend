@@ -28,7 +28,7 @@ interface Props {
  * @param {(filters: Set<string>) => void} props.onFilterChange - Callback function when filters change
  * @param {'mobile' | 'desktop'} [props.accessMode='mobile'] - Display mode for the filter component
  *
- * @returns {JSX.Element} A filter component with dropdown functionality
+ * A filter component with dropdown functionality
  *
  * @example
  * ```tsx

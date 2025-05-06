@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
  * Fetches reservation data on component mount and displays it in clickable cards.
  *
  * @component
- * @returns {JSX.Element} A component containing:
+ * A component containing:
  * - A header with "Reservations" title and a link to all reservations
  * - Two clickable cards showing:
  *   1. Number of check-ins for today

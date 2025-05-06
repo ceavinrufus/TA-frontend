@@ -7,9 +7,9 @@ import CreateListingNavigation from "../components/CreateListingNavigation";
  * It includes the CreateListingStepFive component and navigation to the previous step.
  *
  * @component
- * @returns {JSX.Element} The rendered component.
+ * The rendered component.
  */
-const AmenitiesPage = (): JSX.Element => {
+const AmenitiesPage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepFive />

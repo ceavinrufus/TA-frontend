@@ -13,7 +13,7 @@ import { inRoom, nearbyThePlace } from "@/data/amenities";
  * Allows hosts to select amenities available at their property.
  *
  * @component
- * @returns {JSX.Element} A form section for selecting property amenities
+ * A form section for selecting property amenities
  *
  * Features:
  * - Displays amenities grouped by location (in-room and nearby)

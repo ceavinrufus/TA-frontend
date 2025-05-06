@@ -27,7 +27,7 @@ interface GuestCountModifierProps {
  * @param {function} props.onIncrease - The function to call when the increase button is clicked.
  * @param {number} [props.minCount=0] - The minimum count of guests allowed. Default is 0.
  * @param {number} [props.maxCount=10] - The maximum count of guests allowed. Default is 10.
- * @returns {JSX.Element} The rendered GuestCountModifier component.
+ * The rendered GuestCountModifier component.
  */
 const GuestCountModifier: React.FC<GuestCountModifierProps> = ({
   className,

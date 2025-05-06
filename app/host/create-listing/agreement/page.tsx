@@ -2,7 +2,7 @@ import React from "react";
 import CreateListingStepNine from "../components/CreateListingStepNine";
 import CreateListingNavigation from "../components/CreateListingNavigation";
 
-const AgreementPage = (): JSX.Element => {
+const AgreementPage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepNine />

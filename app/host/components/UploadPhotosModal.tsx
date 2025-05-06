@@ -36,7 +36,7 @@ interface UploadPhotosModalProps {
  * @param {React.Dispatch<React.SetStateAction<boolean>>} props.setIsModalOpen - Function to update the modal open state.
  * @param {() => void} props.onUpload - Callback function to be called when the upload button is clicked.
  *
- * @returns {JSX.Element} The rendered UploadPhotosModal component.
+ * The rendered UploadPhotosModal component.
  */
 const UploadPhotosModal: React.FC<UploadPhotosModalProps> = ({
   photos,

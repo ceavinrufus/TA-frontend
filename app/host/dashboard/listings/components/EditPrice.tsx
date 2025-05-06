@@ -27,7 +27,7 @@ import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
  * <EditPrice />
  * ```
  *
- * @returns {JSX.Element} A form section containing price input and breakdown calculations
+ * A form section containing price input and breakdown calculations
  *
  * @remarks
  * The component uses the useEditListing hook to manage listing data and updates.

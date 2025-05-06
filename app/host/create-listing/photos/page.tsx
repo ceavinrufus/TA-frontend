@@ -6,9 +6,9 @@ import CreateListingNavigation from "../components/CreateListingNavigation";
  * PhotosPage component renders the sixth step of the create listing process.
  * It includes the CreateListingStepSix component and navigation to the previous step.
  *
- * @returns {JSX.Element} The rendered PhotosPage component.
+ * The rendered PhotosPage component.
  */
-const PhotosPage = (): JSX.Element => {
+const PhotosPage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepSix />

@@ -9,7 +9,7 @@ import { useCreateListing } from "../../providers/CreateListingProvider";
  * Handles the location selection and address input for a property.
  *
  * @component
- * @returns {JSX.Element} A form with city/region selection and address input fields
+ * A form with city/region selection and address input fields
  *
  * @example
  * ```tsx

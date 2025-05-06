@@ -33,7 +33,7 @@ import { ReservationStatus } from "../reservations/utils/statusLabel";
  *
  * Clicking the card navigates to the listing's detail page with location step.
  *
- * @returns {JSX.Element} A clickable card displaying listing information
+ * A clickable card displaying listing information
  */
 const ListingsCard = ({ listing }: { listing: Listing }) => {
   // const { setListing } = useEditListing();

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * @param {React.ReactNode} [props.children] - Optional children elements to be rendered inside the card.
  * @param {() => void} props.onClick - The function to be called when the card is clicked.
  *
- * @returns {JSX.Element} The rendered clickable card component.
+ * The rendered clickable card component.
  */
 const ClickableCard = ({
   isClicked = false,

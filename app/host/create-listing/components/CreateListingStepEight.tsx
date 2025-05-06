@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
  * <CreateListingStepEight />
  * ```
  *
- * @returns {JSX.Element} A form section for price setting with fee breakdown
+ * A form section for price setting with fee breakdown
  */
 const CreateListingStepEight = () => {
   const { listing, updateListing } = useCreateListing();

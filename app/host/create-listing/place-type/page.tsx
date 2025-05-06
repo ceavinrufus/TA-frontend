@@ -13,9 +13,9 @@ import CreateListingStepThree from "../components/CreateListingStepThree";
  *   <PlaceTypePage />
  * )
  *
- * @returns {JSX.Element} A JSX element containing the third step of the create listing process.
+ * A JSX element containing the third step of the create listing process.
  */
-const PlaceTypePage = (): JSX.Element => {
+const PlaceTypePage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepThree />

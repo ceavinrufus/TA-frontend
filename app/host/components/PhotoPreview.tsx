@@ -20,7 +20,7 @@ interface PhotoPreviewProps {
  * @param {string} [props.photoClassName] - Additional class names for the photo.
  * @param {React.ReactNode} [props.children] - Optional children elements to be rendered inside the container.
  *
- * @returns {JSX.Element} The rendered PhotoPreview component.
+ * The rendered PhotoPreview component.
  */
 const PhotoPreview: React.FC<PhotoPreviewProps> = ({
   photo,
@@ -38,7 +38,7 @@ const PhotoPreview: React.FC<PhotoPreviewProps> = ({
     <div
       className={cn(
         "relative h-[279px] w-full rounded-2xl overflow-hidden shrink-0",
-        className,
+        className
       )}
     >
       {children}

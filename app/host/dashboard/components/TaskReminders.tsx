@@ -52,7 +52,7 @@ const TaskCard = ({
  * <TaskReminders />
  * ```
  *
- * @returns {JSX.Element} A section containing task reminder cards or loading state
+ * A section containing task reminder cards or loading state
  *
  * @dependencies
  * - useHostStore - Custom hook for accessing host data and loading state

@@ -15,9 +15,9 @@ import CreateListingStepOne from "../components/CreateListingStepOne";
  *   <LocationPage />
  * )
  *
- * @returns {JSX.Element} The rendered location selection page.
+ * The rendered location selection page.
  */
-const LocationPage = (): JSX.Element => {
+const LocationPage = () => {
   return (
     <div className="w-[792px]">
       <CreateListingStepOne />

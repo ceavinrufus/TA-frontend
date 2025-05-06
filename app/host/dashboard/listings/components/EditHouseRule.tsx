@@ -21,7 +21,7 @@ import { TimePicker } from "@/components/TimePicker";
  * @uses GuestCountModifier - Component for incrementing/decrementing guest count
  * @uses TimePicker - Component for selecting time values
  *
- * @returns {JSX.Element} A form section for editing house rules and guest policies
+ * A form section for editing house rules and guest policies
  */
 const EditHouseRule = () => {
   const { listing, updateListing } = useEditListing();
