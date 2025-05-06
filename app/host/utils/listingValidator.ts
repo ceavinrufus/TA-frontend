@@ -1,4 +1,5 @@
-import { Listing } from "@/types/listing";
+import { EditListing } from "../providers/EditListingProvider";
+import { CreateListing } from "../providers/CreateListingProvider";
 
 /**
  * Validates a property listing by checking required fields and displays error messages if validation fails.
@@ -19,7 +20,7 @@ import { Listing } from "@/types/listing";
  * @remarks
  * If validation fails, displays an error toast message indicating the first encountered issue
  */
-export const isListingValidated = (listing: Listing) => {
+export const isListingValidated = (listing: EditListing | CreateListing) => {
   let isValidated = true;
   let toastMessage = "";
 

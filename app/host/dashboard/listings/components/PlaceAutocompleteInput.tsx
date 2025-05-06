@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
-import MapdisplayComponentCreateListing from "./MapDisplayComponentCreateListing";
 import { Input } from "@/components/ui/input";
 
 export interface PlaceSuggestion {

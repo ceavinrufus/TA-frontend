@@ -213,7 +213,7 @@ const EditBookingSetting = () => {
           <Input
             className="py-[12px] px-[16px] w-full h-14 rounded-[16px] md:px-[16px] md:py-[12px] md:rounded-[16px]"
             placeholder={"1"}
-            value={listing.min_booking_night}
+            value={listing.min_booking_night ?? undefined}
             type="number"
             min={0}
             onChange={(e) =>
@@ -226,7 +226,7 @@ const EditBookingSetting = () => {
           <Input
             className="py-[12px] px-[16px] w-full h-14 rounded-[16px] md:px-[16px] md:py-[12px] md:rounded-[16px]"
             placeholder={"10"}
-            value={listing.max_booking_night}
+            value={listing.max_booking_night ?? undefined}
             type="number"
             min={0}
             onChange={(e) =>

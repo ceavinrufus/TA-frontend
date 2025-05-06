@@ -4,6 +4,7 @@ import { isListingValidated } from "@/app/host/utils/listingValidator";
 import { updateListing } from "@/lib/api/listing";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Listing } from "@/types/listing";
 
 const SaveEditButton = ({ listingId }: { listingId: string }) => {
   const { listing } = useEditListing();
@@ -21,7 +22,7 @@ const SaveEditButton = ({ listingId }: { listingId: string }) => {
         return;
       }
 
-      await updateListing(listingId, listing);
+      await updateListing(listingId, listing as Listing);
       toast({
         title: "Listing updated successfully",
         variant: "default",

@@ -50,13 +50,16 @@ const ListingsSummary = () => {
     const fetchData = async () => {
       const data = await getHostListingSummary();
 
-      const transformedStatusCounts = data.status_counts.reduce((acc, item) => {
-        acc[item.status] = item.count;
-        return acc;
-      }, {});
+      const transformedStatusCounts = data.status_counts.reduce(
+        (acc: { [key: string]: number }, item) => {
+          acc[item.status] = item.count;
+          return acc;
+        },
+        {}
+      );
 
       const transformedAvailabilityCounts = data.availability_counts.reduce(
-        (acc, item) => {
+        (acc: { [key: string]: number }, item) => {
           acc[item.availability] = item.count;
           return acc;
         },

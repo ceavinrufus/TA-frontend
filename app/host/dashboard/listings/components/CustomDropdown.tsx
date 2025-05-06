@@ -13,7 +13,7 @@ export interface CustomDropdownProps<T extends DropdownOption> {
   open: boolean;
   disabled?: boolean;
   onToggle: () => void;
-  onChange: (value: T["value"]) => void;
+  onChange: (value: T["value"] | null) => void;
   selectedValue: T["value"] | null;
   options: T[];
   placeholder: string;
