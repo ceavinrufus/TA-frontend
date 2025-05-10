@@ -45,14 +45,14 @@ const ListingsCards = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {/* Listings */}
       {listings.map((listing, index) => (
         <ListingsCard key={index} listing={listing} />
       ))}
       {/* Add new listing */}
       <ClickableCard
-        className="w-[378px] h-[420px] p-20 gap-4"
+        className="w-full h-[420px] p-20 gap-4"
         onClick={() => {
           router.push("/host/create-listing");
         }}

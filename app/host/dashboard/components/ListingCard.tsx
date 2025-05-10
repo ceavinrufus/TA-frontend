@@ -94,7 +94,7 @@ const ListingsCard = ({ listing }: { listing: Listing }) => {
 
   return (
     <ClickableCard
-      className="w-[378px] px-4 py-6 justify-between gap-4"
+      className="w-full px-4 py-6 justify-between gap-4"
       onClick={handleClick}
       isClicked={false}
     >
