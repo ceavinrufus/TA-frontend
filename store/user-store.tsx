@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { getUserInfo } from "@/lib/api/user";
 import { create } from "zustand";
 
@@ -28,11 +29,25 @@ export const useUserStore = create<UserStore>((set) => ({
         isLoading: false,
       });
     } catch (error) {
-      console.error("Failed to fetch user:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to fetch user";
       set({
-        error: error instanceof Error ? error.message : "Failed to fetch user",
+        error: errorMessage,
         isLoading: false,
       });
+      const pathname = window.location.pathname;
+      if (
+        pathname !== "/" &&
+        !pathname.startsWith("/search") &&
+        !pathname.startsWith("/order/details")
+      ) {
+        console.error("Failed to fetch user.", errorMessage);
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      }
     }
   },
 

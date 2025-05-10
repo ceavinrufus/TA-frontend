@@ -52,12 +52,17 @@ export const createApiClient = () => {
         // Handle 401 unauthorized errors
         if (response.status === 401) {
           if (typeof window !== "undefined") {
-            localStorage.removeItem("auth_token");
+            if (token) {
+              localStorage.removeItem("auth_token");
+              throw new Error("Session expired. Please login again.");
+            } else {
+              throw new Error("Unauthorized. Please login.");
+            }
             // Optionally redirect to login
             // window.location.href = '/login';
+          } else {
+            throw new Error("Unauthorized. Please login.");
           }
-
-          throw new Error("Session expired. Please login again.");
         }
 
         throw new Error(errorData.message || `API Error: ${response.status}`);
@@ -72,13 +77,13 @@ export const createApiClient = () => {
         throw new Error("Invalid JSON response");
       }
     } catch (error) {
-      console.error("API request failed:", error);
-      toast({
-        title: "Request Failed",
-        description:
-          error instanceof Error ? error.message : "Something went wrong",
-        variant: "destructive",
-      });
+      // console.error("API request failed:", error);
+      // toast({
+      //   title: "Request Failed",
+      //   description:
+      //     error instanceof Error ? error.message : "Something went wrong",
+      //   variant: "destructive",
+      // });
       throw error;
     }
   };
