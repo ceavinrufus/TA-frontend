@@ -22,6 +22,12 @@ import { Separator } from "@/components/ui/separator";
 import DisputeModal from "@/components/DisputeModal";
 import CancellationModal from "@/components/CancellationModal";
 import { useUserStore } from "@/store/user-store";
+import {
+  copyToClipboard,
+  formatCryptoAddressForDisplay,
+} from "@/lib/ui/ui-utils";
+import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
+import { toast } from "@/hooks/use-toast";
 
 export default function ReservationDetailsPage({ id }: { id: string }) {
   const router = useRouter();
@@ -130,7 +136,7 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
   };
 
   return (
-    <div className="md:min-w-[1200px] flex flex-col gap-12">
+    <div className="w-full flex flex-col gap-12">
       <div className="">
         <BackToDashboardButton />
       </div>
@@ -146,9 +152,34 @@ export default function ReservationDetailsPage({ id }: { id: string }) {
           <div className="flex gap-20 text-base">
             <div className="font-bold w-[200px]">Guest:</div>
             <ValueWrapper loading={loading}>
-              {reservation?.guest_wallet_address
-                ? reservation.guest_wallet_address
-                : reservation?.guest_info?.[0]?.email}
+              {reservation?.guest_wallet_address ? (
+                <div className="flex items-center gap-2">
+                  {formatCryptoAddressForDisplay(
+                    reservation.guest_wallet_address
+                  )}
+                  <Button
+                    variant="ghost"
+                    className="p-0 h-fit"
+                    onClick={async () => {
+                      await copyToClipboard({
+                        text: reservation.guest_wallet_address,
+                      });
+                      toast({
+                        title: "Copied to clipboard!",
+                        description: "Address copied to clipboard",
+                      });
+                    }}
+                  >
+                    <ResponsiveIcon
+                      icon="icon-copy"
+                      sizeDesktop={16}
+                      sizeMobile={14}
+                    />
+                  </Button>
+                </div>
+              ) : (
+                <p>-</p>
+              )}
             </ValueWrapper>
           </div>
           <div className="flex gap-20 text-base">

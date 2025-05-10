@@ -214,7 +214,7 @@ const ReservationTable = () => {
                     ? formatCryptoAddressForDisplay(
                         reservation.guest_wallet_address
                       )
-                    : reservation.guest_info?.[0]?.email}
+                    : "-"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -307,7 +307,7 @@ const ReservationTable = () => {
                     ? formatCryptoAddressForDisplay(
                         reservation.guest_wallet_address
                       )
-                    : reservation.guest_info?.[0]?.email}
+                    : "-"}
                 </td>
                 <td className="text-center table-cell text-sm">
                   {reservation.check_in_date
