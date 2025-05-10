@@ -5,9 +5,10 @@ import QRCode from "qrcode";
 import Image from "next/image";
 import { getVerificationResult, requestProof } from "@/lib/api/verifier";
 import { useToast } from "@/hooks/use-toast";
-import { getUserInfo, updateUser } from "@/lib/api/user";
+import { updateUser } from "@/lib/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserStore } from "@/store/user-store";
+import { useAccount } from "wagmi";
 
 const UniquenessVerificationQR = ({
   onScanSuccess,
@@ -19,12 +20,11 @@ const UniquenessVerificationQR = ({
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const { toast } = useToast();
   const { user, setUser } = useUserStore();
+  const { isConnected } = useAccount();
 
   const generateQR = async () => {
     try {
-      const user = await getUserInfo();
-
-      if (!user) {
+      if (!user || !isConnected) {
         toast({
           title: "Please connect your wallet",
           description: "You need to connect your wallet to proceed.",

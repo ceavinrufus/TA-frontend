@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useOrderStore } from "../store/orderStore";
 import { updateReservation } from "@/lib/api/reservation";
-import { getUserInfo } from "@/lib/api/user";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
@@ -14,9 +13,11 @@ import RentalPayments from "@/abi/RentalPayments.json";
 import { createPayment } from "@/lib/api/payment";
 import { issueCredential } from "@/lib/api/issuer";
 import { cn } from "@/lib/utils";
+import { useUserStore } from "@/store/user-store";
 
 const CheckoutButtons: React.FC = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
+  const { user } = useUserStore();
   const { isConnected } = useAccount();
   const router = useRouter();
   const { toast } = useToast();
@@ -36,8 +37,6 @@ const CheckoutButtons: React.FC = () => {
         variant: "destructive",
       });
     }
-
-    const user = await getUserInfo();
 
     if (!user || !isConnected) {
       toast({

@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import UniquenessVerificationQR from "./UniquenessVerificationQR";
 import { useUserStore } from "@/store/user-store";
 import LivenessVerificationQR from "./LivenessVerificationQR";
@@ -18,10 +18,12 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import IdentityVerificationQR from "./IdentityVerificationQR";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle2 } from "lucide-react";
 
 const UserVerification = () => {
   const [currentStep, setCurrentStep] = useState<number | null>(null);
   const totalSteps = 3;
+  const [isJustDone, setIsJustDone] = useState(false);
   const { user, fetchUser, isLoading } = useUserStore();
   const router = useRouter();
   const { toast } = useToast();
@@ -31,8 +33,10 @@ const UserVerification = () => {
   }, []);
 
   useEffect(() => {
+    // Assuming the attributes below are sequentially filled
     if (user?.is_identity_verified) {
-      router.back();
+      // router.back();
+      setCurrentStep(3);
     } else if (user?.is_liveness_verified) {
       setCurrentStep(2);
     } else if (user?.is_uniqueness_verified) {
@@ -79,6 +83,31 @@ const UserVerification = () => {
             <Skeleton className="h-[500px] rounded-lg"></Skeleton>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  if (currentStep === 3) {
+    return (
+      <div className="h-[50vh] flex flex-col justify-between w-full mt-16">
+        <div className="text-center py-8">
+          <div className="mb-6">
+            <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto" />
+          </div>
+          <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+            {isJustDone ? "Verification Complete!" : "All steps completed!"}
+          </h3>
+          <p className="text-gray-600 text-lg max-w-md mx-auto">
+            {isJustDone
+              ? "Congratulations! You have successfully completed the verification process. You can now access all the features of our platform."
+              : "You have completed all the verification steps. You can now proceed to use the application."}
+          </p>
+        </div>
+        <div className="flex justify-end">
+          <Button onClick={() => router.push("/")} variant={"default"}>
+            Go to Home
+          </Button>
+        </div>
       </div>
     );
   }
@@ -138,6 +167,7 @@ const UserVerification = () => {
                     title: "Identity verification successful",
                     description: "Your identity has been verified.",
                   });
+                  setIsJustDone(true);
                 }}
               />
             </div>

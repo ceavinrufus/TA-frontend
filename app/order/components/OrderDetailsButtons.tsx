@@ -5,14 +5,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createReservation } from "@/lib/api/reservation";
 import { useOrderStore } from "../store/orderStore";
-import { getUserInfo } from "@/lib/api/user";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
+import { useUserStore } from "@/store/user-store";
+import { useWalletAuth } from "@/hooks/useWalletAuth";
 
 const OrderDetailsButtons: React.FC = () => {
   const { reservationDetails, listingDetails } = useOrderStore();
+  const { user } = useUserStore();
+  const { connect } = useWalletAuth();
   const { isConnected } = useAccount();
   const { toast } = useToast();
   const router = useRouter();
@@ -31,14 +34,13 @@ const OrderDetailsButtons: React.FC = () => {
       ? new Date(reservationDetails.check_out_date)
       : null;
 
-    const user = await getUserInfo();
-
     if (!user || !isConnected) {
       toast({
         title: "Please connect your wallet",
         description: "You need to connect your wallet to proceed.",
         variant: "destructive",
       });
+      connect();
       return;
     }
 
@@ -85,9 +87,19 @@ const OrderDetailsButtons: React.FC = () => {
       guest_did: user.did,
     };
 
-    const reservation = (await createReservation(payload)) as Reservation;
-
-    router.push(`/order/checkout?reservationId=${reservation.id}`);
+    try {
+      const reservation = (await createReservation(payload)) as Reservation;
+      router.push(`/order/checkout?reservationId=${reservation.id}`);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to create reservation";
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return;
+    }
   };
 
   return (
