@@ -1,44 +1,58 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useEditListing } from "@/app/host/providers/EditListingProvider";
 import ResponsiveIcon, {
   IconType,
 } from "@/components/icons/ResponsiveIconBuilder";
-import { useEditListing } from "@/app/host/providers/EditListingProvider";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp, Menu } from "lucide-react";
 
 /**
- * EditListingNavigation component provides a navigation menu for editing a listing.
+ * EditListingNavigation component provides a floating navigation menu for editing a listing.
  * It displays various sections of the listing form with their current status/values.
  *
  * The component uses URL search parameters to track the current editing step and
  * updates the URL when navigating between different sections.
  *
  * @component
- * A navigation menu with different listing sections
+ * A responsive collapsible navigation menu with different listing sections
  *
  * Features:
  * - Displays current section status with visual indicators
  * - Shows current values/descriptions for each section
  * - Handles navigation between different editing steps
  * - Responsive icons with dynamic colors based on selection
- *
- * Navigation sections include:
- * - Location
- * - Property Type
- * - Amenities
- * - Photos
- * - Description
- * - Price
- * - House Rules
- * - Booking Settings
- * - Availability Settings
+ * - Collapsible on mobile for better UX
+ * - Floating positioning
  */
-const EditListingNavigation = () => {
+export default function EditListingNavigation() {
   const router = useRouter();
   const params = useSearchParams();
   const currentStep = params.get("step") || "location";
   const { listing } = useEditListing();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if screen is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
 
   const amenitiesCount = listing.amenities?.length || 0;
 
@@ -93,12 +107,6 @@ const EditListingNavigation = () => {
         : "",
       step: "price",
     },
-    // {
-    //   icon: "icon-accessibility" as IconType,
-    //   name: "Accessibility feature?",
-    //   description: "",
-    //   step: "accessibility",
-    // },
     {
       icon: "icon-list" as IconType,
       name: "House rule",
@@ -150,53 +158,105 @@ const EditListingNavigation = () => {
         .join(" · "),
       step: "availability-setting",
     },
-    // {
-    //   icon: "icon-person" as IconType,
-    //   name: "Host Info",
-    //   description: "",
-    //   step: "host-info",
-    // },
   ];
 
   const handleNavigation = (step: string) => {
     const searchParams = new URLSearchParams(params.toString());
     searchParams.set("step", step);
     router.push(`?${searchParams.toString()}`);
+
+    // Close the menu on mobile after selection
+    if (isMobile) {
+      setIsOpen(false);
+    }
   };
 
+  // Find current menu item
+  const currentMenuItem = menuItems.find((item) => item.step === currentStep);
+
   return (
-    <div className="w-[335px] shadow-neumorphic-card-up py-6 px-4 rounded-2xl h-fit flex-shrink-0">
-      <ul className="flex flex-col gap-6">
-        {menuItems.map((item, index) => (
-          <li
-            key={index}
-            className={`flex cursor-pointer rounded-[8px] p-4 gap-4 ${
-              currentStep === item.step ? "bg-[#D2DFFB]" : ""
-            }`}
-            onClick={() => handleNavigation(item.step)}
-          >
-            <div
-              className={`p-1 h-fit rounded-full ${
-                currentStep === item.step ? "bg-blue-950" : "bg-[#D2DFFB]"
-              }`}
-            >
-              <ResponsiveIcon
-                icon={item.icon || "icon-person"}
-                sizeDesktop={16}
-                color={currentStep === item.step ? "#F6F6F6" : "#31456A"}
-              />
+    <div className="lg:relative">
+      <div
+        className={`${
+          isMobile ? "fixed" : ""
+        } bottom-8 left-4 right-4  lg:bottom-auto lg:top-0 lg:left-0 lg:w-[335px] z-10`}
+      >
+        <Collapsible
+          open={!isMobile || isOpen}
+          onOpenChange={setIsOpen}
+          className="rounded-2xl shadow-neumorphic-card-up bg-white overflow-hidden"
+        >
+          {isMobile && (
+            <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white rounded-2xl">
+              <div className="flex items-center gap-4">
+                {currentMenuItem && (
+                  <>
+                    <div className="flex items-center justify-center size-8 rounded-full bg-blue-950">
+                      <ResponsiveIcon
+                        icon={currentMenuItem.icon}
+                        sizeMobile={14}
+                        sizeDesktop={16}
+                        color="#F6F6F6"
+                      />
+                    </div>
+                    <div className="font-semibold">{currentMenuItem.name}</div>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center">
+                {isOpen ? (
+                  <ChevronDown className="h-5 w-5" />
+                ) : (
+                  <ChevronUp className="h-5 w-5" />
+                )}
+              </div>
+            </CollapsibleTrigger>
+          )}
+
+          <CollapsibleContent className="lg:block">
+            <div className="py-6 px-4">
+              <ul className="flex flex-col lg:gap-6 max-h-[75vh] lg:max-h-screen overflow-y-auto">
+                {menuItems.map((item, index) => (
+                  <li
+                    key={index}
+                    className={`flex cursor-pointer rounded-[8px] p-4 gap-4 ${
+                      currentStep === item.step ? "bg-[#D2DFFB]" : ""
+                    }`}
+                    onClick={() => handleNavigation(item.step)}
+                  >
+                    <div
+                      className={`flex items-center justify-center size-[28px] md:size-[32px] rounded-full ${
+                        currentStep === item.step
+                          ? "bg-blue-950"
+                          : "bg-[#D2DFFB]"
+                      }`}
+                    >
+                      <ResponsiveIcon
+                        icon={item.icon || "icon-person"}
+                        sizeDesktop={16}
+                        sizeMobile={14}
+                        color={
+                          currentStep === item.step ? "#F6F6F6" : "#31456A"
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <p className="font-semibold text-sm md:text-base">
+                        {item.name}
+                      </p>
+                      {item.description && (
+                        <p className="text-xs md:text-sm text-gray-600 line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex flex-col gap-1">
-              <p className="font-semibold">{item.name}</p>
-              {item.description && (
-                <p className="text-sm text-gray-600">{item.description}</p>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
     </div>
   );
-};
-
-export default EditListingNavigation;
+}

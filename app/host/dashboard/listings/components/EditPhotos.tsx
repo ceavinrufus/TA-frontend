@@ -143,7 +143,7 @@ const EditPhotos = () => {
       </div>
       {/* Photo upload section */}
       {(listing.pictures?.length ?? 0) > 0 ? (
-        <div className="w-full grid grid-cols-2 gap-6">
+        <div className="w-full grid grid-cols-2 gap-3">
           {/* Cover Image */}
           <PhotoPreview
             photo={listing.pictures![0]}

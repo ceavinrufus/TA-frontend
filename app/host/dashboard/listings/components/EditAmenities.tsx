@@ -73,15 +73,15 @@ const EditAmenities = () => {
           category: "nearbyThePlace",
         },
       ].map((section, index) => (
-        <div key={index} className="flex flex-col gap-6">
+        <div key={index} className="flex flex-col gap-6 w-full">
           <h2 className="text-xl font-semibold text-blue-950">
             {section.title}
           </h2>
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-3">
             {section.amenities.map((amenity, idx) => (
               <ClickableCard
                 key={idx}
-                className="w-[177px] h-[88px] gap-2"
+                className="w-full h-[88px] gap-2"
                 isClicked={listing.amenities?.includes(amenity.type)}
                 onClick={() => handleSelect(amenity.type)}
               >

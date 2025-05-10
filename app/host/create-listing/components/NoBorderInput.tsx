@@ -23,7 +23,7 @@ const NoBorderInput: React.FC<NoBorderInputProps> = ({
       onChange={onChange}
       placeholder={placeholder}
       className={cn(
-        "border-none outline-none text-6xl font-normal text-center bg-transparent",
+        "border-none outline-none text-6xl font-normal text-center bg-transparent w-full",
         value && "underline underline-offset-[7px]",
         className
       )}

@@ -95,7 +95,7 @@ const EditPrice = () => {
   const hostEarnings = basePrice - serviceFee - guestDeposit;
 
   return (
-    <div className="flex flex-col items-start justify-start gap-[64px]">
+    <div className="flex flex-col items-start justify-start gap-[64px] w-full">
       <h1 className="text-2xl font-bold text-blue-950">Price</h1>
       <div className="flex flex-col gap-20 shadow-neumorphic-card-up w-full rounded-[32px] p-12">
         <div className="flex flex-col items-center gap-6">

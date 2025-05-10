@@ -10,7 +10,7 @@ const CreateListingPage = () => {
     router.push("/host/create-listing/location");
   }, [router]);
 
-  return <div className="md:min-w-[1200px] flex flex-col gap-20"></div>;
+  return <div className="w-full flex flex-col gap-20"></div>;
 };
 
 export default CreateListingPage;

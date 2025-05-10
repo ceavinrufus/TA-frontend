@@ -147,7 +147,7 @@ const EditBookingSetting = () => {
             value={radio2Value}
           >
             <div
-              className={`flex flex-col gap-4 w-[719px] self-center ${
+              className={`flex flex-col gap-4 w-full self-center ${
                 !listing.is_no_free_cancellation ? "" : "hidden"
               }`}
             >

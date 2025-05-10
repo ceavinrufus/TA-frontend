@@ -115,18 +115,18 @@ export default function EditListingPage({ id }: { id: string }) {
     }
 
     fetchListing();
-  }, [id]);
+  }, [id, host?.id, router, setListing]);
 
   if (loading) {
-    return;
+    return null;
   }
 
   return (
-    <div className="flex flex-col md:w-[1200px] gap-6">
+    <div className="flex flex-col gap-6">
       <div className="">
         <BackToListingButton />
       </div>
-      <div className="flex gap-[80px]">
+      <div className="flex flex-col lg:flex-row gap-[40px]">
         <EditListingNavigation />
         <div className="flex flex-col gap-14 w-full">
           <Component />
