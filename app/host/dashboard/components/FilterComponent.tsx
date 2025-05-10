@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -10,6 +11,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { motion } from "framer-motion";
 import { X, Filter as FilterIcon, ChevronDown } from "lucide-react";
+import IconClose from "@/components/icons/IconClose";
 
 interface Props {
   filters: { label: string; value: string }[];
@@ -109,11 +111,11 @@ const FilterComponent = ({
     <div ref={dropdownRef} className="relative z-50 w-fit">
       <Button
         variant="outline"
-        className="h-[48px] px-4 flex items-center gap-2"
+        className="md:h-[48px] px-3 md:px-4 flex items-center md:gap-2 gap-1"
         onClick={toggleDropdown}
       >
         <FilterIcon size={16} />
-        <span className="text-sm">{selectedLabels}</span>
+        <span className="text-xs md:text-sm">{selectedLabels}</span>
         <motion.div
           animate={{ rotate: isDropdownOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
@@ -144,16 +146,15 @@ const FilterComponent = ({
       {accessMode === "mobile" && (
         <Dialog open={isDropdownOpen} onOpenChange={setDropdownOpen}>
           <DialogContent className="sm:max-w-md pb-6">
-            <DialogHeader className="flex items-center justify-between mb-2">
-              <DialogTitle className="text-lg font-medium">
-                Select Filter
-              </DialogTitle>
+            <DialogHeader className="flex flex-row items-center justify-between mb-2">
+              <DialogTitle>Select Filter</DialogTitle>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="outline"
+                className="w-[32px] h-[32px] rounded-full"
                 onClick={() => setDropdownOpen(false)}
+                type="button"
               >
-                <X size={16} />
+                <IconClose size={16} />
               </Button>
             </DialogHeader>
 

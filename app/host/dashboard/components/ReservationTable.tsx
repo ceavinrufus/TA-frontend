@@ -126,7 +126,7 @@ const ReservationTable = () => {
     return reservations.filter((reservation) => {
       const matchesListing =
         selectedListingFilters.has("all") ||
-        selectedListingFilters.has(reservation.listing.name);
+        selectedListingFilters.has(reservation.listing.slug);
 
       const matchesStatus =
         selectedReservationFilters.has("all") ||
@@ -149,13 +149,37 @@ const ReservationTable = () => {
   };
 
   return (
-    <div className="flex flex-col w-full shadow-neumorphic-card-up p-8 pb-12 rounded-2xl gap-12">
+    <div className="flex flex-col w-full shadow-neumorphic-card-up p-4 md:p-8 pb-8 md:pb-12 rounded-2xl gap-6 md:gap-12">
+      {/* Mobile Filters */}
+      <div className="md:hidden flex justify-end gap-2 flex-wrap">
+        <FilterComponent
+          accessMode="mobile"
+          filters={listingsFilter}
+          selectedFilters={selectedListingFilters}
+          onFilterChange={(value) => {
+            setSelectedListingFilters(value);
+          }}
+        />
+        <FilterComponent
+          accessMode="mobile"
+          filters={reservationsFilter}
+          selectedFilters={selectedReservationFilters}
+          onFilterChange={(value) => {
+            router.push("?status=" + Array.from(value).join(","));
+            setSelectedReservationFilters(value);
+          }}
+        />
+      </div>
+
+      {/* Desktop Filters */}
       <div className="hidden md:flex justify-end gap-6">
         <FilterComponent
           accessMode="desktop"
           filters={listingsFilter}
           selectedFilters={selectedListingFilters}
-          onFilterChange={setSelectedListingFilters}
+          onFilterChange={(value) => {
+            setSelectedListingFilters(value);
+          }}
         />
         <FilterComponent
           accessMode="desktop"
@@ -167,7 +191,98 @@ const ReservationTable = () => {
           }}
         />
       </div>
-      <div className="overflow-x-auto md:overflow-x-visible">
+
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-4">
+        {filteredReservations.map((reservation, index) => (
+          <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
+            <div className="flex justify-between items-start mb-3">
+              <h3 className="font-semibold">{reservation.listing.name}</h3>
+              <Badge
+                className={`text-[#474747] px-2 py-1 rounded-[4px] ${
+                  statusColors[getStatusLabel(reservation)]
+                }`}
+              >
+                {getStatusLabel(reservation)}
+              </Badge>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Guest:</span>
+                <span>
+                  {reservation.guest_wallet_address
+                    ? formatCryptoAddressForDisplay(
+                        reservation.guest_wallet_address
+                      )
+                    : reservation.guest_info?.[0]?.email}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Check-in:</span>
+                <span>
+                  {formatDateStringForDisplay(
+                    reservation.check_in_date,
+                    "en-US",
+                    false,
+                    DateTimeDisplayMode.SHORT_MONTH_DATE_FORMAT
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Check-out:</span>
+                <span>
+                  {formatDateStringForDisplay(
+                    reservation.check_out_date,
+                    "en-US",
+                    false,
+                    DateTimeDisplayMode.SHORT_MONTH_DATE_FORMAT
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Guests:</span>
+                <span>{reservation.guest_number}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Total:</span>
+                <span>
+                  {`${Number(
+                    (
+                      reservation?.total_price -
+                      (reservation?.guest_deposit ?? 0)
+                    ).toFixed(8)
+                  )} ETH`}
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button
+                className="size-8"
+                variant={"outline"}
+                onClick={() => {
+                  router.push(`/host/dashboard/reservations/${reservation.id}`);
+                }}
+              >
+                <IconEye size={16} />
+              </Button>
+              <Button
+                className="size-8"
+                variant={"outline"}
+                onClick={() => openQRModal(reservation.id)}
+                disabled={
+                  reservation.status !== ReservationStatus.ORDER_COMPLETED ||
+                  new Date(reservation.check_out_date) < new Date()
+                }
+              >
+                <IconQR size={16} />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="min-w-full">
           <thead>
             <tr>

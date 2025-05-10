@@ -4,7 +4,7 @@ import BackToDashboardButton from "../components/BackToDashboardButton";
 
 const ReservationsPage = () => {
   return (
-    <div className="md:min-w-[1200px] flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6">
       <div className="">
         <BackToDashboardButton />
       </div>
