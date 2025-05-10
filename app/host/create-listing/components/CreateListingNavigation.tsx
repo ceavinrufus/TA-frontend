@@ -178,7 +178,7 @@ const CreateListingNavigation: React.FC<CreateListingNavigationProps> = ({
       {backTo ? (
         <Link
           href={backTo}
-          className="underline neumorphic-text-button underline-offset-2"
+          className="underline text-xs sm:text-sm md:text-base hover:underline hover:underline-offset-4 underline-offset-2"
         >
           Back
         </Link>

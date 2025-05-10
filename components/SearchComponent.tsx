@@ -140,7 +140,7 @@ const SearchComponent = ({
   };
 
   return (
-    <div className="flex gap-4 items-end">
+    <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-end">
       <div className="flex-1 bg-white shadow-button-up rounded-lg">
         <Input
           type="text"
@@ -150,13 +150,13 @@ const SearchComponent = ({
           className="h-12"
         />
       </div>
-      <div className="w-72">
+      <div className="w-full lg:w-72">
         <Popover>
           <PopoverTrigger asChild>
             <div className="bg-white shadow-button-up rounded-lg">
               <Button
                 variant="outline"
-                className="w-full h-12 justify-start text-left "
+                className="w-full h-12 justify-start text-left"
               >
                 {formatDateDisplay()}
               </Button>
@@ -192,7 +192,7 @@ const SearchComponent = ({
           !searchListingsParams.date.to ||
           !searchListingsParams.guests
         }
-        className="h-12 px-8"
+        className="h-12 w-full lg:w-auto lg:px-8"
         onClick={handleSearch}
       >
         Search

@@ -68,7 +68,7 @@ const ReservationsSummary = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-blue-950">Reservations</h2>
         <Link
-          className="flex items-center gap-1 neumorphic-text-button"
+          className="flex items-center gap-1 text-xs sm:text-sm md:text-base hover:underline hover:underline-offset-4"
           href={"/host/dashboard/reservations"}
         >
           See all reservations{" "}
@@ -76,9 +76,9 @@ const ReservationsSummary = () => {
           <ResponsiveIcon icon="icon-arrow-forward" sizeDesktop={16} />
         </Link>
       </div>
-      <div className="flex gap-8">
+      <div className="flex gap-8 flex-wrap">
         <ClickableCard
-          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
+          className="relative p-6 items-start justify-between gap-3 w-full sm:w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
             router.replace("/host/dashboard/reservations?status=checked-in");
           }}
@@ -105,7 +105,7 @@ const ReservationsSummary = () => {
           </div>
         </ClickableCard>
         <ClickableCard
-          className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
+          className="relative p-6 items-start justify-between gap-3 w-full sm:w-[276px] group hover:bg-[#D2DFFB]"
           onClick={() => {
             router.replace("/host/dashboard/reservations?status=checked-out");
           }}

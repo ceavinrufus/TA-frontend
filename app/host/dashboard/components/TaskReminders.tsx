@@ -99,7 +99,7 @@ const TaskReminders = () => {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-xl font-semibold text-blue-950">Task Reminders</h2>
-      <div className="flex gap-6">
+      <div className="flex gap-6 flex-wrap">
         {isLoading ? (
           Array(2)
             .fill(null)

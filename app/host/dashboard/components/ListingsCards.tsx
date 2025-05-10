@@ -60,7 +60,9 @@ const ListingsCards = () => {
       >
         <ResponsiveIcon icon="icon-add" sizeDesktop={24} />
 
-        <p className="neumorphic-text-button">Add new listing</p>
+        <p className="text-xs sm:text-sm md:text-base hover:underline hover:underline-offset-4">
+          Add new listing
+        </p>
       </ClickableCard>
     </div>
   );

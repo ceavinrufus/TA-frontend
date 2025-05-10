@@ -121,7 +121,7 @@ const UploadPhotosModal: React.FC<UploadPhotosModalProps> = ({
         <DialogFooter className="flex flex-row justify-between pt-4">
           <button
             onClick={closeModal}
-            className="underline neumorphic-text-button underline-offset-2"
+            className="underline text-xs sm:text-sm md:text-base hover:underline hover:underline-offset-4 underline-offset-2"
           >
             Cancel
           </button>

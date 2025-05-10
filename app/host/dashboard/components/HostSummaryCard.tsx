@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHostStore } from "../../store/host-store";
 import { ethers } from "ethers";
 import HostStake from "@/abi/HostStake.json";
@@ -84,7 +84,7 @@ const HostSummaryCard = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchAllStats = async () => {
       await fetchHostStats();
       await checkHostStake(); // Call the function to check host stake
@@ -112,17 +112,13 @@ const HostSummaryCard = () => {
 
   if (isLoading) {
     return (
-      <div className="host-summary-section">
+      <div className="w-full flex flex-col gap-4">
         <Skeleton className="h-8 w-72 rounded mb-4" />
-        <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col md:flex-row shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
+          <div className="flex items-center justify-center flex-col gap-4">
             <Skeleton className="size-[139px] rounded-full flex-shrink-0" />
-            <div className="space-y-1">
-              <Skeleton className="w-full h-6 rounded-sm" />
-              <Skeleton className="w-full h-6 rounded-sm" />
-            </div>
           </div>
-          <div className="grid grid-cols-3 w-full h-full gap-y-8">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full h-full gap-y-8">
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="flex flex-col gap-2">
                 <Skeleton className="h-5 w-24 rounded" />
@@ -140,12 +136,12 @@ const HostSummaryCard = () => {
   }
 
   return (
-    <div className="host-summary-section">
+    <div className="w-full flex flex-col gap-4">
       <h1 className="text-3xl font-semibold mb-2">
         Welcome back, {formatCryptoAddressForDisplay(address)}
       </h1>
-      <div className="flex shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col md:flex-row shadow-neumorphic-card-up rounded-3xl p-12 gap-20 bg-[#D2DFFB]">
+        <div className="flex items-center justify-center flex-col gap-4">
           <div className="size-[139px] rounded-full border border-off-white flex items-center justify-center flex-shrink-0">
             <UserAvatar
               walletAddress={address || ""}
@@ -154,7 +150,7 @@ const HostSummaryCard = () => {
             />
           </div>
         </div>
-        <div className="grid grid-cols-3 w-full h-full gap-y-8">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full h-full gap-y-8">
           {summaryItems.map((item, index) => (
             <div key={index} className="flex flex-col gap-2 text-blue-950">
               <p>{item.label}</p>

@@ -204,7 +204,9 @@ const EditPhotos = () => {
           >
             <ResponsiveIcon icon="icon-add" sizeDesktop={24} />
 
-            <p className="neumorphic-text-button">Add photo here</p>
+            <p className="text-xs sm:text-sm md:text-base hover:underline hover:underline-offset-4">
+              Add photo here
+            </p>
           </ClickableCard>
         </div>
       ) : (

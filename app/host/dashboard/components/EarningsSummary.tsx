@@ -70,11 +70,11 @@ const EarningsSummary = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-blue-950">Earnings</h2>
       </div>
-      <div className="flex gap-8">
+      <div className="flex gap-8 flex-wrap">
         {summary.map((item, index) => (
           <ClickableCard
             key={index}
-            className="relative p-6 items-start justify-between gap-3 w-[276px] group hover:bg-[#D2DFFB]"
+            className="relative p-6 items-start justify-between gap-3 w-full sm:w-[276px] group hover:bg-[#D2DFFB]"
             onClick={() => {
               router.replace(item.linkHref);
             }}

@@ -7,7 +7,7 @@ import EarningsSummary from "./components/EarningsSummary";
 
 const DashboardPage = () => {
   return (
-    <div className="md:min-w-[1200px] flex flex-col gap-20">
+    <div className="w-full flex flex-col gap-20">
       <HostSummaryCard />
       <TaskReminders />
       <ReservationsSummary />
