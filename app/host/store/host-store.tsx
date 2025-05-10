@@ -33,7 +33,7 @@ export const useHostStore = create<HostStore>((set) => ({
       const stats = await getHostStats();
       set({
         host: host,
-        hostStats: { ...stats, hostStake: "0.0" },
+        hostStats: stats,
         isLoading: false,
       });
     } catch (error) {

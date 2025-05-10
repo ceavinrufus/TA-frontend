@@ -18,5 +18,4 @@ interface HostStats {
   totalReservations: number;
   totalListings: number;
   totalEarnings: number;
-  hostStake: string;
 }

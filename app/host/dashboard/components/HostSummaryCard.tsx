@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useHostStore } from "../../store/host-store";
 import { ethers } from "ethers";
 import HostStake from "@/abi/HostStake.json";
@@ -40,11 +40,11 @@ import { useToast } from "@/hooks/use-toast";
 const HostSummaryCard = () => {
   const { address } = useAccount();
 
-  const { hostStats, isLoading, error, setHostStats, fetchHostStats } =
-    useHostStore();
+  const { hostStats, isLoading, error, fetchHostStats } = useHostStore();
   const currency = "$";
+  const [hostStake, setHostStake] = useState<string>("0.0");
   const [isSecurityDepositLoading, setIsSecurityDepositLoading] =
-    React.useState<boolean>(true);
+    useState<boolean>(true);
   const { toast } = useToast();
 
   const checkHostStake = async () => {
@@ -75,12 +75,8 @@ const HostSummaryCard = () => {
 
       const stake = ethers.formatEther(hostStake); // Convert to Ether
 
-      setHostStats({
-        totalListings: hostStats?.totalListings ?? 0,
-        totalReservations: hostStats?.totalReservations ?? 0,
-        totalEarnings: hostStats?.totalEarnings ?? 0,
-        hostStake: stake,
-      }); // Update host stats with host stake
+      console.log(hostStats);
+      setHostStake(stake); // Update host stake
     } catch (error) {
       console.error("Error checking host stake:", error);
     } finally {
@@ -139,7 +135,7 @@ const HostSummaryCard = () => {
     );
   }
 
-  if (error || !hostStats) {
+  if (error) {
     return <div>Error: {error}</div>;
   }
 
@@ -180,9 +176,12 @@ const HostSummaryCard = () => {
               <p>Host stake</p>
               <div className="flex items-center gap-3">
                 <p className="text-2xl font-semibold text-blue-950">{`${
-                  hostStats.hostStake ?? 0
+                  hostStake ?? 0
                 } ETH`}</p>
-                <SecurityDepositModal initialAmount={hostStats.hostStake} />
+                <SecurityDepositModal
+                  initialAmount={hostStake}
+                  setHostStake={setHostStake}
+                />
               </div>
             </div>
           )}

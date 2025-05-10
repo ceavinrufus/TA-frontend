@@ -18,7 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
-const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
+const SecurityDepositModal = ({
+  initialAmount,
+  setHostStake,
+}: {
+  initialAmount: string;
+  setHostStake: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [amount, setAmount] = useState<string>("");
   const [isMakingDeposit, setIsMakingDeposit] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -94,17 +100,12 @@ const SecurityDepositModal = ({ initialAmount }: { initialAmount: string }) => {
       });
 
       const newAmount = Number(
-        (
-          parseFloat(hostStats?.hostStake || "0") + parseFloat(amount || "0")
-        ).toFixed(8)
+        (parseFloat(initialAmount || "0") + parseFloat(amount || "0")).toFixed(
+          8
+        )
       ).toString();
 
-      setHostStats({
-        totalReservations: hostStats?.totalReservations ?? 0,
-        totalListings: hostStats?.totalListings ?? 0,
-        totalEarnings: hostStats?.totalEarnings ?? 0,
-        hostStake: newAmount,
-      });
+      setHostStake(newAmount);
     } catch (error) {
       console.error("Error during deposit:", error);
       toast({
