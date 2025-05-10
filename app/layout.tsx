@@ -38,9 +38,9 @@ export default async function RootLayout({
           <Providers initialState={initialState}>
             <Navbar />
             {children}
-            <Toaster />
           </Providers>
         </main>
+        <Toaster />
       </body>
     </html>
   );
