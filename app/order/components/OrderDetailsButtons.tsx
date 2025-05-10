@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createReservation } from "@/lib/api/reservation";
@@ -10,15 +10,6 @@ import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statu
 import { GUEST_DEPOSIT_RATE, SERVICE_FEE_RATE } from "@/constants";
 import { useAccount } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
-import PrivadoAuthQR from "./PrivadoAuthQR";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import IconClose from "@/components/icons/IconClose";
 
 const OrderDetailsButtons: React.FC = () => {
   const { reservationDetails, listingDetails } = useOrderStore();
@@ -26,13 +17,11 @@ const OrderDetailsButtons: React.FC = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [showQRModal, setShowQRModal] = useState(false);
-
   const handleBack = () => {
     router.back();
   };
 
-  const handleCheckout = async (userDID: string) => {
+  const handleCheckout = async () => {
     if (!reservationDetails || !listingDetails) return;
 
     const checkIn = reservationDetails.check_in_date
@@ -62,6 +51,16 @@ const OrderDetailsButtons: React.FC = () => {
       return;
     }
 
+    if (!user.did) {
+      toast({
+        title: "DID not found",
+        description: "Please verify yourself first.",
+        variant: "destructive",
+      });
+      router.push("/verification");
+      return;
+    }
+
     const priceTimesNight =
       listingDetails.default_price! * reservationDetails.night_staying!;
 
@@ -83,30 +82,12 @@ const OrderDetailsButtons: React.FC = () => {
       guest_wallet_address: user.wallet_address,
       status: ReservationStatus.ORDER_WAITING_PAYMENT,
       book_hash: reservationDetails.book_hash,
-      guest_did: userDID,
+      guest_did: user.did,
     };
 
     const reservation = (await createReservation(payload)) as Reservation;
 
     router.push(`/order/checkout?reservationId=${reservation.id}`);
-  };
-
-  const handleProceedClick = () => {
-    if (!isConnected) {
-      toast({
-        title: "Please connect your wallet",
-        description: "You need to connect your wallet to proceed.",
-        variant: "destructive",
-      });
-      return;
-    } else {
-      setShowQRModal(true);
-    }
-  };
-
-  const handleQRSuccess = (did: string) => {
-    setShowQRModal(false);
-    handleCheckout(did);
   };
 
   return (
@@ -118,35 +99,13 @@ const OrderDetailsButtons: React.FC = () => {
       >
         Back
       </Button>
-      <Dialog open={showQRModal}>
-        <DialogTrigger asChild>
-          <Button
-            variant={"default"}
-            onClick={handleProceedClick}
-            className="px-4 py-2 text-white rounded-md"
-          >
-            Proceed to Checkout
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-3xl p-4 sm:p-6 rounded-xl z-[99999]">
-          <DialogHeader className="flex flex-row items-center justify-between p-0 mb-4">
-            <DialogTitle className="text-lg font-semibold">
-              Scan to Continue
-            </DialogTitle>
-            <Button
-              variant="outline"
-              className="w-[32px] h-[32px] rounded-full"
-              onClick={() => setShowQRModal(false)}
-              aria-label="Close modal"
-            >
-              <IconClose size={16} />
-            </Button>
-          </DialogHeader>
-          <div className="flex flex-col items-center">
-            <PrivadoAuthQR onScanSuccess={handleQRSuccess} />
-          </div>
-        </DialogContent>
-      </Dialog>
+      <Button
+        variant={"default"}
+        onClick={handleCheckout}
+        className="px-4 py-2 text-white rounded-md"
+      >
+        Proceed to Checkout
+      </Button>
     </div>
   );
 };
