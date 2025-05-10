@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useOrderStore } from "../store/orderStore"; // adjust the import path
+import { useOrderStore } from "../store/orderStore";
 import Image from "next/image";
 import {
   DateTimeDisplayMode,
@@ -15,13 +15,10 @@ import { reservationCancellableUntil } from "@/app/bookings/components/BookingAd
 const ListingOrderedCard = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
-  if (!listingDetails || !reservationDetails) {
+  if (!listingDetails || !reservationDetails)
     return <div>No listing details available</div>;
-  }
 
   let freeCancellationUntil = null;
   const freeCancellation = !listingDetails.is_no_free_cancellation;
@@ -35,9 +32,9 @@ const ListingOrderedCard = () => {
 
   return (
     <div className="rounded-lg border border-neutral-200 p-4 bg-white">
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         {/* Listing Image */}
-        <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg">
+        <div className="relative h-48 w-full md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-lg">
           {listingDetails.pictures?.[0] && (
             <Image
               src={listingDetails.pictures[0]}
@@ -48,10 +45,12 @@ const ListingOrderedCard = () => {
           )}
         </div>
 
-        {/* Listing Details */}
-        <div className="flex flex-col flex-grow">
-          <h3 className="font-semibold text-lg">{listingDetails.name}</h3>
-          <p className="text-sm text-gray-600">{listingDetails.address}</p>
+        {/* Listing Details & Dates */}
+        <div className="flex flex-col flex-grow justify-between gap-2">
+          <div>
+            <h3 className="font-semibold text-lg">{listingDetails.name}</h3>
+            <p className="text-sm text-gray-600">{listingDetails.address}</p>
+          </div>
 
           {/* Check-in/Check-out Times */}
           <div className="mt-2 text-sm flex bg-gray-100 w-fit py-3 px-1 rounded-md">
@@ -81,8 +80,8 @@ const ListingOrderedCard = () => {
           </div>
         </div>
 
-        {/* Price Details */}
-        <div className="flex flex-col items-end">
+        {/* Price & Cancellation Info */}
+        <div className="flex flex-col items-start md:items-end justify-between md:justify-start">
           <p className="text-lg font-semibold">
             {Number(
               (
@@ -92,7 +91,7 @@ const ListingOrderedCard = () => {
             )}{" "}
             ETH <span className="text-gray-500 text-xs">/night</span>
           </p>
-          <div className="flex flex-row justify-start items-center gap-[4px]">
+          <div className="flex flex-row justify-start items-center gap-1">
             <ResponsiveIcon
               icon={freeCancellation ? "icon-repeat" : "icon-no-repeat"}
               sizeDesktop={14}
