@@ -11,7 +11,7 @@ const ValueWrapper = ({
 }) => (
   <div className="flex gap-20 text-base">
     {loading ? (
-      <Skeleton className="w-[200px] h-6 rounded"></Skeleton>
+      <Skeleton className="w-[100px] md:w-[200px] h-6 rounded"></Skeleton>
     ) : (
       children
     )}

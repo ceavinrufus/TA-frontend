@@ -52,13 +52,13 @@ export default function BookingDetailsPage({ id }: { id: string }) {
   return (
     <div className="flex flex-col gap-12">
       <BookingCard reservation={reservation} />
-      <div className="flex justify-between gap-12">
-        <div className="w-2/3">
+      <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-8 lg:gap-12">
+        <div className="md:w-2/3">
           <PriceBreakdown reservation={reservation!} loading={loading} />
         </div>
-        <div className="w-1/3 flex flex-col gap-2 justify-between">
+        <div className="md:w-1/3 flex flex-col gap-6 md:gap-2 justify-between">
           <BookingAdditionalInfo reservation={reservation} />
-          <Separator orientation="horizontal" />
+          <Separator orientation="horizontal" className="hidden md:block" />
           <div className="space-y-1">
             <DisputeModal
               reservation={reservation}
