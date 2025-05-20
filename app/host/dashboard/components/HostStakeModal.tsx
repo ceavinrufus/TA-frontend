@@ -21,12 +21,14 @@ import { useWalletClient } from "wagmi";
 const HostStakeModal = ({
   initialAmount,
   setHostStake,
+  method = "deposit",
 }: {
   initialAmount: string;
   setHostStake: React.Dispatch<React.SetStateAction<string | undefined>>;
+  method?: "deposit" | "withdraw";
 }) => {
   const [amount, setAmount] = useState<string>("");
-  const [isMakingDeposit, setIsMakingDeposit] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { toast } = useToast();
@@ -57,7 +59,7 @@ const HostStakeModal = ({
     setAmount(newValue);
   };
 
-  const handleDeposit = async () => {
+  const handleStakeProcessing = async () => {
     if (!walletClient) {
       toast({
         title: "Please connect your wallet",
@@ -70,7 +72,7 @@ const HostStakeModal = ({
     if (!amount || parseFloat(amount) <= 0) {
       toast({
         title: "Deposit Failed",
-        description: "Please enter a valid deposit amount.",
+        description: "Please enter a valid amount.",
         variant: "destructive",
       });
       return;
@@ -88,35 +90,57 @@ const HostStakeModal = ({
         HostStake.abi,
         signer
       );
-      setIsMakingDeposit(true);
-      const transaction = await contract.depositHostStake({
-        value: ethers.parseEther(amount),
-      });
+      setIsProcessing(true);
+
+      let transaction;
+      if (method === "deposit") {
+        transaction = await contract.depositHostStake({
+          value: ethers.parseEther(amount),
+        });
+      } else {
+        transaction = await contract.withdrawHostStake(
+          ethers.parseEther(amount)
+        );
+      }
       closeModal();
 
       await transaction.wait();
-      toast({
-        title: "Deposit Successful",
-        description: "Your host stake has been successfully topped up.",
-        variant: "default",
-      });
 
-      const newAmount = Number(
-        (parseFloat(initialAmount || "0") + parseFloat(amount || "0")).toFixed(
-          8
-        )
-      ).toString();
+      let newAmount;
+      if (method === "deposit") {
+        toast({
+          title: "Deposit Successful",
+          description: "Your host stake has been successfully deposited.",
+          variant: "default",
+        });
+        newAmount = Number(
+          (
+            parseFloat(initialAmount || "0") + parseFloat(amount || "0")
+          ).toFixed(8)
+        ).toString();
+      } else {
+        toast({
+          title: "Withdrawal Successful",
+          description: "Your host stake has been successfully withdrawn.",
+          variant: "default",
+        });
+        newAmount = Number(
+          (
+            parseFloat(initialAmount || "0") - parseFloat(amount || "0")
+          ).toFixed(8)
+        ).toString();
+      }
 
       setHostStake(newAmount);
     } catch (error) {
-      console.error("Error during deposit:", error);
+      console.error("Error during stake processing:", error);
       toast({
-        title: "Deposit Failed",
-        description: "An error occurred while processing your deposit.",
+        title: "Transaction Failed",
+        description: "An error occurred while processing your stake.",
         variant: "destructive",
       });
     } finally {
-      setIsMakingDeposit(false);
+      setIsProcessing(false);
     }
   };
 
@@ -127,18 +151,26 @@ const HostStakeModal = ({
           className="flex justify-center items-center cursor-pointer"
           onClick={openModal}
         >
-          <ResponsiveIcon
-            icon="icon-add-circle"
-            sizeDesktop={24}
-            sizeMobile={24}
-          />
+          {method === "deposit" ? (
+            <ResponsiveIcon
+              icon="icon-add-circle"
+              sizeDesktop={24}
+              sizeMobile={24}
+            />
+          ) : (
+            <ResponsiveIcon
+              icon="icon-minus-circle"
+              sizeDesktop={24}
+              sizeMobile={24}
+            />
+          )}
         </DialogTrigger>
         <DialogContent
           className={`hotel-management-cancel-booking-dialog z-[99999] rounded-t-2xl md:rounded-xl`}
         >
           <DialogHeader className="w-full flex flex-row justify-between items-center">
-            <DialogTitle className="hotel-management-cancel-booking-dialog-title">
-              Top Up Your Security Deposit
+            <DialogTitle className="capitalize">
+              {method} Your Host Stake
             </DialogTitle>
             <Button
               variant="outline"
@@ -171,7 +203,7 @@ const HostStakeModal = ({
 
             <div className="flex flex-col gap-[8px]">
               <p className="hotel-management-cancel-booking-dialog-subtitle text-start">
-                Enter Amount to Top Up (in ETH):
+                Enter {method} amount (in ETH):
               </p>
               <Input
                 value={amount}
@@ -191,9 +223,9 @@ const HostStakeModal = ({
               <p className="neumorphic-button-engraved-text">Cancel</p>
             </Button>
             <Button
-              disabled={isMakingDeposit}
+              disabled={isProcessing}
               variant="default"
-              onClick={handleDeposit}
+              onClick={handleStakeProcessing}
               className="md:px-[24px] md:py-[16px] p-[16px] flex-1 md:h-[56px]"
             >
               <p className="">Confirm</p>

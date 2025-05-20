@@ -166,10 +166,17 @@ const HostSummaryCard = () => {
                   hostStake ?? "-"
                 } ${hostStake ? "ETH" : ""}`}</p>
                 {hostStake && (
-                  <HostStakeModal
-                    initialAmount={hostStake}
-                    setHostStake={setHostStake}
-                  />
+                  <div className="flex items-center gap-1">
+                    <HostStakeModal
+                      initialAmount={hostStake}
+                      setHostStake={setHostStake}
+                    />
+                    <HostStakeModal
+                      initialAmount={hostStake}
+                      setHostStake={setHostStake}
+                      method="withdraw"
+                    />
+                  </div>
                 )}
               </div>
             </div>
