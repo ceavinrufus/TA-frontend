@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
 import { createDispute } from "@/lib/api/dispute";
+import { useWalletClient } from "wagmi";
 
 export enum DisputeReasonOption {
   PROPERTY_WAS_NOT_AS_DESCRIBED = "PROPERTY_WAS_NOT_AS_DESCRIBED",
@@ -76,22 +77,24 @@ const DisputeModal = ({
   const { user } = useUserStore();
   const { toast } = useToast();
 
+  const { data: walletClient } = useWalletClient();
+
   const handleSubmit = async () => {
-    if (!window.ethereum) {
+    if (!walletClient) {
       toast({
-        title: "No wallet detected",
-        description: "Please install a wallet extension to proceed.",
+        title: "Please connect your wallet",
+        description: "You need to connect your wallet to proceed.",
         variant: "destructive",
       });
+      return;
     }
-    if (!reservation) return;
-    if (!user) return;
+    if (!reservation || !user) return;
 
     try {
       setIsLoading(true);
 
       if (selectedReasons.length > 0 && guestClaim.trim()) {
-        const provider = new ethers.BrowserProvider(window.ethereum);
+        const provider = new ethers.BrowserProvider(walletClient.transport);
         await provider.send("eth_requestAccounts", []);
         const signer = await provider.getSigner();
         const contractABI = RentalPayments.abi;

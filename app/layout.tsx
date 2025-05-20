@@ -15,8 +15,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "StayChain",
-  description: "StayChain app",
+  title: "TripAnon",
+  description: "TripAnon app",
 };
 
 export default async function RootLayout({

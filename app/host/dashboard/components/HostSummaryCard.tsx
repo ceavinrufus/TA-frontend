@@ -5,7 +5,7 @@ import { useHostStore } from "../../store/host-store";
 import { ethers } from "ethers";
 import HostStake from "@/abi/HostStake.json";
 import SecurityDepositModal from "./SecurityDepositModal";
-import { useAccount } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { UserAvatar } from "@/components/UserAvatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
@@ -47,18 +47,20 @@ const HostSummaryCard = () => {
     useState<boolean>(true);
   const { toast } = useToast();
 
+  const { data: walletClient } = useWalletClient();
+
   const checkHostStake = async () => {
+    if (!walletClient) {
+      toast({
+        title: "Please connect your wallet",
+        description: "You need to connect your wallet to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsSecurityDepositLoading(true); // Set loading state to true
     try {
-      if (!window.ethereum) {
-        toast({
-          title: "No wallet detected",
-          description: "Please install a wallet extension to proceed.",
-          variant: "destructive",
-        });
-      }
-
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider(walletClient.transport);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const contractAddress =

@@ -6,39 +6,30 @@ import { Button } from "@/components/ui/button";
 import { useOrderStore } from "../store/orderStore";
 import { updateReservation } from "@/lib/api/reservation";
 import { ReservationStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
-import { useAccount } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { useToast } from "@/hooks/use-toast";
 import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
 import { createPayment } from "@/lib/api/payment";
 import { issueCredential } from "@/lib/api/issuer";
 import { cn } from "@/lib/utils";
-import { useUserStore } from "@/store/user-store";
 
 const CheckoutButtons: React.FC = () => {
   const { listingDetails, reservationDetails, isLoading } = useOrderStore();
-  const { user } = useUserStore();
-  const { isConnected } = useAccount();
   const router = useRouter();
   const { toast } = useToast();
   const [isPaying, setIsPaying] = useState(false);
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
   const [isIssuingCredential, setIsIssuingCredential] = useState(false);
 
+  const { data: walletClient } = useWalletClient();
+
   const handleBack = () => router.back();
 
   const handleCheckout = async () => {
     if (!reservationDetails || !listingDetails) return;
 
-    if (!window.ethereum) {
-      toast({
-        title: "No wallet detected",
-        description: "Please install a wallet extension to proceed.",
-        variant: "destructive",
-      });
-    }
-
-    if (!user || !isConnected) {
+    if (!walletClient) {
       toast({
         title: "Please connect your wallet",
         description: "You need to connect your wallet to proceed.",
@@ -62,7 +53,7 @@ const CheckoutButtons: React.FC = () => {
     }
 
     // Smart contract payment
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.BrowserProvider(walletClient.transport);
 
     await provider.send("eth_requestAccounts", []);
 

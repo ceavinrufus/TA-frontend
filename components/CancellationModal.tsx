@@ -20,6 +20,7 @@ import { useUserStore } from "@/store/user-store";
 import { reservationCancellableUntil } from "@/app/bookings/components/BookingAdditionalInfo";
 import { ethers } from "ethers";
 import RentalPayments from "@/abi/RentalPayments.json";
+import { useWalletClient } from "wagmi";
 
 export enum HostCancellationOption {
   PROPERTY_MAINTENANCE = "PROPERTY_MAINTENANCE",
@@ -98,19 +99,23 @@ const CancellationModal = ({
   const { toast } = useToast();
   const { user } = useUserStore();
 
+  const { data: walletClient } = useWalletClient();
+
   const handleSubmit = async () => {
     if (!selectedReason || !reservation || !user) return;
-    if (!window.ethereum) {
-      toast({
-        title: "No wallet detected",
-        description: "Please install a wallet extension to proceed.",
-        variant: "destructive",
-      });
-    }
 
     try {
+      if (!walletClient) {
+        toast({
+          title: "Please connect your wallet",
+          description: "You need to connect your wallet to proceed.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       setIsLoading(true);
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider(walletClient?.transport);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const contractABI = RentalPayments.abi;

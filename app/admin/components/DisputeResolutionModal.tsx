@@ -16,6 +16,7 @@ import RentalPayments from "@/abi/RentalPayments.json";
 import { Button } from "@/components/ui/button";
 import { DisputeStatus } from "@/app/host/dashboard/reservations/utils/statusLabel";
 import { updateDispute } from "@/lib/api/dispute";
+import { useWalletClient } from "wagmi";
 
 const DisputeResolutionModal = ({
   dispute,
@@ -32,21 +33,22 @@ const DisputeResolutionModal = ({
 
   const { toast } = useToast();
 
+  const { data: walletClient } = useWalletClient();
+
   const resolveDispute = async (favorGuest: boolean) => {
     try {
-      setIsLoading(true);
-
-      // Check for ethereum provider
-      if (!window.ethereum) {
+      if (!walletClient) {
         toast({
-          title: "No wallet detected",
-          description: "Please install a wallet extension to proceed.",
+          title: "Please connect your wallet",
+          description: "You need to connect your wallet to proceed.",
           variant: "destructive",
         });
         return;
       }
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      setIsLoading(true);
+
+      const provider = new ethers.BrowserProvider(walletClient.transport);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
 

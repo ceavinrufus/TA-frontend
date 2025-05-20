@@ -13,10 +13,10 @@ import IconClose from "@/components/icons/IconClose";
 import ResponsiveIcon from "@/components/icons/ResponsiveIconBuilder";
 import { ethers } from "ethers";
 import HostStake from "@/abi/HostStake.json";
-import { useHostStore } from "../../store/host-store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useWalletClient } from "wagmi";
 
 const SecurityDepositModal = ({
   initialAmount,
@@ -28,9 +28,10 @@ const SecurityDepositModal = ({
   const [amount, setAmount] = useState<string>("");
   const [isMakingDeposit, setIsMakingDeposit] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { hostStats, setHostStats } = useHostStore();
 
   const { toast } = useToast();
+
+  const { data: walletClient } = useWalletClient();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -57,12 +58,13 @@ const SecurityDepositModal = ({
   };
 
   const handleDeposit = async () => {
-    if (!window.ethereum) {
+    if (!walletClient) {
       toast({
-        title: "No wallet detected",
-        description: "Please install a wallet extension to proceed.",
+        title: "Please connect your wallet",
+        description: "You need to connect your wallet to proceed.",
         variant: "destructive",
       });
+      return;
     }
 
     if (!amount || parseFloat(amount) <= 0) {
@@ -75,7 +77,7 @@ const SecurityDepositModal = ({
     }
 
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider(walletClient.transport);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const contractAddress =
