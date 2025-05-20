@@ -72,5 +72,6 @@
 }
 
 .host-hero-background-image {
-  background: url("/host-hero.png") left center / cover no-repeat;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+    url("/host-hero.png") center / cover no-repeat;
 }
