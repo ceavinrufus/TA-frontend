@@ -39,7 +39,7 @@ export default function ImageWithDownload({
 
   return (
     <div
-      className="relative inline-block"
+      className="relative inline-block flex-shrink-0"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

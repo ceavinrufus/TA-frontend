@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
-import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -127,6 +126,7 @@ const ReservationProofModal = ({
           <Button
             variant="link"
             className="bg-[#9AFE5B]"
+            disabled={!url}
             onClick={() => {
               console.log("URL:", url);
               if (url) {

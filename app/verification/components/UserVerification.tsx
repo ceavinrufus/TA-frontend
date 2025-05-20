@@ -76,11 +76,11 @@ const UserVerification = () => {
         </div>
         <Card>
           <CardHeader>
-            <Skeleton className="h-6 rounded w-1/4"></Skeleton>
-            <Skeleton className="h-4 rounded w-1/2 mt-2"></Skeleton>
+            <Skeleton className="h-6 rounded w-1/6" />
+            <Skeleton className="h-4 rounded w-1/4 mt-2" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-[500px] rounded-lg"></Skeleton>
+            <Skeleton className="w-[500px] h-[500px] rounded-lg" />
           </CardContent>
         </Card>
       </div>

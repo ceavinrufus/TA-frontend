@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
-import Image from "next/image";
 import { getVerificationResult, requestProof } from "@/lib/api/verifier";
+import ImageWithDownload from "@/components/ImageWithDownload";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ReservationVerificationQR = ({
   onScanSuccess,
@@ -87,22 +88,27 @@ const ReservationVerificationQR = ({
     return () => clearInterval(poll);
   }, [sessionId, isPolling, onScanSuccess, reservationId]);
 
-  if (!qrCode) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p>Loading QR code for reservation {reservationId}...</p>
-      </div>
-    );
-  }
-
   return (
-    <Image
-      src={qrCode}
-      alt="QR Code"
-      width={500}
-      height={500}
-      className="rounded-lg"
-    />
+    <div className="flex flex-col items-center justify-center p-4">
+      {!qrCode ? (
+        <Skeleton className="w-[500px] h-[500px] rounded-lg" />
+      ) : (
+        <ImageWithDownload
+          src={qrCode}
+          alt="QR Code"
+          fileName={`${reservationId}_verification.png`}
+          width={500}
+          height={500}
+          className="rounded-lg"
+        />
+      )}
+      <p className="mt-4 text-sm text-center text-muted-foreground">
+        Show this QR code to the guest to scan using their PrivadoID-compatible
+        wallet. Once scanned, the wallet will request verification of the
+        reservation. The guest will need to approve the request in their wallet
+        app.
+      </p>
+    </div>
   );
 };
 
