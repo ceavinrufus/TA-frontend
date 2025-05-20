@@ -4,11 +4,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useOrderStore } from "../store/orderStore";
 import QRCode from "qrcode";
-import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import ImageWithDownload from "@/components/ImageWithDownload";
+import { Button } from "@/components/ui/button";
+import { AppWindow } from "lucide-react";
 
 const ReservationProofQR = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const reservationId = searchParams.get("reservationId");
@@ -40,6 +43,7 @@ const ReservationProofQR = () => {
             "?to=" +
             reservationDetails.guest_did
         )}`;
+        setUrl(universalLink);
 
         QRCode.toDataURL(universalLink, { width: 300 }, (err, url) => {
           if (err) {
@@ -56,18 +60,42 @@ const ReservationProofQR = () => {
     getIssuedCredential();
   }, [reservationDetails, reservationId]);
 
-  if (!qrCode) {
-    return <Skeleton className="w-[300px] h-[300px] bg-gray-200 rounded-lg" />;
-  }
-
   return (
-    <Image
-      src={qrCode}
-      alt="QR Code"
-      width={300}
-      height={300}
-      className="rounded-lg"
-    />
+    <div className="flex flex-col items-center justify-center p-4">
+      {!qrCode ? (
+        <Skeleton className="w-[300px] h-[300px] rounded-lg" />
+      ) : (
+        <ImageWithDownload
+          src={qrCode}
+          alt="QR Code"
+          fileName={`${reservationDetails!.booking_number}_proof.png`}
+          width={300}
+          height={300}
+          className="rounded-lg"
+        />
+      )}
+      <p className="mt-4 text-sm text-center text-muted-foreground">
+        Please scan the QR code below using PrivadoID-compatible wallet to
+        receive your reservation proof.
+      </p>
+      <p className="my-2">or</p>
+      <Button
+        variant="link"
+        className="bg-[#9AFE5B]"
+        disabled={!url}
+        onClick={() => {
+          console.log("URL:", url);
+          if (url) {
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("target", "_blank");
+            link.click();
+          }
+        }}
+      >
+        Open in Wallet <AppWindow />
+      </Button>
+    </div>
   );
 };
 

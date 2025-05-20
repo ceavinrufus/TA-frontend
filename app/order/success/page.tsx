@@ -15,10 +15,6 @@ const OrderSuccessPage = () => {
         </p>
       </div>
       <ReservationProofQR />
-      <p className="text-sm text-gray-500 text-center mt-4">
-        Please scan the QR code above using PrivadoID-compatible wallet to
-        receive your reservation proof.
-      </p>
     </div>
   );
 };

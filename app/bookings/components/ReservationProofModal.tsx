@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { issueCredential } from "@/lib/api/issuer";
 import { updateReservation } from "@/lib/api/reservation";
+import { AppWindow } from "lucide-react";
+import ImageWithDownload from "@/components/ImageWithDownload";
 
 const ReservationProofModal = ({
   reservation,
@@ -23,6 +25,7 @@ const ReservationProofModal = ({
   setReservation: React.Dispatch<React.SetStateAction<Reservation | null>>;
 }) => {
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -73,6 +76,7 @@ const ReservationProofModal = ({
             "?to=" +
             reservation.guest_did
         )}`;
+        setUrl(universalLink);
 
         QRCode.toDataURL(universalLink, { width: 300 }, (err, url) => {
           if (err) {
@@ -102,18 +106,39 @@ const ReservationProofModal = ({
         <DialogHeader>
           <DialogTitle>Reservation Proof</DialogTitle>
         </DialogHeader>
-        <div className="flex items-center justify-center p-4">
+        <div className="flex flex-col items-center justify-center p-4">
           {!qrCode ? (
-            <Skeleton className="w-[300px] h-[300px] bg-gray-200 rounded-lg" />
+            <Skeleton className="w-[300px] h-[300px] rounded-lg" />
           ) : (
-            <Image
+            <ImageWithDownload
               src={qrCode}
               alt="QR Code"
+              fileName={`${reservation.booking_number}_proof.png`}
               width={300}
               height={300}
               className="rounded-lg"
             />
           )}
+          <p className="mt-4 text-sm text-center text-muted-foreground">
+            Please scan the QR code below using PrivadoID-compatible wallet to
+            receive your reservation proof.
+          </p>
+          <p className="my-2">or</p>
+          <Button
+            variant="link"
+            className="bg-[#9AFE5B]"
+            onClick={() => {
+              console.log("URL:", url);
+              if (url) {
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("target", "_blank");
+                link.click();
+              }
+            }}
+          >
+            Open in Wallet <AppWindow />
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
