@@ -18,12 +18,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useWalletClient } from "wagmi";
 
-const SecurityDepositModal = ({
+const HostStakeModal = ({
   initialAmount,
   setHostStake,
 }: {
   initialAmount: string;
-  setHostStake: React.Dispatch<React.SetStateAction<string>>;
+  setHostStake: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   const [amount, setAmount] = useState<string>("");
   const [isMakingDeposit, setIsMakingDeposit] = useState<boolean>(false);
@@ -39,7 +39,7 @@ const SecurityDepositModal = ({
     setIsModalOpen(false);
   };
 
-  const formatSecurityDeposit = (value: string) => {
+  const formatHostStake = (value: string) => {
     // Remove all non-numeric characters except decimal point
     let cleaned = value.replace(/[^0-9.]/g, "");
 
@@ -53,7 +53,7 @@ const SecurityDepositModal = ({
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = formatSecurityDeposit(e.target.value);
+    const newValue = formatHostStake(e.target.value);
     setAmount(newValue);
   };
 
@@ -205,4 +205,4 @@ const SecurityDepositModal = ({
   );
 };
 
-export default SecurityDepositModal;
+export default HostStakeModal;

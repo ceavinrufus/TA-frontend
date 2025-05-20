@@ -4,12 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useHostStore } from "../../store/host-store";
 import { ethers } from "ethers";
 import HostStake from "@/abi/HostStake.json";
-import SecurityDepositModal from "./SecurityDepositModal";
+import HostStakeModal from "./HostStakeModal";
 import { useAccount, useWalletClient } from "wagmi";
 import { UserAvatar } from "@/components/UserAvatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCryptoAddressForDisplay } from "@/lib/ui/ui-utils";
-import { useToast } from "@/hooks/use-toast";
 
 /**
  * HostSummaryCard Component
@@ -40,25 +39,18 @@ import { useToast } from "@/hooks/use-toast";
 const HostSummaryCard = () => {
   const { address } = useAccount();
 
-  const { hostStats, isLoading, error, fetchHostStats } = useHostStore();
+  const { hostStats, isLoading, fetchHostStats } = useHostStore();
   const currency = "$";
-  const [hostStake, setHostStake] = useState<string>("0.0");
-  const [isSecurityDepositLoading, setIsSecurityDepositLoading] =
-    useState<boolean>(true);
-  const { toast } = useToast();
+  const [hostStake, setHostStake] = useState<string>();
+  const [isHostStakeLoading, setIsHostStakeLoading] = useState<boolean>(false);
 
   const { data: walletClient } = useWalletClient();
 
   const checkHostStake = async () => {
-    if (!walletClient) {
-      toast({
-        title: "Please connect your wallet",
-        description: "You need to connect your wallet to proceed.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setIsSecurityDepositLoading(true); // Set loading state to true
+    if (!walletClient) return; // Check if wallet client is available
+
+    setIsHostStakeLoading(true); // Set loading state to true
+
     try {
       const provider = new ethers.BrowserProvider(walletClient.transport);
       await provider.send("eth_requestAccounts", []);
@@ -77,12 +69,11 @@ const HostSummaryCard = () => {
 
       const stake = ethers.formatEther(hostStake); // Convert to Ether
 
-      console.log(hostStats);
       setHostStake(stake); // Update host stake
     } catch (error) {
       console.error("Error checking host stake:", error);
     } finally {
-      setIsSecurityDepositLoading(false); // Set loading state to false
+      setIsHostStakeLoading(false); // Set loading state to false
     }
   };
 
@@ -92,22 +83,24 @@ const HostSummaryCard = () => {
       await checkHostStake(); // Call the function to check host stake
     };
     fetchAllStats();
-  }, []);
+  }, [walletClient]); // Fetch stats when wallet client is available
 
   const summaryItems = [
     {
       label: "Total listings",
-      value: `${hostStats?.totalListings ?? 0}`,
+      value: `${hostStats?.totalListings ?? "-"}`,
       desc: "",
     },
     {
       label: "Total reservations",
-      value: `${hostStats?.totalReservations ?? 0}`,
+      value: `${hostStats?.totalReservations ?? "-"}`,
       desc: "",
     },
     {
       label: "Total earnings",
-      value: `${currency}${hostStats?.totalEarnings ?? 0}`,
+      value: `${hostStats?.totalEarnings ? currency : ""}${
+        hostStats?.totalEarnings ?? "-"
+      }`,
       desc: "",
     },
   ];
@@ -131,10 +124,6 @@ const HostSummaryCard = () => {
         </div>
       </div>
     );
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
   }
 
   return (
@@ -164,7 +153,7 @@ const HostSummaryCard = () => {
               </div>
             </div>
           ))}
-          {isSecurityDepositLoading ? (
+          {isHostStakeLoading ? (
             <div className="flex flex-col gap-2 text-blue-950">
               <p>Host stake</p>
               <Skeleton className="h-9 w-16 rounded" />
@@ -174,12 +163,14 @@ const HostSummaryCard = () => {
               <p>Host stake</p>
               <div className="flex items-center gap-3">
                 <p className="text-2xl font-semibold text-blue-950">{`${
-                  hostStake ?? 0
-                } ETH`}</p>
-                <SecurityDepositModal
-                  initialAmount={hostStake}
-                  setHostStake={setHostStake}
-                />
+                  hostStake ?? "-"
+                } ${hostStake ? "ETH" : ""}`}</p>
+                {hostStake && (
+                  <HostStakeModal
+                    initialAmount={hostStake}
+                    setHostStake={setHostStake}
+                  />
+                )}
               </div>
             </div>
           )}
