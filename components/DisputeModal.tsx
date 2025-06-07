@@ -89,6 +89,15 @@ const DisputeModal = ({
       return;
     }
     if (!reservation || !user) return;
+    if (!reservation.payments![0].transaction_hash) {
+      toast({
+        title: "No payment transaction found",
+        description:
+          "This reservation does not have a valid payment transaction.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
       setIsLoading(true);
