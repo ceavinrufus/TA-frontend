@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useOrderStore } from "../store/orderStore";
 import ListingOrderedCard from "./ListingOrderedCard";
 import PriceBreakdown from "./PriceBreakdown";
+import CheckoutInfo from "./CheckoutInfo";
+import BookingAdditionalInfo from "@/app/bookings/components/BookingAdditionalInfo";
 
 const FinalizeOrder: React.FC = () => {
   const {
@@ -42,7 +44,14 @@ const FinalizeOrder: React.FC = () => {
   return (
     <>
       <ListingOrderedCard />
-      <PriceBreakdown />
+      <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-8 lg:gap-10">
+        <div className="md:w-2/3">
+          <PriceBreakdown />
+        </div>
+        <div className="md:w-1/3 flex flex-col gap-6 md:gap-2 justify-between">
+          <CheckoutInfo />
+        </div>
+      </div>
     </>
   );
 };

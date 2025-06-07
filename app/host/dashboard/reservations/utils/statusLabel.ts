@@ -2,6 +2,7 @@ export const statusColors = {
   Completed: "bg-green-success",
   Resolved: "bg-green-success",
   Pending: "bg-[#EBEBEB]",
+  Unpaid: "bg-yellow-100",
   Cancelled: "bg-red-error",
   Disputed: "bg-red-error",
   Upcoming: "bg-[#D2DFFB]",
@@ -31,7 +32,7 @@ export enum ReservationStatus {
   REFUND_FAIL = "REFUND_FAIL",
 }
 
-export const getStatusLabel = (reservation: Reservation) => {
+export const getStatusLabel = (reservation: Partial<Reservation>) => {
   if (!reservation) {
     return "";
   }
@@ -54,7 +55,7 @@ export const getStatusLabel = (reservation: Reservation) => {
     }
 
     // Check if past dispute period (7 days after checkout)
-    const checkoutDate = new Date(reservation.check_out_date);
+    const checkoutDate = new Date(reservation.check_out_date!);
     const disputePeriodEnd = new Date(checkoutDate);
     disputePeriodEnd.setDate(disputePeriodEnd.getDate() + 7);
 
@@ -62,20 +63,19 @@ export const getStatusLabel = (reservation: Reservation) => {
       return "Completed";
     }
 
-    if (reservation.check_in_date > now) {
+    if (reservation.check_in_date! > now) {
       return "Upcoming";
-    } else if (reservation.check_out_date < now) {
+    } else if (reservation.check_out_date! < now) {
       return "Checked-out";
     } else {
       return "Checked-in";
     }
   } else if (reservation.status === ReservationStatus.ORDER_CANCELED) {
     return "Cancelled";
-  } else if (
-    reservation.status === ReservationStatus.ORDER_PROCESSING ||
-    reservation.status === ReservationStatus.ORDER_WAITING_PAYMENT
-  ) {
+  } else if (reservation.status === ReservationStatus.ORDER_PROCESSING) {
     return "Pending";
+  } else if (reservation.status === ReservationStatus.ORDER_WAITING_PAYMENT) {
+    return "Unpaid";
   } else {
     return "";
   }
