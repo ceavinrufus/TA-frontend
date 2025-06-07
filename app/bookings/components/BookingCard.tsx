@@ -112,7 +112,13 @@ const BookingCard = ({ reservation }: { reservation: Reservation | null }) => {
     <Card
       className="overflow-hidden cursor-pointer"
       onClick={() => {
-        router.push(`/bookings/${reservation.id}`);
+        const isPaymentPending = reservation.status === "ORDER_WAITING_PAYMENT";
+        if (isPaymentPending) {
+          router.push(`/order/checkout?reservationId=${reservation.id}`);
+          return;
+        } else {
+          router.push(`/bookings/${reservation.id}`);
+        }
       }}
     >
       {/* Mobile Layout */}

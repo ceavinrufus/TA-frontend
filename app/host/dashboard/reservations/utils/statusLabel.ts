@@ -1,7 +1,9 @@
 export const statusColors = {
   Completed: "bg-green-success",
+  Resolved: "bg-green-success",
   Pending: "bg-[#EBEBEB]",
   Cancelled: "bg-red-error",
+  Disputed: "bg-red-error",
   Upcoming: "bg-[#D2DFFB]",
   "Checked-in": "bg-[#F2EAD5]",
   "Checked-out": "bg-[#F2EAD5]",
@@ -37,15 +39,18 @@ export const getStatusLabel = (reservation: Reservation) => {
     const now = new Date().toISOString();
 
     // Check if dispute exists and is resolved
-    if (
-      reservation.dispute?.status &&
-      [
-        DisputeStatus.RESOLVED_FAVOR_GUEST,
-        DisputeStatus.RESOLVED_FAVOR_HOST,
-        DisputeStatus.RESOLVED_COMPROMISE,
-      ].includes(reservation.dispute.status as DisputeStatus)
-    ) {
-      return "Completed";
+    if (reservation.dispute?.status) {
+      if (
+        [
+          DisputeStatus.RESOLVED_FAVOR_GUEST,
+          DisputeStatus.RESOLVED_FAVOR_HOST,
+          DisputeStatus.RESOLVED_COMPROMISE,
+        ].includes(reservation.dispute.status as DisputeStatus)
+      ) {
+        return "Resolved";
+      } else {
+        return "Disputed";
+      }
     }
 
     // Check if past dispute period (7 days after checkout)
@@ -66,7 +71,10 @@ export const getStatusLabel = (reservation: Reservation) => {
     }
   } else if (reservation.status === ReservationStatus.ORDER_CANCELED) {
     return "Cancelled";
-  } else if (reservation.status === ReservationStatus.ORDER_PROCESSING) {
+  } else if (
+    reservation.status === ReservationStatus.ORDER_PROCESSING ||
+    reservation.status === ReservationStatus.ORDER_WAITING_PAYMENT
+  ) {
     return "Pending";
   } else {
     return "";
